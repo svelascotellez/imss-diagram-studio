@@ -101,6 +101,7 @@ MiSistemaSeguro/
 ```
 
 Esto genera automáticamente:
+
 - `specs/FEAT-001/spec.md`: Plantilla EARS con criterios `AC-1.1` a `AC-1.4`.
 - `specs/FEAT-001/scenarios.feature`: Plantilla Gherkin con escenarios `@AC-1.1` a `@AC-1.4`.
 - `specs/FEAT-001/plan.md`: Arquitectura técnica y lista explícita de `## Allowed Files`.
@@ -119,6 +120,7 @@ Una vez revisada y completada la especificación con el agente, el desarrollador
 ```
 
 **Resultado:**
+
 - Se genera el sello criptográfico **HMAC-SHA256** protegiendo `spec.md`, `scenarios.feature` y `plan.md`.
 - Se registra la identidad del firmante y la marca de tiempo UTC en `feature_list.json` y `CHECKPOINTS.md`.
 - El estado pasa a `in_progress`, desbloqueando el permiso de escritura en `src/`.
@@ -145,6 +147,7 @@ Una vez revisada y completada la especificación con el agente, el desarrollador
 ```
 
 Si todas las aduanas son superadas con cero violaciones:
+
 - Se emite el **Completion Seal**.
 - El estado de la funcionalidad pasa a `done`.
 
@@ -171,13 +174,13 @@ powershell -ExecutionPolicy Bypass -Command "& { Import-Module '.\tools\Pester\6
 ```
 
 Esta suite valida de forma automatizada:
+
 1. Candado HMAC-SHA256 y persistencia de llave en `.specify\.sdd_key`.
 2. Detección instantánea de *Spec Tampering* al modificar `plan.md` o `spec.md`.
 3. Paridad BDD 1:1 en la plantilla de funcionalidades.
 4. Ausencia de falsos positivos en Gate 1 sobre `k6_benchmark.js`.
 5. Reporte verídico `SKIPPED_LOCAL` en Gate 9 cuando k6 está ausente.
 6. Configuración exitosa del stack Java (`java-maven`).
-
 
 ---
 

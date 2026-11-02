@@ -4,11 +4,11 @@
 
 ### Marco de Gobernanza Matemática, Arquitectura Limpia Políglota, Candado Criptográfico HMAC-SHA256, Ciberseguridad Defensiva, Resiliencia SLA k6 y Soporte de Evidencia Técnica Auditable para el Desarrollo con Agentes de Inteligencia Artificial
 
-> **Autor:** Salvador Velasco & Antigravity (Google DeepMind Team)  
-> **Versión Oficial:** 6.6 (*Regulatory & Compliance Hardened Edition*)  
-> **Fecha de Publicación:** Noviembre de 2026  
-> **Clasificación:** Estándar Metodológico Corporativo y de Ingeniería de Software  
-> **Estado:** Aprobado para Producción Crítica, Alta Regulación y Auditorías Internacionales  
+> **Autor:** Salvador Velasco & Antigravity (Google DeepMind Team)
+> **Versión Oficial:** 6.6 (*Regulatory & Compliance Hardened Edition*)
+> **Fecha de Publicación:** Noviembre de 2026
+> **Clasificación:** Estándar Metodológico Corporativo y de Ingeniería de Software
+> **Estado:** Aprobado para Producción Crítica, Alta Regulación y Auditorías Internacionales
 > **Repositorio Base:** `D:\.antigravity\sdd-projects`
 
 ---
@@ -58,6 +58,7 @@ El framework **Specification-Driven Development (SDD v6.6)** erradica de raíz e
 > [!IMPORTANT]
 > **Axioma Rector de SDD v6.6:**
 > Ninguna línea de código ejecutable puede existir en `src/` sin contar previamente con:
+>
 > 1. Una especificación funcional redactada en sintaxis formal **EARS** (`spec.md`) con paridad 1:1 en escenarios ejecutables **BDD Gherkin** (`scenarios.feature`).
 > 2. Un plan arquitectónico (`plan.md`) con declaración explícita de archivos permitidos (**Allowed Files**), diseño de 4 capas de **Clean Architecture** y modelado de amenazas **STRIDE**.
 > 3. Un **Sello Criptográfico HMAC-SHA256** calculado con clave simétrica secreta (`.specify/.sdd_key` o `$env:SDD_HMAC_KEY`) sobre la tríada documental completa (`spec.md` + `scenarios.feature` + `plan.md`), firmado exclusivamente por un operador humano identificado (**HITL**).
@@ -192,6 +193,7 @@ flowchart TD
 ### 3.2. Desglose Técnico de Cada Pilar
 
 #### 3.2.1. Pilar 1: Especificación Viva (Gramática EARS y Perímetro Allowed Files)
+
 Todo requerimiento funcional debe formalizarse en `specs/<feature_id>/spec.md` empleando una de las cinco cláusulas canónicas de **EARS (*Easy Approach to Requirements Syntax*)**, eliminando la prosa ambigua en lenguaje natural:
 
 | Tipo de Requisito EARS | Estructura Sintáctica Obligatoria | Ejemplo Canónico en `spec.md` |
@@ -205,14 +207,18 @@ Todo requerimiento funcional debe formalizarse en `specs/<feature_id>/spec.md` e
 Conjuntamente, el archivo `specs/<feature_id>/plan.md` declara bajo el encabezado `## Allowed Files` la lista blanca exhaustiva de archivos que pueden ser creados o modificados. Cualquier archivo tocado fuera de dicha lista dispara el bloqueo inmediato en el IDE (`PreToolUse`) y en la Aduana 1 (`spec-gate.ps1`).
 
 #### 3.2.2. Pilar 2: BDD Riguroso y Paridad Bidireccional 1:1
+
 Cada criterio de aceptación identificado en `spec.md` (`AC-1.1`, `AC-1.2`, `AC-1.3`, `AC-1.4`, etc.) exige una relación biunívoca (biyección matemática) con un escenario Gherkin etiquetado con `@AC-1.x` en `specs/<feature_id>/scenarios.feature` y su correspondiente prueba automatizada en `tests/`. En SDD v6.6, las plantillas incluyen de fábrica los 4 arquetipos fundamentales:
+
 - `@AC-1.1`: Flujo feliz nominal (*Happy Path*).
 - `@AC-1.2`: Rechazo controlado ante entradas inválidas o malformadas (*Input Validation*).
 - `@AC-1.3`: Restricción de seguridad o autorización (*Security Boundary*).
 - `@AC-1.4`: Resiliencia y recuperación ante fallos transitorios (*Fault Tolerance & Resilience*).
 
 #### 3.2.3. Pilar 3: Clean Architecture Políglota y Accesibilidad Matemática UI/UX
+
 El código fuente en `src/` se organiza en cuatro capas concéntricas gobernadas por la **Regla de Dependencia** (las dependencias de código fuente solo pueden apuntar hacia el interior):
+
 1. **Domain (`src/domain/`):** Entidades corporativas, Value Objects, eventos de dominio y excepciones puras. **Cero dependencias externas** (prohibido importar ORM, HTTP, UI o SDKs cloud).
 2. **Application (`src/application/`):** Casos de uso, comandos/consultas (CQRS) y definición de interfaces/puertos (`IRepository`, `IPaymentGateway`). Solo depende de `domain`.
 3. **Presentation (`src/presentation/`):** Controladores REST/GraphQL, vistas UI o comandos CLI. Depende de `application`, nunca directamente de `infrastructure`.
@@ -227,28 +233,36 @@ donde la luminancia relativa $L$ para un color sRGB $(R, G, B)$ normalizado se d
 $$L = 0.2126 \cdot R_{\text{lin}} + 0.7152 \cdot G_{\text{lin}} + 0.0722 \cdot B_{\text{lin}}$$
 
 #### 3.2.4. Pilar 4: Integridad Criptográfica Hardened (HMAC-SHA256 + HITL)
+
 Sustituye los resúmenes simples por un código de autenticación de mensajes basado en hash con clave secreta (**HMAC-SHA256**) que protege conjuntamente `spec.md`, `scenarios.feature` y `plan.md`, vinculando la firma a la identidad verificada del aprobador humano (detallado en la [Sección 4](#4-arquitectura-del-candado-criptográfico-hmac-sha256-y-gobernanza-hitl)).
 
 #### 3.2.5. Pilar 5: Control de Tareas Atómicas y Grafo Acíclico Dirigido (DAG)
+
 El backlog del proyecto en `feature_list.json` modela las funcionalidades como nodos de un **Grafo Acíclico Dirigido (DAG)** mediante el atributo `depends_on`. Ninguna funcionalidad puede iniciar su implementación si alguno de sus prerrequisitos no posee un `completion_hash` válido. Dentro de cada funcionalidad, `tasks.md` impone el orden constructivo de adentro hacia afuera (*Domain $\rightarrow$ Ports $\rightarrow$ Application $\rightarrow$ Infrastructure $\rightarrow$ Presentation*).
 
 #### 3.2.6. Pilar 6: Ciberseguridad Defensiva, STRIDE y Tríada Letal
+
 Todo `plan.md` exige completar la matriz de modelado de amenazas **STRIDE** (*Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege*) y demarcar las **Fronteras de Confianza (`‖`)**. El escáner `harness/verify-security.ps1` audita:
+
 - Detección de la **Tríada Letal** (componentes que combinan acceso a datos sensibles + entrada externa no confiable + salida a red pública).
 - Escaneo de secretos y llaves privadas (patrones de alta entropía, AWS, GCP, JWT, RSA, conexíon a BD).
 - Análisis estático SAST contra inyecciones SQL/NoSQL, ejecución remota (`eval`, `exec`, `Invoke-Expression`), XSS y Path Traversal.
 - Auditoría de vulnerabilidades en dependencias (`pip-audit`, `npm audit`, `dotnet list package --vulnerable`, `cargo audit`, `mvn dependency-check`).
 
 #### 3.2.7. Pilar 7: Observabilidad Ejecutiva y Cockpit Web en Vivo
+
 El generador `harness/dashboard.ps1` compila un panel ejecutivo interactivo en `progress/sdd_dashboard.html` y puede levantar un servidor HTTP reactivo en segundo plano (`-Live -Port 8080`) que visualiza en tiempo real el grafo DAG ordenado topológicamente (*TopoSort*), el estado de los candados HMAC y las métricas de las 9 compuertas.
 
 #### 3.2.8. Pilar 8: Gobernanza CI/CD Cloud y Protección de Ramas
+
 Sincroniza la gobernanza local con la nube a través de `.github/workflows/sdd-gate.yml` y `.gitlab-ci.yml`. Cada Pull Request ejecuta automáticamente las 9 compuertas, compila el dossier de evidencia y publica un resumen ejecutivo en Markdown (`harness/pr-summary.ps1` $\rightarrow$ `$GITHUB_STEP_SUMMARY`).
 
 #### 3.2.9. Pilar 9: Compuerta de Rendimiento y Resiliencia SLA (k6 Benchmark)
+
 Valida mediante scripts declarativos k6 (`tests/performance/k6_benchmark.js`) que el servicio cumpla umbrales contractuales bajo concurrencia: $P_{95} \le 200\text{ ms}$, $P_{99} \le 500\text{ ms}$ y $\text{Error Rate} = 0.0\%$, operando con transparencia dual (`CERTIFIED` cuando `k6` ejecuta la carga vs. `SKIPPED_LOCAL` con advertencia explícita cuando `k6` no reside en la máquina de desarrollo).
 
 #### 3.2.10. Pilar 10: Expediente de Evidencia Técnica Auditable (PDF/HTML)
+
 El motor `harness/export-compliance.ps1` recopila especificaciones, sellos HMAC-SHA256, identidad de aprobadores HITL, resultados SAST, métricas de rendimiento y bitácora de checkpoints en un expediente autocontenido en HTML5 (`@media print`) y lo compila a **PDF vectorial nativo** utilizando Chromium Headless (Microsoft Edge / Google Chrome).
 
 ---
@@ -268,6 +282,7 @@ En **SDD v6.6**, el sello de aprobación se define formalmente mediante un Códi
 $$\text{Seal}_{\text{HMAC}}(K, M) = \text{SHA-256}\Big((K' \oplus \text{opad}) \;\parallel\; \text{SHA-256}\big((K' \oplus \text{ipad}) \;\parallel\; M\big)\Big)$$
 
 donde:
+
 - $K$ es la clave secreta criptográfica de 256 bits (32 bytes), derivada de `$env:SDD_HMAC_KEY` o del archivo protegido `.specify/.sdd_key`.
 - $\text{ipad} = \text{0x36}$ repetido 64 veces y $\text{opad} = \text{0x5c}$ repetido 64 veces.
 - $M$ es el mensaje canónico tridocumental construido mediante la función de normalización determinista $\mathcal{N}$ (que convierte todos los saltos de línea `\r\n` y `\r` a `\n` y elimina espacios residuales en los extremos):
@@ -275,6 +290,7 @@ donde:
 $$M = \mathcal{N}(\text{spec.md}) \;\parallel\; \text{"\textbackslash n---\textbackslash n"} \;\parallel\; \mathcal{N}(\text{scenarios.feature}) \;\parallel\; \text{"\textbackslash n---\textbackslash n"} \;\parallel\; \mathcal{N}(\text{plan.md})$$
 
 #### Propiedades de Seguridad Garantizadas:
+
 1. **Resistencia a Falsificación Agéntica:** Sin acceso a la clave $K$ (o con el archivo `.sdd_key` protegido por el interceptor `PreToolUse`), ningún agente puede generar un $\text{Seal}_{\text{HMAC}}$ válido para un documento modificado.
 2. **Inmutabilidad de Alcance (`plan.md`):** Cualquier adición de un archivo a la sección `## Allowed Files` de `plan.md` altera el tercer término de $M$, produciendo por efecto avalancha un código HMAC completamente distinto y disparando `[BLOQUEO CRÍTICO: SPEC TAMPERING DETECTADO]` en Gate 0 y Gate 4.
 3. **Invarianza Multiplataforma (Windows / Linux / macOS):** La función de normalización $\mathcal{N}(x)$ asegura que el sello calculado en una estación Windows (`CRLF`) sea idéntico bit a bit al verificado en un runner Linux de GitHub Actions o GitLab CI (`LF`).
@@ -293,7 +309,7 @@ stateDiagram-v2
     [*] --> Draft: sdd.ps1 -Action create
     Draft --> Draft: Redacción de spec.md, scenarios.feature y plan.md
     Draft --> Approved_Sealed: Operador Humano ejecuta sdd.ps1 -Action approve (HITL)
-    
+
     state Approved_Sealed {
         [*] --> Seal_Intact
         Seal_Intact --> Code_Allowed: PreToolUse verifica HMAC == approval_hash
@@ -303,7 +319,7 @@ stateDiagram-v2
 
     Tamper_Detected --> Blocked_Gate0: HMAC actual != approval_hash
     Blocked_Gate0 --> Draft: Requiere sdd-change-spec + Nueva firma HITL
-    
+
     Approved_Sealed --> Completed_Immutable: Supera las 9 Hard Gates (sdd.ps1 -Action complete)
     Completed_Immutable --> [*]: Emite completion_hash y archiva en CHECKPOINTS.md
 ```
@@ -1148,6 +1164,7 @@ python -m py_compile .\setup-sdd-project-v66.py
 ## 13. Diccionario y Glosario Exhaustivo de Términos SDD v6.6
 
 ### Categoría 1: Metodologías y Paradigmas Fundamentales
+
 1. **SDD (*Specification-Driven Development*):** Paradigma de ingeniería de software donde la especificación formal precede, delimita y gobierna matemáticamente la existencia y validez del código ejecutable.
 2. **BDD (*Behavior-Driven Development*):** Metodología que expresa los criterios de aceptación como escenarios de comportamiento observables y automatizables en lenguaje Gherkin (`Given-When-Then`).
 3. **Double-Loop TDD:** Ciclo de desarrollo guiado por pruebas de doble bucle: el bucle externo verifica escenarios de aceptación BDD y el bucle interno verifica pruebas unitarias de dominio y aplicación.
@@ -1155,67 +1172,76 @@ python -m py_compile .\setup-sdd-project-v66.py
 5. **Greenfield vs. Brownfield:** *Greenfield* refiere a proyectos creados desde cero bajo SDD; *Brownfield* refiere a sistemas legados preexistentes cuyas especificaciones se reconstruyen mediante ingeniería inversa (`sdd-reverse-spec`).
 
 ### Categoría 2: Ingeniería de Requisitos y Control de Alcance
-6. **EARS (*Easy Approach to Requirements Syntax*):** Notación estructurada desarrollada originalmente para sistemas críticos (Rolls-Royce) que restringe la redacción de requisitos a 5 plantillas libres de ambigüedad (*Ubiquitous, Event-driven, State-driven, Optional, Unwanted*).
-7. **Criterio de Aceptación (`AC-x.x`):** Identificador único de una condición verificable en `spec.md` que debe poseer paridad 1:1 con un escenario `@AC-x.x` en `scenarios.feature`.
-8. **Allowed Files (Lista Blanca de Archivos):** Sección obligatoria en `plan.md` y `spec.md` que enumera las únicas rutas del repositorio que pueden ser creadas o modificadas durante la implementación de una funcionalidad.
-9. **Spec Drift (Deriva de Especificación):** Desviación no autorizada en la que el código implementado modifica archivos fuera de alcance o introduce comportamientos no respaldados por la especificación sellada.
-10. **Spec Tampering (Adulteración de Especificación):** Modificación furtiva de `spec.md`, `scenarios.feature` o `plan.md` posterior a la firma humana con el propósito de burlar las compuertas de validación; detectada de forma inmediata por el candado HMAC-SHA256.
+
+1. **EARS (*Easy Approach to Requirements Syntax*):** Notación estructurada desarrollada originalmente para sistemas críticos (Rolls-Royce) que restringe la redacción de requisitos a 5 plantillas libres de ambigüedad (*Ubiquitous, Event-driven, State-driven, Optional, Unwanted*).
+2. **Criterio de Aceptación (`AC-x.x`):** Identificador único de una condición verificable en `spec.md` que debe poseer paridad 1:1 con un escenario `@AC-x.x` en `scenarios.feature`.
+3. **Allowed Files (Lista Blanca de Archivos):** Sección obligatoria en `plan.md` y `spec.md` que enumera las únicas rutas del repositorio que pueden ser creadas o modificadas durante la implementación de una funcionalidad.
+4. **Spec Drift (Deriva de Especificación):** Desviación no autorizada en la que el código implementado modifica archivos fuera de alcance o introduce comportamientos no respaldados por la especificación sellada.
+5. **Spec Tampering (Adulteración de Especificación):** Modificación furtiva de `spec.md`, `scenarios.feature` o `plan.md` posterior a la firma humana con el propósito de burlar las compuertas de validación; detectada de forma inmediata por el candado HMAC-SHA256.
 
 ### Categoría 3: Criptografía y Cadena de Custodia (Novedades v6.6)
-11. **HMAC-SHA256 (*Hash-based Message Authentication Code*):** Función criptográfica (RFC 2104) que combina el algoritmo SHA-256 con una llave secreta simétrica de 256 bits para garantizar simultáneamente integridad de datos y autenticidad del origen.
-12. **Llave Simétrica SDD (`.specify/.sdd_key` / `$env:SDD_HMAC_KEY`):** Secreto criptográfico de 32 bytes utilizado por `Compute-SddApprovalHash` para firmar y verificar la tríada documental, inaccesible para modificación por el agente gracias al hook `PreToolUse`.
-13. **Tríada Documental Sellada:** Conjunto indivisible conformado por `spec.md`, `scenarios.feature` y `plan.md`, normalizado con saltos de línea `LF` y concatenado mediante delimitadores `---` antes de aplicar HMAC-SHA256.
-14. **Approval Seal (`approval_hash`):** Sello HMAC-SHA256 emitido al aprobar una funcionalidad que autoriza el inicio de la fase de codificación en `src/`.
-15. **Completion Seal (`completion_hash`):** Sello criptográfico definitivo emitido por `sdd.ps1 -Action complete` únicamente tras superar el 100% de las compuertas del Auditor Nónuplo.
-16. **Atribución de Identidad HITL (`approved_by`, `approved_at`):** Metadatos obligatorios introducidos en v6.6 que registran el nombre, correo electrónico y estampa de tiempo UTC del humano que emitió el sello de aprobación.
-17. **Bitácora de Checkpoints (`CHECKPOINTS.md`):** Libro mayor cronológico e inmutable que preserva el historial de sellos de aprobación y cierre del proyecto.
+
+1. **HMAC-SHA256 (*Hash-based Message Authentication Code*):** Función criptográfica (RFC 2104) que combina el algoritmo SHA-256 con una llave secreta simétrica de 256 bits para garantizar simultáneamente integridad de datos y autenticidad del origen.
+2. **Llave Simétrica SDD (`.specify/.sdd_key` / `$env:SDD_HMAC_KEY`):** Secreto criptográfico de 32 bytes utilizado por `Compute-SddApprovalHash` para firmar y verificar la tríada documental, inaccesible para modificación por el agente gracias al hook `PreToolUse`.
+3. **Tríada Documental Sellada:** Conjunto indivisible conformado por `spec.md`, `scenarios.feature` y `plan.md`, normalizado con saltos de línea `LF` y concatenado mediante delimitadores `---` antes de aplicar HMAC-SHA256.
+4. **Approval Seal (`approval_hash`):** Sello HMAC-SHA256 emitido al aprobar una funcionalidad que autoriza el inicio de la fase de codificación en `src/`.
+5. **Completion Seal (`completion_hash`):** Sello criptográfico definitivo emitido por `sdd.ps1 -Action complete` únicamente tras superar el 100% de las compuertas del Auditor Nónuplo.
+6. **Atribución de Identidad HITL (`approved_by`, `approved_at`):** Metadatos obligatorios introducidos en v6.6 que registran el nombre, correo electrónico y estampa de tiempo UTC del humano que emitió el sello de aprobación.
+7. **Bitácora de Checkpoints (`CHECKPOINTS.md`):** Libro mayor cronológico e inmutable que preserva el historial de sellos de aprobación y cierre del proyecto.
 
 ### Categoría 4: Arquitectura de Software y Poliglotismo
-18. **Clean Architecture (Arquitectura Limpia):** Patrón arquitectónico de 4 anillos concéntricos (*Domain, Application, Presentation, Infrastructure*) donde las dependencias apuntan estrictamente hacia el interior.
-19. **Capa de Dominio Puro (`src/domain/`):** Núcleo central que encapsula las entidades y reglas de negocio corporativas sin depender de ninguna librería de base de datos, red o interfaz gráfica.
-20. **Puertos y Adaptadores (Arquitectura Hexagonal):** Mecanismo mediante el cual la capa `application` define interfaces abstractas (Puertos) y la capa `infrastructure` provee las implementaciones concretas (Adaptadores).
-21. **Inversión de Dependencias (Principio DIP de SOLID):** Regla según la cual los módulos de alto nivel no dependen de módulos de bajo nivel, sino que ambos dependen de abstracciones.
-22. **Arnés Políglota (`.specify/harness-config.json`):** Archivo de metaconfiguración que abstrae los directorios, manifiestos y comandos de compilación/prueba para Python, TypeScript, C#, Go, Rust, Flutter y Java.
+
+1. **Clean Architecture (Arquitectura Limpia):** Patrón arquitectónico de 4 anillos concéntricos (*Domain, Application, Presentation, Infrastructure*) donde las dependencias apuntan estrictamente hacia el interior.
+2. **Capa de Dominio Puro (`src/domain/`):** Núcleo central que encapsula las entidades y reglas de negocio corporativas sin depender de ninguna librería de base de datos, red o interfaz gráfica.
+3. **Puertos y Adaptadores (Arquitectura Hexagonal):** Mecanismo mediante el cual la capa `application` define interfaces abstractas (Puertos) y la capa `infrastructure` provee las implementaciones concretas (Adaptadores).
+4. **Inversión de Dependencias (Principio DIP de SOLID):** Regla según la cual los módulos de alto nivel no dependen de módulos de bajo nivel, sino que ambos dependen de abstracciones.
+5. **Arnés Políglota (`.specify/harness-config.json`):** Archivo de metaconfiguración que abstrae los directorios, manifiestos y comandos de compilación/prueba para Python, TypeScript, C#, Go, Rust, Flutter y Java.
 
 ### Categoría 5: El Auditor Nónuplo y Calidad Determinista
-23. **El Auditor Nónuplo (`harness/spec-gate.ps1`):** Motor central de verificación que ejecuta la Compuerta 0 más las 9 Compuertas Duras antes de permitir el cierre de cualquier funcionalidad.
-24. **Hard Gate (Compuerta Dura):** Control automatizado determinista cuyo fallo interrumpe inmediatamente el flujo con código de salida distinto de cero (`EXIT 1`).
-25. **Fake Test (Prueba Falsa):** Antipatrón de prueba generado para inflar artificialmente la cobertura (ej. `assert True == True`, cuerpo `pass`, o `@skip`), detectado y bloqueado por la Aduana 5.
-26. **Matriz de Trazabilidad Bidireccional (`docs/traceability_<id>.md`):** Tabla autogenerada que enlaza hacia adelante y hacia atrás cada requisito EARS con su escenario Gherkin, su prueba automatizada y su archivo de código fuente.
-27. **Pester 6 Governance Suite (`tests/v66-governance.Tests.ps1`):** Suite de pruebas automatizadas de integración que verifica el correcto funcionamiento de los controles criptográficos, anti-drift y políglotas del propio framework SDD v6.6.
-28. **PSScriptAnalyzer (Auditoría AST):** Analizador estático del Árbol de Sintaxis Abstracta de PowerShell utilizado para certificar cero errores sintácticos o de seguridad en los scripts del arnés.
+
+1. **El Auditor Nónuplo (`harness/spec-gate.ps1`):** Motor central de verificación que ejecuta la Compuerta 0 más las 9 Compuertas Duras antes de permitir el cierre de cualquier funcionalidad.
+2. **Hard Gate (Compuerta Dura):** Control automatizado determinista cuyo fallo interrumpe inmediatamente el flujo con código de salida distinto de cero (`EXIT 1`).
+3. **Fake Test (Prueba Falsa):** Antipatrón de prueba generado para inflar artificialmente la cobertura (ej. `assert True == True`, cuerpo `pass`, o `@skip`), detectado y bloqueado por la Aduana 5.
+4. **Matriz de Trazabilidad Bidireccional (`docs/traceability_<id>.md`):** Tabla autogenerada que enlaza hacia adelante y hacia atrás cada requisito EARS con su escenario Gherkin, su prueba automatizada y su archivo de código fuente.
+5. **Pester 6 Governance Suite (`tests/v66-governance.Tests.ps1`):** Suite de pruebas automatizadas de integración que verifica el correcto funcionamiento de los controles criptográficos, anti-drift y políglotas del propio framework SDD v6.6.
+6. **PSScriptAnalyzer (Auditoría AST):** Analizador estático del Árbol de Sintaxis Abstracta de PowerShell utilizado para certificar cero errores sintácticos o de seguridad en los scripts del arnés.
 
 ### Categoría 6: Ciberseguridad Defensiva y Modelado de Amenazas
-29. **Modelo STRIDE:** Metodología de análisis de amenazas que evalúa seis categorías de riesgo en `plan.md`: *Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service* y *Elevation of Privilege*.
-30. **Tríada Letal (*Lethal Triad*):** Condición de riesgo crítico que ocurre cuando un mismo componente combina acceso a datos confidenciales, procesamiento de entrada externa no confiable y capacidad de comunicación hacia redes externas.
-31. **Frontera de Confianza (`Trust Boundary ‖`):** Punto arquitectónico donde los datos cruzan entre zonas con distinto nivel de privilegio y donde es obligatorio aplicar validación de esquemas, sanitización y autenticación.
-32. **SAST (*Static Application Security Testing*):** Inspección estática del código fuente ejecutada por `verify-security.ps1` para descubrir vulnerabilidades OWASP Top 10 sin necesidad de ejecutar el binario.
-33. **Secret Scanning:** Detección automatizada de credenciales hardcodeadas, tokens de API, cadenas de conexión o llaves privadas RSA/SSH en el repositorio.
-34. **CSPRNG (*Cryptographically Secure Pseudo-Random Number Generator*):** Generador de números pseudoaleatorios criptográficamente seguro (`RandomNumberGenerator`) utilizado en SDD v6.6 para crear la llave de 256 bits en `.specify/.sdd_key`.
+
+1. **Modelo STRIDE:** Metodología de análisis de amenazas que evalúa seis categorías de riesgo en `plan.md`: *Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service* y *Elevation of Privilege*.
+2. **Tríada Letal (*Lethal Triad*):** Condición de riesgo crítico que ocurre cuando un mismo componente combina acceso a datos confidenciales, procesamiento de entrada externa no confiable y capacidad de comunicación hacia redes externas.
+3. **Frontera de Confianza (`Trust Boundary ‖`):** Punto arquitectónico donde los datos cruzan entre zonas con distinto nivel de privilegio y donde es obligatorio aplicar validación de esquemas, sanitización y autenticación.
+4. **SAST (*Static Application Security Testing*):** Inspección estática del código fuente ejecutada por `verify-security.ps1` para descubrir vulnerabilidades OWASP Top 10 sin necesidad de ejecutar el binario.
+5. **Secret Scanning:** Detección automatizada de credenciales hardcodeadas, tokens de API, cadenas de conexión o llaves privadas RSA/SSH en el repositorio.
+6. **CSPRNG (*Cryptographically Secure Pseudo-Random Number Generator*):** Generador de números pseudoaleatorios criptográficamente seguro (`RandomNumberGenerator`) utilizado en SDD v6.6 para crear la llave de 256 bits en `.specify/.sdd_key`.
 
 ### Categoría 7: Accesibilidad Matemática y Diseño UI/UX
-35. **Design Tokens (`design-tokens.json`):** Variables semánticas centralizadas (paleta de colores, radios, sombras, tipografías) que prohíben el uso de valores literales dispersos en el código de interfaz.
-36. **Magic Hex Code:** Mala práctica consistente en incrustar códigos de color hexadecimales crudos (como `#FF5733`) en vistas o hojas de estilo en lugar de referenciar tokens semánticos; bloqueada por la Aduana 7.
-37. **Luminancia Relativa ($L$) y Ratio WCAG 2.1 AA:** Medida fotométrica estandarizada por el W3C utilizada por el arnés para verificar matemáticamente que el contraste entre texto y fondo sea al menos de $4.5:1$.
-38. **Regla de los 5 Estados Visuales:** Obligación de diseñar y soportar explícitamente los estados *Default, Hover/Focus, Loading (Skeleton/Spinner), Empty State* y *Error State* en toda vista interactiva.
+
+1. **Design Tokens (`design-tokens.json`):** Variables semánticas centralizadas (paleta de colores, radios, sombras, tipografías) que prohíben el uso de valores literales dispersos en el código de interfaz.
+2. **Magic Hex Code:** Mala práctica consistente en incrustar códigos de color hexadecimales crudos (como `#FF5733`) en vistas o hojas de estilo en lugar de referenciar tokens semánticos; bloqueada por la Aduana 7.
+3. **Luminancia Relativa ($L$) y Ratio WCAG 2.1 AA:** Medida fotométrica estandarizada por el W3C utilizada por el arnés para verificar matemáticamente que el contraste entre texto y fondo sea al menos de $4.5:1$.
+4. **Regla de los 5 Estados Visuales:** Obligación de diseñar y soportar explícitamente los estados *Default, Hover/Focus, Loading (Skeleton/Spinner), Empty State* y *Error State* en toda vista interactiva.
 
 ### Categoría 8: Rendimiento, Resiliencia y SLAs (Pilar 9)
-39. **Percentil 95 ($P_{95}$) y Percentil 99 ($P_{99}$):** Indicadores estadísticos de latencia que exigen que el 95% y el 99% de las peticiones bajo carga concurrente respondan en menos de $200\text{ ms}$ y $500\text{ ms}$ respectivamente.
-40. **Benchmark Declarativo k6 (`tests/performance/k6_benchmark.js`):** Script de prueba de carga que codifica en código los umbrales de nivel de servicio (*Thresholds*) auditados por la Aduana 9.
-41. **Estado `SKIPPED_LOCAL` (Sinceramiento v6.6):** Estado formal emitido en `progress/performance_report.json` cuando el binario `k6` no se encuentra instalado en la estación de desarrollo local, validando estáticamente el contrato pero dejando constancia explícita (`sla_certified: false`) de que la prueba de estrés activa debe ejecutarse en el runner de CI/CD.
+
+1. **Percentil 95 ($P_{95}$) y Percentil 99 ($P_{99}$):** Indicadores estadísticos de latencia que exigen que el 95% y el 99% de las peticiones bajo carga concurrente respondan en menos de $200\text{ ms}$ y $500\text{ ms}$ respectivamente.
+2. **Benchmark Declarativo k6 (`tests/performance/k6_benchmark.js`):** Script de prueba de carga que codifica en código los umbrales de nivel de servicio (*Thresholds*) auditados por la Aduana 9.
+3. **Estado `SKIPPED_LOCAL` (Sinceramiento v6.6):** Estado formal emitido en `progress/performance_report.json` cuando el binario `k6` no se encuentra instalado en la estación de desarrollo local, validando estáticamente el contrato pero dejando constancia explícita (`sla_certified: false`) de que la prueba de estrés activa debe ejecutarse en el runner de CI/CD.
 
 ### Categoría 9: Observabilidad, Grafos DAG y Gobernanza Agéntica
-42. **DAG (*Directed Acyclic Graph* / Grafo Acíclico Dirigido):** Estructura matemática sin ciclos que modela las dependencias entre funcionalidades (`depends_on`) en `feature_list.json`.
-43. **Ordenamiento Topológico (*TopoSort*):** Algoritmo linealizador aplicado por `dashboard.ps1` sobre el DAG del backlog para determinar la secuencia válida de ejecución de funcionalidades.
-44. **Interceptor Fail-Closed (`pre-tool-enforce.ps1`):** Guardia de seguridad que ante cualquier duda, ausencia de configuración o discrepancia en el sello HMAC deniega por defecto (`decision: "deny"`) la operación de escritura del agente.
-45. **Skill Canónica (`SKILL.md`):** Unidad modular de conocimiento e instrucciones operativas alojada en `.agents/skills/` que especializa el comportamiento del agente de IA para una tarea acotada del ciclo de vida.
-46. **Modo Desatendido (`-DestinationPath` / `-NoAutoLaunch`):** Configuración de inicialización no interactiva incorporada en v6.6 para permitir la ejecución automatizada en pipelines CI/CD y suites de prueba sin bloquear la consola.
+
+1. **DAG (*Directed Acyclic Graph* / Grafo Acíclico Dirigido):** Estructura matemática sin ciclos que modela las dependencias entre funcionalidades (`depends_on`) en `feature_list.json`.
+2. **Ordenamiento Topológico (*TopoSort*):** Algoritmo linealizador aplicado por `dashboard.ps1` sobre el DAG del backlog para determinar la secuencia válida de ejecución de funcionalidades.
+3. **Interceptor Fail-Closed (`pre-tool-enforce.ps1`):** Guardia de seguridad que ante cualquier duda, ausencia de configuración o discrepancia en el sello HMAC deniega por defecto (`decision: "deny"`) la operación de escritura del agente.
+4. **Skill Canónica (`SKILL.md`):** Unidad modular de conocimiento e instrucciones operativas alojada en `.agents/skills/` que especializa el comportamiento del agente de IA para una tarea acotada del ciclo de vida.
+5. **Modo Desatendido (`-DestinationPath` / `-NoAutoLaunch`):** Configuración de inicialización no interactiva incorporada en v6.6 para permitir la ejecución automatizada en pipelines CI/CD y suites de prueba sin bloquear la consola.
 
 ### Categoría 10: Cumplimiento y Evidencia Regulatoria (Pilar 10)
-47. **Evidencia Técnica Auditable:** Conjunto de registros deterministas, trazas de pruebas, análisis SAST y firmas HMAC-SHA256 generados por el arnés que sirven como sustento probatorio objetivo ante auditores internos o externos.
-48. **Dossier de Cumplimiento (`progress/compliance_dossier.pdf`):** Expediente ejecutivo en formato PDF vectorial compilado automáticamente por `export-compliance.ps1`.
-49. **Motor Chromium Headless:** Mecanismo de renderizado sin interfaz gráfica que utiliza Microsoft Edge o Google Chrome para transformar el expediente HTML5 (`@media print`) en un archivo PDF paginado de alta fidelidad.
-50. **RFC de Especificación (`sdd-change-spec`):** Solicitud formal de cambio sobre una especificación previamente sellada que invalida el candado vigente y exige una nueva revisión y firma HITL antes de modificar el código.
+
+1. **Evidencia Técnica Auditable:** Conjunto de registros deterministas, trazas de pruebas, análisis SAST y firmas HMAC-SHA256 generados por el arnés que sirven como sustento probatorio objetivo ante auditores internos o externos.
+2. **Dossier de Cumplimiento (`progress/compliance_dossier.pdf`):** Expediente ejecutivo en formato PDF vectorial compilado automáticamente por `export-compliance.ps1`.
+3. **Motor Chromium Headless:** Mecanismo de renderizado sin interfaz gráfica que utiliza Microsoft Edge o Google Chrome para transformar el expediente HTML5 (`@media print`) en un archivo PDF paginado de alta fidelidad.
+4. **RFC de Especificación (`sdd-change-spec`):** Solicitud formal de cambio sobre una especificación previamente sellada que invalida el candado vigente y exige una nueva revisión y firma HITL antes de modificar el código.
 
 ---
 

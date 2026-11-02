@@ -101,4 +101,39 @@ Describe "SDD v6.6 Suite de Gobernanza y Compliance Hardened" {
             $cfg.test_dir | Should -Be "src/test/java"
         }
     }
+
+    Context "Higiene Estricta Markdown - 9 Reglas (MD003, MD009, MD022, MD029, MD031, MD032, MD040, MD047, MD058)" {
+        It "Sanea automaticamente violaciones de las 9 reglas con sdd.ps1 -Action fix-markdown" {
+            $dirtyMd = @(
+                'Introductory line',
+                'Titulo Setext H1',
+                '====',
+                'Subtitulo Setext H2',
+                '----',
+                '### Heading sin espacio abajo ',
+                '- Item de lista sin blanco arriba',
+                '1. Primer item',
+                '3. Item desfasado MD029',
+                '```',
+                'code sin lenguaje MD040 y sin blancos MD031',
+                '```',
+                '| Col1 | Col2 |',
+                '| --- | --- |',
+                '| A | B |',
+                'Texto pegado a tabla MD058',
+                '',
+                ''
+            ) -join "`r`n"
+            [System.IO.File]::WriteAllText((Join-Path $global:ProjectDir "docs\dirty_test.md"), $dirtyMd, [System.Text.Encoding]::UTF8)
+
+            & ".\harness\sdd.ps1" -Action fix-markdown | Out-Null
+
+            $fixedContent = Get-Content "docs\dirty_test.md" -Raw
+            $fixedContent | Should -Match '(?m)^# Titulo Setext H1\r?$'
+            $fixedContent | Should -Match '(?m)^## Subtitulo Setext H2\r?$'
+            $fixedContent | Should -Match '(?m)^```text\r?$'
+            $fixedContent | Should -Match '(?m)^2\. Item desfasado MD029\r?$'
+            $fixedContent | Should -Not -Match ' \r?$'
+        }
+    }
 }
