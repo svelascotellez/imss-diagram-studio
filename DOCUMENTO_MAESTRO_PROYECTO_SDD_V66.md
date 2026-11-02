@@ -862,9 +862,9 @@ Para garantizar que la capa `domain` permanezca 100% pura y que `presentation` n
 | **Flutter / Dart** | `(?m)^\s*import\s+['"][^'"]*(?:infrastructure\|presentation)[^'"]*['"]` | `(?m)^\s*import\s+['"][^'"]*infrastructure[^'"]*['"]` |
 | **Java (Maven/Gradle)** | `(?m)^\s*import\s+[\w\.]*\.(?:infrastructure\|presentation)\.[\w\*]+;` | `(?m)^\s*import\s+[\w\.]*\.infrastructure\.[\w\*]+;` |
 
-### 9.3. Caso de Estudio Empresarial: Java 21 (Spring Boot 3 + Maven)
+### 9.3. Caso de Estudio Empresarial 1: Core Bancario SPEI en Java 21 (Spring Boot 3.4 + Maven + PostgreSQL 17)
 
-Con la incorporación del preset `java-maven` en SDD v6.6 (Recomendación P1.2), la inicialización y configuración de un microservicio bancario o clínico en Java se ejecuta con:
+Con la incorporación del preset `java-maven` en SDD v6.6 (Recomendación P1.2), la inicialización y configuración de un microservicio transaccional de alta regulación en Java se ejecuta con:
 
 ```powershell
 # 1. Inicializar proyecto con soporte desatendido
@@ -895,6 +895,97 @@ El archivo `.specify/harness-config.json` resultante queda configurado automáti
   }
 }
 ```
+
+#### Artefacto 1: `specs/FEAT-SPEI-001/spec.md` (Requisitos Formales EARS)
+
+```markdown
+# Especificación Funcional: [FEAT-SPEI-001] Liquidación Interbancaria Atómica
+
+## 1. Contexto de Negocio
+Liquidación en tiempo real de órdenes de transferencia interbancaria con prevención de doble gasto e idempotencia criptográfica.
+
+## 2. Criterios de Aceptación (Sintaxis EARS)
+- **AC-1.1 [Event-driven]:** WHEN una orden de transferencia con clave de rastreo única y saldo suficiente es recibida, THE Motor de Liquidación SHALL debitar la cuenta origen, acreditar la cuenta destino y emitir un acuse firmado en menos de 150 ms.
+- **AC-1.2 [Unwanted]:** IF el monto de la orden es menor o igual a cero o la cuenta CLABE no cumple el dígito verificador de 18 dígitos, THEN THE Motor de Liquidación SHALL rechazar la petición con código `ERR_INVALID_CLABE` sin abrir transacción en base de datos.
+- **AC-1.3 [State-driven]:** WHILE una clave de rastreo se encuentre registrada previamente en el almacén de idempotencia, THE Motor de Liquidación SHALL retornar el resultado original sin ejecutar un segundo cargo financiero.
+- **AC-1.4 [Unwanted]:** IF el nodo primario de persistencia presenta un fallo transitorio de conexión, THEN THE Motor de Liquidación SHALL abortar atómicamente la unidad de trabajo, activar el circuit-breaker y registrar el evento de auditoría sin pérdida de consistencia.
+```
+
+#### Artefacto 2: `specs/FEAT-SPEI-001/scenarios.feature` (Paridad BDD 1:1 en Gherkin)
+
+```gherkin
+Feature: Liquidación Interbancaria Atómica (FEAT-SPEI-001)
+
+  @AC-1.1
+  Scenario: Liquidación exitosa con saldo suficiente
+    Given una cuenta origen "012180001234567899" con saldo disponible de 50000.00 MXN
+    When se procesa una orden SPEI por 1500.00 MXN con clave de rastreo "RASTREO-2026-0001"
+    Then el saldo final de la cuenta origen es 48500.00 MXN
+    And se emite un recibo de liquidación con estado "LIQUIDADA"
+
+  @AC-1.2
+  Scenario: Rechazo por cuenta CLABE con dígito verificador inválido
+    Given una orden de transferencia hacia la CLABE inválida "012180001234567890"
+    When el servicio valida la estructura de la orden
+    Then la operación es rechazada con el código de error "ERR_INVALID_CLABE"
+
+  @AC-1.3
+  Scenario: Protección de idempotencia ante clave de rastreo duplicada
+    Given una orden previamente liquidada con clave de rastreo "RASTREO-2026-0001"
+    When se recibe un reintento con la misma clave de rastreo "RASTREO-2026-0001"
+    Then no se realiza ningún cargo adicional y se devuelve el acuse original
+
+  @AC-1.4
+  Scenario: Resiliencia y rollback ante fallo transitorio de persistencia
+    Given una interrupción temporal en el adaptador de persistencia bancaria
+    When se intenta procesar una orden con clave de rastreo "RASTREO-2026-0002"
+    Then la transacción ejecuta rollback completo y el circuit-breaker pasa a estado "OPEN"
+```
+
+#### Artefacto 3: `specs/FEAT-SPEI-001/plan.md` (Clean Architecture, STRIDE y Allowed Files)
+
+```markdown
+# Plan Arquitectónico: [FEAT-SPEI-001]
+
+## 1. Diseño en 4 Capas (Clean Architecture Java 21)
+- **Domain (`src/main/java/domain/`):** Record inmutable `OrdenSpei`, entidad `CuentaBancaria` y validador puro de dígito verificador CLABE (0 dependencias Spring/JPA).
+- **Application (`src/main/java/application/`):** Caso de uso `LiquidarOrdenSpeiUseCase` y puertos `CuentaRepositoryPort`, `IdempotenciaPort`.
+- **Infrastructure (`src/main/java/infrastructure/`):** Adaptador `JpaCuentaRepositoryAdapter` (PostgreSQL 17 con bloqueo pesimista) y `RedisIdempotenciaAdapter`.
+- **Presentation (`src/main/java/presentation/`):** Controlador `SpeiRestController` con validación Bean Validation.
+
+## 2. Modelado de Amenazas STRIDE y Fronteras de Confianza (‖)
+| Amenaza STRIDE | Vector Identificado en Frontera `‖` | Mitigación Determinista |
+| :--- | :--- | :--- |
+| **Spoofing** | Suplantación de institución participante en API Gateway `‖` | Autenticación mutua mTLS + validación de certificado X.509. |
+| **Tampering** | Alteración de monto o CLABE en el payload JSON | Verificación de firma digital RSA-PSS del mensaje antes del caso de uso. |
+| **Repudiation** | Negación de envío de orden de pago | Registro inmutable de payload firmado y timestamp UTC en bitácora de auditoría. |
+| **Information Disclosure** | Exposición de PII o saldos en logs de error | Enmascaramiento de cuentas CLABE en trazas (`****7899`). |
+| **Denial of Service** | Inundación de peticiones repetidas | Rate-limiting por IP/Institución + caché de idempotencia en memoria. |
+| **Elevation of Privilege** | Manipulación de parámetros internos de cuenta | Separación estricta de DTO de entrada y entidad de dominio pura. |
+
+## Allowed Files
+- src/main/java/domain/OrdenSpei.java
+- src/main/java/domain/CuentaBancaria.java
+- src/main/java/application/LiquidarOrdenSpeiUseCase.java
+- src/main/java/application/ports/CuentaRepositoryPort.java
+- src/main/java/infrastructure/JpaCuentaRepositoryAdapter.java
+- src/main/java/presentation/SpeiRestController.java
+- src/test/java/domain/OrdenSpeiTest.java
+- src/test/java/acceptance/SpeiAcceptanceTest.java
+```
+
+---
+
+### 9.4. Caso de Estudio Empresarial 2: Microservicio Clínico HL7/FHIR en Python 3.12 (FastAPI + Pytest + Mypy)
+
+En el sector salud (sujeto a **HIPAA 45 CFR § 164.312** y **FDA 21 CFR Part 11**), SDD v6.6 asegura que la lógica de dosificación médica en `src/domain/` permanezca completamente aislada de FastAPI y SQLAlchemy:
+
+| Capa Arquitectónica | Ruta Permitida (`Allowed Files`) | Restricción Auditada por Gate 3 y `post-tool-check.ps1` |
+| :--- | :--- | :--- |
+| **1. Domain** | `src/domain/dosage_calculator.py` | **Solo librería estándar de Python** (`dataclasses`, `decimal`, `enum`). Prohibido importar `fastapi`, `sqlalchemy`, `pydantic` o `requests`. |
+| **2. Application** | `src/application/prescribe_medication.py` | Define `Protocol` para repositorios (`PatientRepositoryProtocol`). Solo importa `src.domain`. |
+| **3. Infrastructure** | `src/infrastructure/postgres_patient_repo.py` | Implementa persistencia cifrada AES-256-GCM y consultas parametrizadas SQLAlchemy. |
+| **4. Presentation** | `src/presentation/fhir_router.py` | Endpoints FastAPI que delegan al caso de uso en `src.application` sin tocar `src.infrastructure`. |
 
 ---
 
