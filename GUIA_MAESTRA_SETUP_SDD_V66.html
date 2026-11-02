@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libro Blanco y Documento Maestro — SDD Framework v6.6</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}]});"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'base',
+                securityLevel: 'loose',
+                themeVariables: {
+                    primaryColor: '#EFF6FF',
+                    primaryTextColor: '#0F172A',
+                    primaryBorderColor: '#2563EB',
+                    lineColor: '#334155',
+                    secondaryColor: '#ECFDF5',
+                    tertiaryColor: '#F8FAFC',
+                    fontFamily: 'Segoe UI, Inter, system-ui, sans-serif'
+                }
+            });
+        });
+    </script>
+    <style>
+        :root {
+            --primary: #0F172A;
+            --accent: #1D4ED8;
+            --border: #CBD5E1;
+            --bg-soft: #F8FAFC;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            color: #1E293B;
+            background-color: #F1F5F9;
+            line-height: 1.65;
+            margin: 0;
+            padding: 24px;
+            font-size: 10.5pt;
+        }
+        .document-wrapper {
+            max-width: 1120px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            padding: 48px 56px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            border: 1px solid #E2E8F0;
+        }
+        .header-banner {
+            background: linear-gradient(135deg, #0B1120 0%, #1E3A8A 100%);
+            color: #FFFFFF;
+            padding: 32px 36px;
+            border-radius: 10px;
+            margin-bottom: 32px;
+            border-bottom: 4px solid #38BDF8;
+        }
+        .header-banner .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.2);
+            color: #7DD3FC;
+            border: 1px solid #38BDF8;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 8.5pt;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .header-banner h1 {
+            color: #FFFFFF !important;
+            border: none !important;
+            margin: 0 0 8px 0 !important;
+            padding: 0 !important;
+            font-size: 22pt;
+            line-height: 1.2;
+        }
+        .header-banner p {
+            margin: 0;
+            color: #CBD5E1;
+            font-size: 10.5pt;
+        }
+        h1 {
+            color: #0F172A;
+            font-size: 20pt;
+            border-bottom: 3px solid #1D4ED8;
+            padding-bottom: 8px;
+            margin-top: 36px;
+        }
+        h2 {
+            color: #0F172A;
+            font-size: 15pt;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 6px;
+            margin-top: 32px;
+            page-break-after: avoid;
+        }
+        h3 {
+            color: #1E3A8A;
+            font-size: 12.5pt;
+            margin-top: 24px;
+            page-break-after: avoid;
+        }
+        h4 {
+            color: #334155;
+            font-size: 11pt;
+            margin-top: 18px;
+            page-break-after: avoid;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #CBD5E1;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            margin: 16px auto;
+            display: block;
+            page-break-inside: avoid;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            font-size: 9.2pt;
+            page-break-inside: auto;
+        }
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+        thead {
+            display: table-header-group;
+        }
+        th {
+            background-color: #0F172A;
+            color: #FFFFFF;
+            font-weight: 600;
+            text-align: left;
+            padding: 9px 11px;
+            border: 1px solid #1E293B;
+        }
+        td {
+            padding: 8px 11px;
+            border: 1px solid #CBD5E1;
+            vertical-align: top;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+        pre {
+            background-color: #0F172A;
+            color: #E2E8F0;
+            padding: 14px 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+            font-size: 8.6pt;
+            line-height: 1.45;
+            border: 1px solid #1E293B;
+            page-break-inside: avoid;
+        }
+        code {
+            font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+            background-color: #F1F5F9;
+            color: #0F172A;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 9pt;
+            border: 1px solid #E2E8F0;
+        }
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            border: none;
+            font-size: inherit;
+        }
+        blockquote {
+            background: #F8FAFC;
+            border-left: 4px solid #2563EB;
+            margin: 16px 0;
+            padding: 12px 18px;
+            border-radius: 0 8px 8px 0;
+            color: #334155;
+        }
+        .sdd-alert {
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin: 18px 0;
+            page-break-inside: avoid;
+        }
+        .sdd-alert-title {
+            font-weight: 700;
+            font-size: 9.5pt;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+        .mermaid-container {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 18px 0;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+        pre.mermaid {
+            background: transparent !important;
+            color: #0F172A !important;
+            border: none !important;
+            text-align: center;
+        }
+        hr {
+            border: none;
+            border-top: 2px solid #E2E8F0;
+            margin: 32px 0;
+        }
+        a {
+            color: #1D4ED8;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 14mm 14mm 16mm 14mm;
+            }
+            body {
+                background: #FFFFFF;
+                padding: 0;
+                font-size: 9.5pt;
+            }
+            .document-wrapper {
+                max-width: 100%;
+                padding: 0;
+                box-shadow: none;
+                border: none;
+            }
+            .header-banner {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            th, pre, .sdd-alert, tbody tr:nth-child(even) {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-wrapper">
+        <div class="header-banner">
+            <div class="badge">WHITE PAPER OFICIAL &bull; SDD FRAMEWORK v6.6 HARDENED EDITION</div>
+            <h1>GUÍA MAESTRA DE INICIALIZACIÓN Y OPERACIÓN: SDD v6.6</h1>
+            <p>Manual Operativo Paso a Paso, Comandos CLI, Pruebas de Gobernanza Pester 6 y Glosario Oficial de Términos</p>
+        </div>
+        <h1 id="guia-maestra-de-inicializacion-y-operacion-sdd-framework-v66">Guía Maestra de Inicialización y Operación: SDD Framework v6.6</h1>
+<blockquote>
+<p><strong>Manual Operativo Paso a Paso para la Creación de Proyectos, Gobernanza Criptográfica HMAC-SHA256, Verificación de SLAs k6 y Generación de Expedientes de Evidencia Regulatoria</strong>
+<strong>Versión:</strong> 6.6 (Regulatory &amp; Compliance Hardened Edition)
+<strong>Fecha:</strong> Noviembre de 2026
+<strong>Compatibilidad:</strong> Windows 10/11, PowerShell 5.1+, PowerShell 7+, Linux/macOS (bash/pwsh)</p>
+</blockquote>
+<hr />
+<h2 id="1-introduccion-y-novedades-de-la-version-66">1. Introducción y Novedades de la Versión 6.6</h2>
+<p>La versión <strong>6.6 - Regulatory Hardened Edition</strong> endurece la gobernanza criptográfica, la integridad de especificaciones y la precisión de auditoría de SDD:</p>
+<ul>
+<li><strong>Candado Criptográfico HMAC-SHA256</strong>: Sustituye el hashing básico por un HMAC-SHA256 formal con clave persistente en <code>.specify\.sdd_key</code> o mediante <code>$env:SDD_HMAC_KEY</code>.</li>
+<li><strong>Inclusión Inmutable de <code>plan.md</code> en el Sello</strong>: Sella conjuntamente <code>spec.md</code>, <code>scenarios.feature</code> y <code>plan.md</code>. Modificar <code>Allowed Files</code> tras la aprobación humana rompe el candado inmediatamente.</li>
+<li><strong>Aprobación Human-in-the-Loop (HITL) Estricta</strong>: Queda prohibida la auto-aprobación del agente. Toda aprobación formal captura obligatoriamente la identidad del firmante (<code>user.name &lt;email&gt;</code>), fecha UTC y algoritmo.</li>
+<li><strong>Paridad BDD 1:1 en Plantillas</strong>: La plantilla inicial incluye escenarios para <code>@AC-1.1</code> hasta <code>@AC-1.4</code>, garantizando paridad 100% desde la creación.</li>
+<li><strong>Cero Falsos Positivos en Gate 1</strong>: Se excluye <code>tests/performance/k6_benchmark.js</code> de las alertas de Spec Drift.</li>
+<li><strong>Hook PreToolUse Fail-Closed</strong>: Bloqueo físico en tiempo real de escrituras en <code>src/</code> si no hay especificación aprobada o si se detecta manipulación de archivos.</li>
+<li><strong>Transparencia en Gate 9 (k6)</strong>: Estado real <code>SKIPPED_LOCAL</code> con advertencia <code>WARN</code> si k6 no está instalado localmente, delegando la medición activa al runner de CI/CD sin falsear certificaciones.</li>
+<li><strong>Soporte Nativo para Java (Maven/Gradle)</strong>: Nuevo preset <code>java-maven</code> en <code>sdd.ps1 -Action configure-stack</code>.</li>
+<li><strong>Alineación del Lenguaje Regulatorio</strong>: Generación de "Evidencia Técnica Auditable" para ISO 27001, FDA 21 CFR Part 11, SOC 2 y HIPAA.</li>
+<li><strong>Suite de Pruebas de Gobernanza (Pester 6)</strong>: Validación automatizada mediante <code>tests/v66-governance.Tests.ps1</code>.</li>
+</ul>
+<hr />
+<h2 id="2-requisitos-previos-e-instaladores-disponibles">2. Requisitos Previos e Instaladores Disponibles</h2>
+<h3 id="requisitos-del-sistema">Requisitos del Sistema</h3>
+<ol>
+<li><strong>PowerShell</strong>: Versión 5.1 (incluida en Windows 10/11) o PowerShell Core 7+.</li>
+<li><strong>Git</strong>: Versión 2.30 o superior en el PATH del sistema (<code>git config user.name</code> y <code>user.email</code> configurados).</li>
+<li><strong>Navegador Web para Exportación PDF (Edge o Chrome)</strong>:
+   - Microsoft Edge (preinstalado en Windows) o Google Chrome.
+   - En su defecto, se emite HTML optimizado para <code>@media print</code> (Ctrl+P).</li>
+<li><strong>k6 (Opcional en host local)</strong>: Para ejecución en vivo de benchmarks de carga.</li>
+<li><strong>Pester 6 / PScriptAnalyzer (Opcional)</strong>: Disponibles localmente en el directorio <code>tools/</code>.</li>
+</ol>
+<h3 id="scripts-de-inicializacion-disponibles">Scripts de Inicialización Disponibles</h3>
+<ul>
+<li><code>setup-sdd-project-v66.ps1</code>: Inicializador nativo en PowerShell.</li>
+<li><code>setup-sdd-project-v66.py</code>: Inicializador multiplataforma en Python.</li>
+</ul>
+<hr />
+<h2 id="3-guia-paso-a-paso-para-inicializar-un-proyecto">3. Guía Paso a Paso para Inicializar un Proyecto</h2>
+<h3 id="paso-1-ejecutar-el-inicializador">Paso 1: Ejecutar el Inicializador</h3>
+<p>Abra una consola de PowerShell en la carpeta raíz deseada y ejecute:</p>
+<pre><code class="language-powershell">powershell -ExecutionPolicy Bypass -File .\setup-sdd-project-v66.ps1 -ProjectName &quot;MiSistemaSeguro&quot; -Stack &quot;python&quot; -GitInit -AutoLaunch &quot;none&quot;
+</code></pre>
+<p>Parámetros admitidos:</p>
+<ul>
+<li><code>-ProjectName &lt;string&gt;</code>: Nombre del directorio de trabajo a crear.</li>
+<li><code>-Stack &lt;string&gt;</code>: Stack tecnológico (<code>python</code>, <code>typescript</code>, <code>csharp</code>, <code>golang</code>, <code>rust</code>, <code>flutter</code>, <code>java</code>).</li>
+<li><code>-DestinationPath &lt;string&gt;</code>: Ruta de destino personalizada (opcional).</li>
+<li><code>-GitInit</code>: Inicializa automáticamente un repositorio Git y configura el hook pre-commit.</li>
+<li><code>-AutoLaunch &lt;auto|ide|cli|none&gt;</code>: Controla el lanzamiento del agente Antigravity tras la inicialización.</li>
+<li><code>-NoAutoLaunch</code>: Desactiva el lanzamiento automático interactivo (ideal para CI/CD o scripts de automatización).</li>
+</ul>
+<h3 id="paso-2-verificar-la-estructura-generada">Paso 2: Verificar la Estructura Generada</h3>
+<pre><code class="language-text">MiSistemaSeguro/
+├── .agents/
+│   ├── hooks.json                # Hooks SessionStart, PreToolUse (Fail-Closed) y PostToolUse
+│   └── skills/                   # 20 Skills Canonicas de SDD v6.6
+├── .github/workflows/sdd-gate.yml# Pipeline GitHub Actions con 9 Aduanas
+├── .gitlab-ci.yml                # Pipeline GitLab CI
+├── .specify/
+│   ├── .sdd_key                  # Clave persistente HMAC-SHA256 (256-bit)
+│   ├── harness-config.json       # Configuracion del proyecto y Allowed Files
+│   └── templates/                # Plantillas EARS, BDD (AC-1.1..1.4) y plan
+├── harness/
+│   ├── sdd.ps1                   # Comando CLI unificado del arnes
+│   ├── spec-gate.ps1             # Auditor Nonuplo (9 Hard Gates)
+│   ├── verify-security.ps1       # Verificador SAST y Secretos (Aduana 8)
+│   ├── verify-performance.ps1    # Verificador de Rendimiento k6 (Aduana 9)
+│   └── export-compliance.ps1     # Generador de Expediente Regulatorio PDF/HTML
+├── progress/                     # Expedientes PDF, reportes y dashboards
+├── specs/                        # Especificaciones EARS y BDD
+├── tests/
+│   ├── performance/              # Benchmarks de carga k6
+│   └── v66-governance.Tests.ps1  # Pruebas de gobernanza Pester 6
+├── CHECKPOINTS.md                # Bitacora inmutable de firmas criptograficas
+└── feature_list.json             # Backlog formal con hashes HMAC e identidad
+</code></pre>
+<hr />
+<h2 id="4-guia-operativa-del-ciclo-de-vida-sdd-v66">4. Guía Operativa del Ciclo de Vida SDD v6.6</h2>
+<h3 id="41-creacion-de-una-funcionalidad">4.1. Creación de una Funcionalidad</h3>
+<pre><code class="language-powershell">.\harness\sdd.ps1 -Action create -FeatureId &quot;FEAT-001&quot; -FeatureName &quot;Autenticacion Segura&quot;
+</code></pre>
+<p>Esto genera automáticamente:
+- <code>specs/FEAT-001/spec.md</code>: Plantilla EARS con criterios <code>AC-1.1</code> a <code>AC-1.4</code>.
+- <code>specs/FEAT-001/scenarios.feature</code>: Plantilla Gherkin con escenarios <code>@AC-1.1</code> a <code>@AC-1.4</code>.
+- <code>specs/FEAT-001/plan.md</code>: Arquitectura técnica y lista explícita de <code>## Allowed Files</code>.
+- <code>specs/FEAT-001/tasks.md</code>: Desglose secuencial de tareas.</p>
+<h3 id="42-aprobacion-formal-human-in-the-loop-hitl">4.2. Aprobación Formal Human-in-the-Loop (HITL)</h3>
+<p>Una vez revisada y completada la especificación con el agente, el desarrollador humano aprueba el alcance:</p>
+<pre><code class="language-powershell"># En consola interactiva (solicita confirmacion humana S/N)
+.\harness\sdd.ps1 -Action approve -FeatureId &quot;FEAT-001&quot; -Reason &quot;Aprobacion inicial de arquitectura&quot;
+
+# En entornos de automatizacion o CI/CD
+.\harness\sdd.ps1 -Action approve -FeatureId &quot;FEAT-001&quot; -Approver &quot;DevOps Engineer &lt;devops@empresa.com&gt;&quot; -Force
+</code></pre>
+<p><strong>Resultado:</strong>
+- Se genera el sello criptográfico <strong>HMAC-SHA256</strong> protegiendo <code>spec.md</code>, <code>scenarios.feature</code> y <code>plan.md</code>.
+- Se registra la identidad del firmante y la marca de tiempo UTC en <code>feature_list.json</code> y <code>CHECKPOINTS.md</code>.
+- El estado pasa a <code>in_progress</code>, desbloqueando el permiso de escritura en <code>src/</code>.</p>
+<h3 id="43-implementacion-y-verificacion-de-ciberseguridad">4.3. Implementación y Verificación de Ciberseguridad</h3>
+<pre><code class="language-powershell"># Escaneo de secretos y analisis SAST (Aduana 8)
+.\harness\sdd.ps1 -Action verify-security
+</code></pre>
+<h3 id="44-verificacion-de-rendimiento-y-slas-k6">4.4. Verificación de Rendimiento y SLAs (k6)</h3>
+<pre><code class="language-powershell"># Ejecuta medicion k6 si esta instalado, o emite estado transparente SKIPPED_LOCAL
+.\harness\sdd.ps1 -Action verify-performance -FeatureId &quot;FEAT-001&quot;
+</code></pre>
+<h3 id="45-auditoria-nonupla-y-cierre-formal">4.5. Auditoría Nónupla y Cierre Formal</h3>
+<pre><code class="language-powershell"># Evalua las 9 compuertas inquebrantables de spec-gate.ps1
+.\harness\sdd.ps1 -Action complete -FeatureId &quot;FEAT-001&quot;
+</code></pre>
+<p>Si todas las aduanas son superadas con cero violaciones:
+- Se emite el <strong>Completion Seal</strong>.
+- El estado de la funcionalidad pasa a <code>done</code>.</p>
+<h3 id="46-exportacion-del-expediente-de-evidencia-regulatoria">4.6. Exportación del Expediente de Evidencia Regulatoria</h3>
+<pre><code class="language-powershell"># Exporta el expediente completo en PDF oficial de alta resolucion
+.\harness\sdd.ps1 -Action export-compliance -Format pdf
+
+# Exporta en todos los formatos (PDF, HTML, MD) y abre el documento resultante
+.\harness\sdd.ps1 -Action export-compliance -Format all -Open
+</code></pre>
+<p>Los artefactos se depositan en <code>progress/compliance_dossier.pdf</code> y <code>progress/compliance_dossier.html</code>.</p>
+<hr />
+<h2 id="5-ejecucion-de-la-suite-de-pruebas-de-gobernanza-pester-6">5. Ejecución de la Suite de Pruebas de Gobernanza (Pester 6)</h2>
+<p>Para auditar y verificar que los controles de gobernanza, el candado HMAC y las aduanas del framework operan con integridad:</p>
+<pre><code class="language-powershell">powershell -ExecutionPolicy Bypass -Command &quot;&amp; { Import-Module '.\tools\Pester\6.2.0\Pester.psd1' -Force; Invoke-Pester -Path '.\tests\v66-governance.Tests.ps1' -Output Detailed }&quot;
+</code></pre>
+<p>Esta suite valida de forma automatizada:
+1. Candado HMAC-SHA256 y persistencia de llave en <code>.specify\.sdd_key</code>.
+2. Detección instantánea de <em>Spec Tampering</em> al modificar <code>plan.md</code> o <code>spec.md</code>.
+3. Paridad BDD 1:1 en la plantilla de funcionalidades.
+4. Ausencia de falsos positivos en Gate 1 sobre <code>k6_benchmark.js</code>.
+5. Reporte verídico <code>SKIPPED_LOCAL</code> en Gate 9 cuando k6 está ausente.
+6. Configuración exitosa del stack Java (<code>java-maven</code>).</p>
+<hr />
+<h2 id="6-glosario-oficial-de-terminos-y-acronimos-sdd-v66">6. Glosario Oficial de Términos y Acrónimos SDD v6.6</h2>
+<h3 id="61-tabla-de-referencia-rapida-az">6.1. Tabla de Referencia Rápida (A–Z)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Término / Sigla</th>
+<th style="text-align: left;">Nombre Completo / Artefacto</th>
+<th style="text-align: left;">Categoría</th>
+<th style="text-align: left;">Definición Operativa en SDD v6.6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>AC-x.x</code></strong></td>
+<td style="text-align: left;">Acceptance Criterion</td>
+<td style="text-align: left;">Requisitos</td>
+<td style="text-align: left;">Identificador de criterio de aceptación en <code>spec.md</code> que exige paridad 1:1 en <code>scenarios.feature</code> (<code>@AC-x.x</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Allowed Files</code></strong></td>
+<td style="text-align: left;">Lista Blanca de Archivos Permitidos</td>
+<td style="text-align: left;">Gobernanza</td>
+<td style="text-align: left;">Sección en <code>plan.md</code> que declara las únicas rutas que pueden crearse o modificarse; auditada por Gate 1 y <code>PreToolUse</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>approval_hash</code></strong></td>
+<td style="text-align: left;">Sello Criptográfico de Aprobación</td>
+<td style="text-align: left;">Criptografía</td>
+<td style="text-align: left;">Firma <code>HMAC-SHA256</code> calculada sobre la tríada normalizada <code>spec.md + scenarios.feature + plan.md</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>BDD</code></strong></td>
+<td style="text-align: left;">Behavior-Driven Development</td>
+<td style="text-align: left;">Metodología</td>
+<td style="text-align: left;">Especificación ejecutable redactada en lenguaje Gherkin (<code>Given-When-Then</code>) dentro de <code>scenarios.feature</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>CHECKPOINTS.md</code></strong></td>
+<td style="text-align: left;">Bitácora Inmutable de Firmas</td>
+<td style="text-align: left;">Auditoría</td>
+<td style="text-align: left;">Registro histórico cronológico de sellos HMAC, cierres de funcionalidades e identidad de aprobadores.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Clean Architecture</code></strong></td>
+<td style="text-align: left;">Arquitectura Limpia Concéntrica</td>
+<td style="text-align: left;">Arquitectura</td>
+<td style="text-align: left;">Separación del código en 4 anillos (<code>domain</code>, <code>application</code>, <code>presentation</code>, <code>infrastructure</code>) con dependencia hacia el centro.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>completion_hash</code></strong></td>
+<td style="text-align: left;">Sello Criptográfico de Cierre</td>
+<td style="text-align: left;">Criptografía</td>
+<td style="text-align: left;">Hash definitivo emitido por <code>sdd.ps1 -Action complete</code> tras superar las 9+1 compuertas duras.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>CSPRNG</code></strong></td>
+<td style="text-align: left;">Cryptographically Secure PRNG</td>
+<td style="text-align: left;">Criptografía</td>
+<td style="text-align: left;">Generador aleatorio criptográfico utilizado para crear la clave secreta de 256 bits en <code>.specify/.sdd_key</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>DAG</code></strong></td>
+<td style="text-align: left;">Directed Acyclic Graph</td>
+<td style="text-align: left;">Planificación</td>
+<td style="text-align: left;">Grafo acíclico dirigido que modela las dependencias (<code>depends_on</code>) entre funcionalidades en <code>feature_list.json</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Design Tokens</code></strong></td>
+<td style="text-align: left;"><code>.specify/design-system/design-tokens.json</code></td>
+<td style="text-align: left;">UI/UX</td>
+<td style="text-align: left;">Variables atómicas de color, tipografía y espaciado validadas con contraste matemático WCAG 2.1 AA (\(\ge 4.5:1\)).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Double-Loop TDD</code></strong></td>
+<td style="text-align: left;">Desarrollo Guiado por Pruebas de Doble Bucle</td>
+<td style="text-align: left;">Calidad</td>
+<td style="text-align: left;">Bucle externo de pruebas de aceptación BDD combinado con bucle interno de pruebas unitarias de dominio.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>EARS</code></strong></td>
+<td style="text-align: left;">Easy Approach to Requirements Syntax</td>
+<td style="text-align: left;">Requisitos</td>
+<td style="text-align: left;">Sintaxis formal de 5 cláusulas (<code>Ubiquitous</code>, <code>Event-driven</code>, <code>State-driven</code>, <code>Optional</code>, <code>Unwanted</code>) libre de ambigüedades.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>El Auditor Nónuplo</code></strong></td>
+<td style="text-align: left;"><code>harness/spec-gate.ps1</code></td>
+<td style="text-align: left;">Calidad</td>
+<td style="text-align: left;">Motor determinista que evalúa la Compuerta 0 (HMAC) más las 9 Compuertas Duras antes de autorizar el cierre.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Evidencia Técnica Auditable</code></strong></td>
+<td style="text-align: left;"><code>progress/compliance_dossier.pdf</code></td>
+<td style="text-align: left;">Cumplimiento</td>
+<td style="text-align: left;">Expediente técnico determinista generado para soportar auditorías ISO/IEC 27001, FDA 21 CFR Part 11, SOC 2 e HIPAA.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Fail-Closed</code></strong></td>
+<td style="text-align: left;">Denegación por Defecto (<code>pre-tool-enforce.ps1</code>)</td>
+<td style="text-align: left;">Seguridad</td>
+<td style="text-align: left;">Política del hook <code>PreToolUse</code> que bloquea cualquier escritura en <code>src/</code> si falta el sello HMAC o si <code>plan.md</code> fue alterado.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Fake Test</code></strong></td>
+<td style="text-align: left;">Prueba Falsa o Complaciente</td>
+<td style="text-align: left;">Calidad</td>
+<td style="text-align: left;">Antipatrón (<code>assert True == True</code>, cuerpo <code>pass</code>, <code>@skip</code>) bloqueado físicamente por la Compuerta 5.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>HITL</code></strong></td>
+<td style="text-align: left;">Human-in-the-Loop</td>
+<td style="text-align: left;">Gobernanza</td>
+<td style="text-align: left;">Principio que exige firma humana explícita (<code>approved_by</code>, <code>approved_at</code>) y prohíbe la auto-aprobación por agentes de IA.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>HMAC-SHA256</code></strong></td>
+<td style="text-align: left;">Hash-based Message Authentication Code</td>
+<td style="text-align: left;">Criptografía</td>
+<td style="text-align: left;">Algoritmo criptográfico simétrico (RFC 2104) con clave de 256 bits que protege la tríada documental contra adulteraciones.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>k6 Benchmark</code></strong></td>
+<td style="text-align: left;"><code>tests/performance/k6_benchmark.js</code></td>
+<td style="text-align: left;">Rendimiento</td>
+<td style="text-align: left;">Script declarativo de pruebas de carga que audita latencias \(P_{95} \le 200\text{ ms}\), \(P_{99} \le 500\text{ ms}\) y tasa de error \(0\%\).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>SAST</code></strong></td>
+<td style="text-align: left;">Static Application Security Testing</td>
+<td style="text-align: left;">Seguridad</td>
+<td style="text-align: left;">Escaneo estático de código fuente (<code>verify-security.ps1</code>) para detectar inyecciones OWASP y secretos expuestos.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>SKIPPED_LOCAL</code></strong></td>
+<td style="text-align: left;">Omisión Local Transparente (Gate 9)</td>
+<td style="text-align: left;">Rendimiento</td>
+<td style="text-align: left;">Estado reportado cuando el binario <code>k6</code> no está instalado localmente, validando el contrato y delegando la medición activa a CI/CD.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Spec Drift</code></strong></td>
+<td style="text-align: left;">Deriva de Alcance</td>
+<td style="text-align: left;">Gobernanza</td>
+<td style="text-align: left;">Modificación de archivos fuera de la lista <code>Allowed Files</code> o adición de código no respaldado por <code>spec.md</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Spec Tampering</code></strong></td>
+<td style="text-align: left;">Adulteración de Especificación o Plan</td>
+<td style="text-align: left;">Criptografía</td>
+<td style="text-align: left;">Modificación no autorizada de <code>spec.md</code>, <code>scenarios.feature</code> o <code>plan.md</code> posterior al sellado HMAC; bloquea Gate 0.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>STRIDE</code></strong></td>
+<td style="text-align: left;">Modelo de Amenazas de 6 Vectores</td>
+<td style="text-align: left;">Seguridad</td>
+<td style="text-align: left;">Análisis obligatorio en <code>plan.md</code> (<em>Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation of Privilege</em>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>TopoSort</code></strong></td>
+<td style="text-align: left;">Ordenamiento Topológico</td>
+<td style="text-align: left;">Observabilidad</td>
+<td style="text-align: left;">Algoritmo que ordena linealmente el grafo DAG en el Cockpit Web Dashboard (<code>progress/sdd_dashboard.html</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Tríada Letal</code></strong></td>
+<td style="text-align: left;">Lethal Triad</td>
+<td style="text-align: left;">Seguridad</td>
+<td style="text-align: left;">Confluencia de alto riesgo en un mismo módulo: <em>Datos Sensibles + Entrada Externa No Confiable + Salida a Red</em>.</td>
+</tr>
+</tbody>
+</table>
+    </div>
+</body>
+</html>

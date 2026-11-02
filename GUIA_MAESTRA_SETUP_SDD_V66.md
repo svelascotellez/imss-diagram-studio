@@ -177,3 +177,39 @@ Esta suite valida de forma automatizada:
 4. Ausencia de falsos positivos en Gate 1 sobre `k6_benchmark.js`.
 5. Reporte verídico `SKIPPED_LOCAL` en Gate 9 cuando k6 está ausente.
 6. Configuración exitosa del stack Java (`java-maven`).
+
+
+---
+
+## 6. Glosario Oficial de Términos y Acrónimos SDD v6.6
+
+### 6.1. Tabla de Referencia Rápida (A–Z)
+
+| Término / Sigla | Nombre Completo / Artefacto | Categoría | Definición Operativa en SDD v6.6 |
+| :--- | :--- | :--- | :--- |
+| **`AC-x.x`** | Acceptance Criterion | Requisitos | Identificador de criterio de aceptación en `spec.md` que exige paridad 1:1 en `scenarios.feature` (`@AC-x.x`). |
+| **`Allowed Files`** | Lista Blanca de Archivos Permitidos | Gobernanza | Sección en `plan.md` que declara las únicas rutas que pueden crearse o modificarse; auditada por Gate 1 y `PreToolUse`. |
+| **`approval_hash`** | Sello Criptográfico de Aprobación | Criptografía | Firma `HMAC-SHA256` calculada sobre la tríada normalizada `spec.md + scenarios.feature + plan.md`. |
+| **`BDD`** | Behavior-Driven Development | Metodología | Especificación ejecutable redactada en lenguaje Gherkin (`Given-When-Then`) dentro de `scenarios.feature`. |
+| **`CHECKPOINTS.md`** | Bitácora Inmutable de Firmas | Auditoría | Registro histórico cronológico de sellos HMAC, cierres de funcionalidades e identidad de aprobadores. |
+| **`Clean Architecture`** | Arquitectura Limpia Concéntrica | Arquitectura | Separación del código en 4 anillos (`domain`, `application`, `presentation`, `infrastructure`) con dependencia hacia el centro. |
+| **`completion_hash`** | Sello Criptográfico de Cierre | Criptografía | Hash definitivo emitido por `sdd.ps1 -Action complete` tras superar las 9+1 compuertas duras. |
+| **`CSPRNG`** | Cryptographically Secure PRNG | Criptografía | Generador aleatorio criptográfico utilizado para crear la clave secreta de 256 bits en `.specify/.sdd_key`. |
+| **`DAG`** | Directed Acyclic Graph | Planificación | Grafo acíclico dirigido que modela las dependencias (`depends_on`) entre funcionalidades en `feature_list.json`. |
+| **`Design Tokens`** | `.specify/design-system/design-tokens.json` | UI/UX | Variables atómicas de color, tipografía y espaciado validadas con contraste matemático WCAG 2.1 AA ($\ge 4.5:1$). |
+| **`Double-Loop TDD`** | Desarrollo Guiado por Pruebas de Doble Bucle | Calidad | Bucle externo de pruebas de aceptación BDD combinado con bucle interno de pruebas unitarias de dominio. |
+| **`EARS`** | Easy Approach to Requirements Syntax | Requisitos | Sintaxis formal de 5 cláusulas (`Ubiquitous`, `Event-driven`, `State-driven`, `Optional`, `Unwanted`) libre de ambigüedades. |
+| **`El Auditor Nónuplo`** | `harness/spec-gate.ps1` | Calidad | Motor determinista que evalúa la Compuerta 0 (HMAC) más las 9 Compuertas Duras antes de autorizar el cierre. |
+| **`Evidencia Técnica Auditable`** | `progress/compliance_dossier.pdf` | Cumplimiento | Expediente técnico determinista generado para soportar auditorías ISO/IEC 27001, FDA 21 CFR Part 11, SOC 2 e HIPAA. |
+| **`Fail-Closed`** | Denegación por Defecto (`pre-tool-enforce.ps1`) | Seguridad | Política del hook `PreToolUse` que bloquea cualquier escritura en `src/` si falta el sello HMAC o si `plan.md` fue alterado. |
+| **`Fake Test`** | Prueba Falsa o Complaciente | Calidad | Antipatrón (`assert True == True`, cuerpo `pass`, `@skip`) bloqueado físicamente por la Compuerta 5. |
+| **`HITL`** | Human-in-the-Loop | Gobernanza | Principio que exige firma humana explícita (`approved_by`, `approved_at`) y prohíbe la auto-aprobación por agentes de IA. |
+| **`HMAC-SHA256`** | Hash-based Message Authentication Code | Criptografía | Algoritmo criptográfico simétrico (RFC 2104) con clave de 256 bits que protege la tríada documental contra adulteraciones. |
+| **`k6 Benchmark`** | `tests/performance/k6_benchmark.js` | Rendimiento | Script declarativo de pruebas de carga que audita latencias $P_{95} \le 200\text{ ms}$, $P_{99} \le 500\text{ ms}$ y tasa de error $0\%$. |
+| **`SAST`** | Static Application Security Testing | Seguridad | Escaneo estático de código fuente (`verify-security.ps1`) para detectar inyecciones OWASP y secretos expuestos. |
+| **`SKIPPED_LOCAL`** | Omisión Local Transparente (Gate 9) | Rendimiento | Estado reportado cuando el binario `k6` no está instalado localmente, validando el contrato y delegando la medición activa a CI/CD. |
+| **`Spec Drift`** | Deriva de Alcance | Gobernanza | Modificación de archivos fuera de la lista `Allowed Files` o adición de código no respaldado por `spec.md`. |
+| **`Spec Tampering`** | Adulteración de Especificación o Plan | Criptografía | Modificación no autorizada de `spec.md`, `scenarios.feature` o `plan.md` posterior al sellado HMAC; bloquea Gate 0. |
+| **`STRIDE`** | Modelo de Amenazas de 6 Vectores | Seguridad | Análisis obligatorio en `plan.md` (*Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation of Privilege*). |
+| **`TopoSort`** | Ordenamiento Topológico | Observabilidad | Algoritmo que ordena linealmente el grafo DAG en el Cockpit Web Dashboard (`progress/sdd_dashboard.html`). |
+| **`Tríada Letal`** | Lethal Triad | Seguridad | Confluencia de alto riesgo en un mismo módulo: *Datos Sensibles + Entrada Externa No Confiable + Salida a Red*. |

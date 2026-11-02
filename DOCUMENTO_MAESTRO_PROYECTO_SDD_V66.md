@@ -1180,37 +1180,74 @@ python -m py_compile .\setup-sdd-project-v66.py
 ### Categoría 5: El Auditor Nónuplo y Calidad Determinista
 23. **El Auditor Nónuplo (`harness/spec-gate.ps1`):** Motor central de verificación que ejecuta la Compuerta 0 más las 9 Compuertas Duras antes de permitir el cierre de cualquier funcionalidad.
 24. **Hard Gate (Compuerta Dura):** Control automatizado determinista cuyo fallo interrumpe inmediatamente el flujo con código de salida distinto de cero (`EXIT 1`).
-25. **Fake Test (Prueba Falsa):** Antipatrónde prueba generado para inflar artificialmente la cobertura (ej. `assert True == True`, cuerpo `pass`, o `@skip`), detectado y bloqueado por la Aduana 5.
+25. **Fake Test (Prueba Falsa):** Antipatrón de prueba generado para inflar artificialmente la cobertura (ej. `assert True == True`, cuerpo `pass`, o `@skip`), detectado y bloqueado por la Aduana 5.
 26. **Matriz de Trazabilidad Bidireccional (`docs/traceability_<id>.md`):** Tabla autogenerada que enlaza hacia adelante y hacia atrás cada requisito EARS con su escenario Gherkin, su prueba automatizada y su archivo de código fuente.
+27. **Pester 6 Governance Suite (`tests/v66-governance.Tests.ps1`):** Suite de pruebas automatizadas de integración que verifica el correcto funcionamiento de los controles criptográficos, anti-drift y políglotas del propio framework SDD v6.6.
+28. **PSScriptAnalyzer (Auditoría AST):** Analizador estático del Árbol de Sintaxis Abstracta de PowerShell utilizado para certificar cero errores sintácticos o de seguridad en los scripts del arnés.
 
 ### Categoría 6: Ciberseguridad Defensiva y Modelado de Amenazas
-27. **Modelo STRIDE:** Metodología de análisis de amenazas que evalúa seis categorías de riesgo en `plan.md`: *Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service* y *Elevation of Privilege*.
-28. **Tríada Letal (*Lethal Triad*):** Condición de riesgo crítico que ocurre cuando un mismo componente combina acceso a datos confidenciales, procesamiento de entrada externa no confiable y capacidad de comunicación hacia redes externas.
-29. **Frontera de Confianza (`Trust Boundary ‖`):** Punto arquitectónico donde los datos cruzan entre zonas con distinto nivel de privilegio y donde es obligatorio aplicar validación de esquemas, sanitización y autenticación.
-30. **SAST (*Static Application Security Testing*):** Inspección estática del código fuente ejecutada por `verify-security.ps1` para descubrir vulnerabilidades OWASP Top 10 sin necesidad de ejecutar el binario.
-31. **Secret Scanning:** Detección automatizada de credenciales hardcodeadas, tokens de API, cadenas de conexión o llaves privadas RSA/SSH en el repositorio.
+29. **Modelo STRIDE:** Metodología de análisis de amenazas que evalúa seis categorías de riesgo en `plan.md`: *Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service* y *Elevation of Privilege*.
+30. **Tríada Letal (*Lethal Triad*):** Condición de riesgo crítico que ocurre cuando un mismo componente combina acceso a datos confidenciales, procesamiento de entrada externa no confiable y capacidad de comunicación hacia redes externas.
+31. **Frontera de Confianza (`Trust Boundary ‖`):** Punto arquitectónico donde los datos cruzan entre zonas con distinto nivel de privilegio y donde es obligatorio aplicar validación de esquemas, sanitización y autenticación.
+32. **SAST (*Static Application Security Testing*):** Inspección estática del código fuente ejecutada por `verify-security.ps1` para descubrir vulnerabilidades OWASP Top 10 sin necesidad de ejecutar el binario.
+33. **Secret Scanning:** Detección automatizada de credenciales hardcodeadas, tokens de API, cadenas de conexión o llaves privadas RSA/SSH en el repositorio.
+34. **CSPRNG (*Cryptographically Secure Pseudo-Random Number Generator*):** Generador de números pseudoaleatorios criptográficamente seguro (`RandomNumberGenerator`) utilizado en SDD v6.6 para crear la llave de 256 bits en `.specify/.sdd_key`.
 
 ### Categoría 7: Accesibilidad Matemática y Diseño UI/UX
-32. **Design Tokens (`design-tokens.json`):** Variables semánticas centralizadas (paleta de colores, radios, sombras, tipografías) que prohíben el uso de valores literales dispersos en el código de interfaz.
-33. **Magic Hex Code:** Mala práctica consistente en incrustar códigos de color hexadecimales crudos (como `#FF5733`) en vistas o hojas de estilo en lugar de referenciar tokens semánticos; bloqueada por la Aduana 7.
-34. **Luminancia Relativa ($L$) y Ratio WCAG 2.1 AA:** Medida fotométrica estandarizada por el W3C utilizada por el arnés para verificar matemáticamente que el contraste entre texto y fondo sea al menos de $4.5:1$.
-35. **Regla de los 5 Estados Visuales:** Obligación de diseñar y soportar explícitamente los estados *Default, Hover/Focus, Loading (Skeleton/Spinner), Empty State* y *Error State* en toda vista interactiva.
+35. **Design Tokens (`design-tokens.json`):** Variables semánticas centralizadas (paleta de colores, radios, sombras, tipografías) que prohíben el uso de valores literales dispersos en el código de interfaz.
+36. **Magic Hex Code:** Mala práctica consistente en incrustar códigos de color hexadecimales crudos (como `#FF5733`) en vistas o hojas de estilo en lugar de referenciar tokens semánticos; bloqueada por la Aduana 7.
+37. **Luminancia Relativa ($L$) y Ratio WCAG 2.1 AA:** Medida fotométrica estandarizada por el W3C utilizada por el arnés para verificar matemáticamente que el contraste entre texto y fondo sea al menos de $4.5:1$.
+38. **Regla de los 5 Estados Visuales:** Obligación de diseñar y soportar explícitamente los estados *Default, Hover/Focus, Loading (Skeleton/Spinner), Empty State* y *Error State* en toda vista interactiva.
 
 ### Categoría 8: Rendimiento, Resiliencia y SLAs (Pilar 9)
-36. **Percentil 95 ($P_{95}$) y Percentil 99 ($P_{99}$):** Indicadores estadísticos de latencia que exigen que el 95% y el 99% de las peticiones bajo carga concurrente respondan en menos de $200\text{ ms}$ y $500\text{ ms}$ respectivamente.
-37. **Benchmark Declarativo k6 (`tests/performance/k6_benchmark.js`):** Script de prueba de carga que codifica en código los umbrales de nivel de servicio (*Thresholds*) auditados por la Aduana 9.
-38. **Estado `SKIPPED_LOCAL` (Sinceramiento v6.6):** Estado formal emitido en `progress/performance_report.json` cuando el binario `k6` no se encuentra instalado en la estación de desarrollo local, validando estáticamente el contrato pero dejando constancia explícita (`sla_certified: false`) de que la prueba de estrés activa debe ejecutarse en el runner de CI/CD.
+39. **Percentil 95 ($P_{95}$) y Percentil 99 ($P_{99}$):** Indicadores estadísticos de latencia que exigen que el 95% y el 99% de las peticiones bajo carga concurrente respondan en menos de $200\text{ ms}$ y $500\text{ ms}$ respectivamente.
+40. **Benchmark Declarativo k6 (`tests/performance/k6_benchmark.js`):** Script de prueba de carga que codifica en código los umbrales de nivel de servicio (*Thresholds*) auditados por la Aduana 9.
+41. **Estado `SKIPPED_LOCAL` (Sinceramiento v6.6):** Estado formal emitido en `progress/performance_report.json` cuando el binario `k6` no se encuentra instalado en la estación de desarrollo local, validando estáticamente el contrato pero dejando constancia explícita (`sla_certified: false`) de que la prueba de estrés activa debe ejecutarse en el runner de CI/CD.
 
 ### Categoría 9: Observabilidad, Grafos DAG y Gobernanza Agéntica
-39. **DAG (*Directed Acyclic Graph* / Grafo Acíclico Dirigido):** Estructura matemática sin ciclos que modela las dependencias entre funcionalidades (`depends_on`) en `feature_list.json`.
-40. **Ordenamiento Topológico (*TopoSort*):** Algoritmo linealizador aplicado por `dashboard.ps1` sobre el DAG del backlog para determinar la secuencia válida de ejecución de funcionalidades.
-41. **Interceptor Fail-Closed (`pre-tool-enforce.ps1`):** Guardia de seguridad que ante cualquier duda, ausencia de configuración o discrepancia en el sello HMAC deniega por defecto (`decision: "deny"`) la operación de escritura del agente.
-42. **Skill Canónica (`SKILL.md`):** Unidad modular de conocimiento e instrucciones operativas alojada en `.agents/skills/` que especializa el comportamiento del agente de IA para una tarea acotada del ciclo de vida.
+42. **DAG (*Directed Acyclic Graph* / Grafo Acíclico Dirigido):** Estructura matemática sin ciclos que modela las dependencias entre funcionalidades (`depends_on`) en `feature_list.json`.
+43. **Ordenamiento Topológico (*TopoSort*):** Algoritmo linealizador aplicado por `dashboard.ps1` sobre el DAG del backlog para determinar la secuencia válida de ejecución de funcionalidades.
+44. **Interceptor Fail-Closed (`pre-tool-enforce.ps1`):** Guardia de seguridad que ante cualquier duda, ausencia de configuración o discrepancia en el sello HMAC deniega por defecto (`decision: "deny"`) la operación de escritura del agente.
+45. **Skill Canónica (`SKILL.md`):** Unidad modular de conocimiento e instrucciones operativas alojada en `.agents/skills/` que especializa el comportamiento del agente de IA para una tarea acotada del ciclo de vida.
+46. **Modo Desatendido (`-DestinationPath` / `-NoAutoLaunch`):** Configuración de inicialización no interactiva incorporada en v6.6 para permitir la ejecución automatizada en pipelines CI/CD y suites de prueba sin bloquear la consola.
 
 ### Categoría 10: Cumplimiento y Evidencia Regulatoria (Pilar 10)
-43. **Evidencia Técnica Auditable:** Conjunto de registros deterministas, trazas de pruebas, análisis SAST y firmas HMAC-SHA256 generados por el arnés que sirven como sustento probatorio objetivo ante auditores internos o externos.
-44. **Dossier de Cumplimiento (`progress/compliance_dossier.pdf`):** Expediente ejecutivo en formato PDF vectorial compilado automáticamente por `export-compliance.ps1`.
-45. **Motor Chromium Headless:** Mecanismo de renderizado sin interfaz gráfica que utiliza Microsoft Edge o Google Chrome para transformar el expediente HTML5 (`@media print`) en un archivo PDF paginado de alta fidelidad.
+47. **Evidencia Técnica Auditable:** Conjunto de registros deterministas, trazas de pruebas, análisis SAST y firmas HMAC-SHA256 generados por el arnés que sirven como sustento probatorio objetivo ante auditores internos o externos.
+48. **Dossier de Cumplimiento (`progress/compliance_dossier.pdf`):** Expediente ejecutivo en formato PDF vectorial compilado automáticamente por `export-compliance.ps1`.
+49. **Motor Chromium Headless:** Mecanismo de renderizado sin interfaz gráfica que utiliza Microsoft Edge o Google Chrome para transformar el expediente HTML5 (`@media print`) en un archivo PDF paginado de alta fidelidad.
+50. **RFC de Especificación (`sdd-change-spec`):** Solicitud formal de cambio sobre una especificación previamente sellada que invalida el candado vigente y exige una nueva revisión y firma HITL antes de modificar el código.
+
+---
+
+### 13.1. Tabla de Referencia Rápida de Siglas, Acrónimos y Artefactos (A–Z)
+
+| Término / Sigla | Nombre Completo / Ruta | Categoría | Función Esencial en SDD v6.6 |
+| :--- | :--- | :--- | :--- |
+| **`AC-x.x`** | Acceptance Criterion | Requisitos | Identificador de criterio de aceptación en `spec.md` con paridad 1:1 en Gherkin (`@AC-x.x`). |
+| **`Allowed Files`** | Lista Blanca de Archivos Permitidos | Gobernanza | Perímetro cerrado de archivos autorizados en `plan.md`; auditado en Gate 1 y `PreToolUse`. |
+| **`approval_hash`** | Sello Criptográfico de Aprobación | Criptografía | Código `HMAC-SHA256` calculado sobre `spec.md + scenarios.feature + plan.md`. |
+| **`AST`** | Abstract Syntax Tree | Calidad | Árbol sintáctico inspeccionado para validar pureza de capas y scripts PowerShell. |
+| **`BDD`** | Behavior-Driven Development | Metodología | Especificación ejecutable mediante escenarios `Given-When-Then` en `scenarios.feature`. |
+| **`CHECKPOINTS.md`** | Bitácora Inmutable de Firmas | Auditoría | Registro histórico cronológico de sellos HMAC, cierres e identidad de firmantes. |
+| **`completion_hash`** | Sello Criptográfico de Cierre | Criptografía | Hash definitivo emitido tras superar las 9+1 compuertas de `spec-gate.ps1`. |
+| **`CSPRNG`** | Cryptographically Secure PRNG | Criptografía | Generador aleatorio seguro con el que se crea la clave de 256 bits en `.specify/.sdd_key`. |
+| **`CVE`** | Common Vulnerabilities and Exposures | Seguridad | Vulnerabilidades públicas en librerías de terceros auditadas en la Compuerta 8. |
+| **`DAG`** | Directed Acyclic Graph | Planificación | Grafo acíclico de dependencias (`depends_on`) entre funcionalidades en `feature_list.json`. |
+| **`DIP`** | Dependency Inversion Principle | Arquitectura | Principio SOLID que asegura que el dominio y la aplicación no dependan de infraestructura. |
+| **`EARS`** | Easy Approach to Requirements Syntax | Requisitos | Gramática formal de 5 cláusulas (`Ubiquitous`, `Event-driven`, `State-driven`, `Optional`, `Unwanted`). |
+| **`FDA 21 CFR Part 11`** | Electronic Records; Electronic Signatures | Regulación | Normativa de firmas electrónicas y bitácoras de auditoría soportada por los metadatos HITL. |
+| **`Fail-Closed`** | Fallo Cerrado / Denegación por Defecto | Seguridad | Política del hook `PreToolUse` que bloquea escrituras en `src/` ante cualquier anomalía. |
+| **`HITL`** | Human-in-the-Loop | Gobernanza | Obligación de revisión y firma humana explícita (`approved_by`), prohibiendo auto-aprobación IA. |
+| **`HMAC-SHA256`** | Hash-based Message Authentication Code | Criptografía | Algoritmo de firma con clave secreta de 256 bits implementado en SDD v6.6 (RFC 2104). |
+| **`ISO/IEC 25010`** | Systems and Software Quality Models | Calidad | Estándar internacional de calidad de software (mantenibilidad, seguridad y eficiencia). |
+| **`ISO/IEC 27001`** | Information Security Management | Regulación | Estándar de seguridad de la información cuyos controles A.8.25, A.8.28 y A.8.32 soporta SDD. |
+| **`k6`** | Grafana k6 Load Testing Engine | Rendimiento | Motor de pruebas de carga que valida umbrales SLA ($P_{95} \le 200\text{ ms}$) en la Compuerta 9. |
+| **`SAST`** | Static Application Security Testing | Seguridad | Análisis estático de código fuente contra inyecciones OWASP ejecutado por `verify-security.ps1`. |
+| **`SKIPPED_LOCAL`** | Estado de Omisión Local Transparente | Rendimiento | Estado reportado en v6.6 cuando `k6` no está instalado localmente, delegando la carga a CI/CD. |
+| **`SOC 2 Type II`** | System and Organization Controls 2 | Regulación | Marco AICPA de controles de integridad del procesamiento y gestión de cambios auditables. |
+| **`STRIDE`** | Spoofing, Tampering, Repudiation, Info Disclosure, DoS, EoP | Seguridad | Metodología de modelado de amenazas obligatoria dentro de cada `plan.md`. |
+| **`TopoSort`** | Topological Sorting | Observabilidad | Algoritmo que ordena linealmente el grafo DAG en el Cockpit Web Dashboard. |
+| **`WCAG 2.1 AA`** | Web Content Accessibility Guidelines | UI/UX | Estándar de accesibilidad cuyo ratio mínimo de contraste ($4.5:1$) audita la Compuerta 7. |
 
 ---
 

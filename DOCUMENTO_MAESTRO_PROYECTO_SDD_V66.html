@@ -261,7 +261,7 @@
         <div class="header-banner">
             <div class="badge">WHITE PAPER OFICIAL &bull; SDD FRAMEWORK v6.6 HARDENED EDITION</div>
             <h1>LIBRO BLANCO Y DOCUMENTO MAESTRO: SDD v6.6</h1>
-            <p>Specification-Driven Development &mdash; Gobernanza Criptográfica HMAC-SHA256, Clean Architecture Políglota, El Auditor Nónuplo (9+1 Hard Gates) y Soporte de Evidencia Técnica Auditable</p>
+            <p>Specification-Driven Development &mdash; Gobernanza Criptográfica HMAC-SHA256, Clean Architecture Políglota, El Auditor Nónuplo (9+1 Hard Gates), Glosario de 50 Términos y Soporte de Evidencia Técnica Auditable</p>
         </div>
         <h1 id="libro-blanco-y-documento-maestro-framework-sdd-v66">LIBRO BLANCO Y DOCUMENTO MAESTRO: FRAMEWORK SDD v6.6</h1>
 <h2 id="specification-driven-development-enterprise-regulatory-hardened-compliance-audit-edition">Specification-Driven Development (Enterprise Regulatory Hardened &amp; Compliance Audit Edition)</h2>
@@ -2116,43 +2116,212 @@ python -m py_compile .\setup-sdd-project-v66.py
 <ol start="23">
 <li><strong>El Auditor Nónuplo (<code>harness/spec-gate.ps1</code>):</strong> Motor central de verificación que ejecuta la Compuerta 0 más las 9 Compuertas Duras antes de permitir el cierre de cualquier funcionalidad.</li>
 <li><strong>Hard Gate (Compuerta Dura):</strong> Control automatizado determinista cuyo fallo interrumpe inmediatamente el flujo con código de salida distinto de cero (<code>EXIT 1</code>).</li>
-<li><strong>Fake Test (Prueba Falsa):</strong> Antipatrónde prueba generado para inflar artificialmente la cobertura (ej. <code>assert True == True</code>, cuerpo <code>pass</code>, o <code>@skip</code>), detectado y bloqueado por la Aduana 5.</li>
+<li><strong>Fake Test (Prueba Falsa):</strong> Antipatrón de prueba generado para inflar artificialmente la cobertura (ej. <code>assert True == True</code>, cuerpo <code>pass</code>, o <code>@skip</code>), detectado y bloqueado por la Aduana 5.</li>
 <li><strong>Matriz de Trazabilidad Bidireccional (<code>docs/traceability_&lt;id&gt;.md</code>):</strong> Tabla autogenerada que enlaza hacia adelante y hacia atrás cada requisito EARS con su escenario Gherkin, su prueba automatizada y su archivo de código fuente.</li>
+<li><strong>Pester 6 Governance Suite (<code>tests/v66-governance.Tests.ps1</code>):</strong> Suite de pruebas automatizadas de integración que verifica el correcto funcionamiento de los controles criptográficos, anti-drift y políglotas del propio framework SDD v6.6.</li>
+<li><strong>PSScriptAnalyzer (Auditoría AST):</strong> Analizador estático del Árbol de Sintaxis Abstracta de PowerShell utilizado para certificar cero errores sintácticos o de seguridad en los scripts del arnés.</li>
 </ol>
 <h3 id="categoria-6-ciberseguridad-defensiva-y-modelado-de-amenazas">Categoría 6: Ciberseguridad Defensiva y Modelado de Amenazas</h3>
-<ol start="27">
+<ol start="29">
 <li><strong>Modelo STRIDE:</strong> Metodología de análisis de amenazas que evalúa seis categorías de riesgo en <code>plan.md</code>: <em>Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service</em> y <em>Elevation of Privilege</em>.</li>
 <li><strong>Tríada Letal (<em>Lethal Triad</em>):</strong> Condición de riesgo crítico que ocurre cuando un mismo componente combina acceso a datos confidenciales, procesamiento de entrada externa no confiable y capacidad de comunicación hacia redes externas.</li>
 <li><strong>Frontera de Confianza (<code>Trust Boundary ‖</code>):</strong> Punto arquitectónico donde los datos cruzan entre zonas con distinto nivel de privilegio y donde es obligatorio aplicar validación de esquemas, sanitización y autenticación.</li>
 <li><strong>SAST (<em>Static Application Security Testing</em>):</strong> Inspección estática del código fuente ejecutada por <code>verify-security.ps1</code> para descubrir vulnerabilidades OWASP Top 10 sin necesidad de ejecutar el binario.</li>
 <li><strong>Secret Scanning:</strong> Detección automatizada de credenciales hardcodeadas, tokens de API, cadenas de conexión o llaves privadas RSA/SSH en el repositorio.</li>
+<li><strong>CSPRNG (<em>Cryptographically Secure Pseudo-Random Number Generator</em>):</strong> Generador de números pseudoaleatorios criptográficamente seguro (<code>RandomNumberGenerator</code>) utilizado en SDD v6.6 para crear la llave de 256 bits en <code>.specify/.sdd_key</code>.</li>
 </ol>
 <h3 id="categoria-7-accesibilidad-matematica-y-diseno-uiux">Categoría 7: Accesibilidad Matemática y Diseño UI/UX</h3>
-<ol start="32">
+<ol start="35">
 <li><strong>Design Tokens (<code>design-tokens.json</code>):</strong> Variables semánticas centralizadas (paleta de colores, radios, sombras, tipografías) que prohíben el uso de valores literales dispersos en el código de interfaz.</li>
 <li><strong>Magic Hex Code:</strong> Mala práctica consistente en incrustar códigos de color hexadecimales crudos (como <code>#FF5733</code>) en vistas o hojas de estilo en lugar de referenciar tokens semánticos; bloqueada por la Aduana 7.</li>
 <li><strong>Luminancia Relativa (\(L\)) y Ratio WCAG 2.1 AA:</strong> Medida fotométrica estandarizada por el W3C utilizada por el arnés para verificar matemáticamente que el contraste entre texto y fondo sea al menos de \(4.5:1\).</li>
 <li><strong>Regla de los 5 Estados Visuales:</strong> Obligación de diseñar y soportar explícitamente los estados <em>Default, Hover/Focus, Loading (Skeleton/Spinner), Empty State</em> y <em>Error State</em> en toda vista interactiva.</li>
 </ol>
 <h3 id="categoria-8-rendimiento-resiliencia-y-slas-pilar-9">Categoría 8: Rendimiento, Resiliencia y SLAs (Pilar 9)</h3>
-<ol start="36">
+<ol start="39">
 <li><strong>Percentil 95 (\(P_{95}\)) y Percentil 99 (\(P_{99}\)):</strong> Indicadores estadísticos de latencia que exigen que el 95% y el 99% de las peticiones bajo carga concurrente respondan en menos de \(200\text{ ms}\) y \(500\text{ ms}\) respectivamente.</li>
 <li><strong>Benchmark Declarativo k6 (<code>tests/performance/k6_benchmark.js</code>):</strong> Script de prueba de carga que codifica en código los umbrales de nivel de servicio (<em>Thresholds</em>) auditados por la Aduana 9.</li>
 <li><strong>Estado <code>SKIPPED_LOCAL</code> (Sinceramiento v6.6):</strong> Estado formal emitido en <code>progress/performance_report.json</code> cuando el binario <code>k6</code> no se encuentra instalado en la estación de desarrollo local, validando estáticamente el contrato pero dejando constancia explícita (<code>sla_certified: false</code>) de que la prueba de estrés activa debe ejecutarse en el runner de CI/CD.</li>
 </ol>
 <h3 id="categoria-9-observabilidad-grafos-dag-y-gobernanza-agentica">Categoría 9: Observabilidad, Grafos DAG y Gobernanza Agéntica</h3>
-<ol start="39">
+<ol start="42">
 <li><strong>DAG (<em>Directed Acyclic Graph</em> / Grafo Acíclico Dirigido):</strong> Estructura matemática sin ciclos que modela las dependencias entre funcionalidades (<code>depends_on</code>) en <code>feature_list.json</code>.</li>
 <li><strong>Ordenamiento Topológico (<em>TopoSort</em>):</strong> Algoritmo linealizador aplicado por <code>dashboard.ps1</code> sobre el DAG del backlog para determinar la secuencia válida de ejecución de funcionalidades.</li>
 <li><strong>Interceptor Fail-Closed (<code>pre-tool-enforce.ps1</code>):</strong> Guardia de seguridad que ante cualquier duda, ausencia de configuración o discrepancia en el sello HMAC deniega por defecto (<code>decision: "deny"</code>) la operación de escritura del agente.</li>
 <li><strong>Skill Canónica (<code>SKILL.md</code>):</strong> Unidad modular de conocimiento e instrucciones operativas alojada en <code>.agents/skills/</code> que especializa el comportamiento del agente de IA para una tarea acotada del ciclo de vida.</li>
+<li><strong>Modo Desatendido (<code>-DestinationPath</code> / <code>-NoAutoLaunch</code>):</strong> Configuración de inicialización no interactiva incorporada en v6.6 para permitir la ejecución automatizada en pipelines CI/CD y suites de prueba sin bloquear la consola.</li>
 </ol>
 <h3 id="categoria-10-cumplimiento-y-evidencia-regulatoria-pilar-10">Categoría 10: Cumplimiento y Evidencia Regulatoria (Pilar 10)</h3>
-<ol start="43">
+<ol start="47">
 <li><strong>Evidencia Técnica Auditable:</strong> Conjunto de registros deterministas, trazas de pruebas, análisis SAST y firmas HMAC-SHA256 generados por el arnés que sirven como sustento probatorio objetivo ante auditores internos o externos.</li>
 <li><strong>Dossier de Cumplimiento (<code>progress/compliance_dossier.pdf</code>):</strong> Expediente ejecutivo en formato PDF vectorial compilado automáticamente por <code>export-compliance.ps1</code>.</li>
 <li><strong>Motor Chromium Headless:</strong> Mecanismo de renderizado sin interfaz gráfica que utiliza Microsoft Edge o Google Chrome para transformar el expediente HTML5 (<code>@media print</code>) en un archivo PDF paginado de alta fidelidad.</li>
+<li><strong>RFC de Especificación (<code>sdd-change-spec</code>):</strong> Solicitud formal de cambio sobre una especificación previamente sellada que invalida el candado vigente y exige una nueva revisión y firma HITL antes de modificar el código.</li>
 </ol>
+<hr />
+<h3 id="131-tabla-de-referencia-rapida-de-siglas-acronimos-y-artefactos-az">13.1. Tabla de Referencia Rápida de Siglas, Acrónimos y Artefactos (A–Z)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Término / Sigla</th>
+<th style="text-align: left;">Nombre Completo / Ruta</th>
+<th style="text-align: left;">Categoría</th>
+<th style="text-align: left;">Función Esencial en SDD v6.6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong><code>AC-x.x</code></strong></td>
+<td style="text-align: left;">Acceptance Criterion</td>
+<td style="text-align: left;">Requisitos</td>
+<td style="text-align: left;">Identificador de criterio de aceptación en <code>spec.md</code> con paridad 1:1 en Gherkin (<code>@AC-x.x</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Allowed Files</code></strong></td>
+<td style="text-align: left;">Lista Blanca de Archivos Permitidos</td>
+<td style="text-align: left;">Gobernanza</td>
+<td style="text-align: left;">Perímetro cerrado de archivos autorizados en <code>plan.md</code>; auditado en Gate 1 y <code>PreToolUse</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>approval_hash</code></strong></td>
+<td style="text-align: left;">Sello Criptográfico de Aprobación</td>
+<td style="text-align: left;">Criptografía</td>
+<td style="text-align: left;">Código <code>HMAC-SHA256</code> calculado sobre <code>spec.md + scenarios.feature + plan.md</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>AST</code></strong></td>
+<td style="text-align: left;">Abstract Syntax Tree</td>
+<td style="text-align: left;">Calidad</td>
+<td style="text-align: left;">Árbol sintáctico inspeccionado para validar pureza de capas y scripts PowerShell.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>BDD</code></strong></td>
+<td style="text-align: left;">Behavior-Driven Development</td>
+<td style="text-align: left;">Metodología</td>
+<td style="text-align: left;">Especificación ejecutable mediante escenarios <code>Given-When-Then</code> en <code>scenarios.feature</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>CHECKPOINTS.md</code></strong></td>
+<td style="text-align: left;">Bitácora Inmutable de Firmas</td>
+<td style="text-align: left;">Auditoría</td>
+<td style="text-align: left;">Registro histórico cronológico de sellos HMAC, cierres e identidad de firmantes.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>completion_hash</code></strong></td>
+<td style="text-align: left;">Sello Criptográfico de Cierre</td>
+<td style="text-align: left;">Criptografía</td>
+<td style="text-align: left;">Hash definitivo emitido tras superar las 9+1 compuertas de <code>spec-gate.ps1</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>CSPRNG</code></strong></td>
+<td style="text-align: left;">Cryptographically Secure PRNG</td>
+<td style="text-align: left;">Criptografía</td>
+<td style="text-align: left;">Generador aleatorio seguro con el que se crea la clave de 256 bits en <code>.specify/.sdd_key</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>CVE</code></strong></td>
+<td style="text-align: left;">Common Vulnerabilities and Exposures</td>
+<td style="text-align: left;">Seguridad</td>
+<td style="text-align: left;">Vulnerabilidades públicas en librerías de terceros auditadas en la Compuerta 8.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>DAG</code></strong></td>
+<td style="text-align: left;">Directed Acyclic Graph</td>
+<td style="text-align: left;">Planificación</td>
+<td style="text-align: left;">Grafo acíclico de dependencias (<code>depends_on</code>) entre funcionalidades en <code>feature_list.json</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>DIP</code></strong></td>
+<td style="text-align: left;">Dependency Inversion Principle</td>
+<td style="text-align: left;">Arquitectura</td>
+<td style="text-align: left;">Principio SOLID que asegura que el dominio y la aplicación no dependan de infraestructura.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>EARS</code></strong></td>
+<td style="text-align: left;">Easy Approach to Requirements Syntax</td>
+<td style="text-align: left;">Requisitos</td>
+<td style="text-align: left;">Gramática formal de 5 cláusulas (<code>Ubiquitous</code>, <code>Event-driven</code>, <code>State-driven</code>, <code>Optional</code>, <code>Unwanted</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>FDA 21 CFR Part 11</code></strong></td>
+<td style="text-align: left;">Electronic Records; Electronic Signatures</td>
+<td style="text-align: left;">Regulación</td>
+<td style="text-align: left;">Normativa de firmas electrónicas y bitácoras de auditoría soportada por los metadatos HITL.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>Fail-Closed</code></strong></td>
+<td style="text-align: left;">Fallo Cerrado / Denegación por Defecto</td>
+<td style="text-align: left;">Seguridad</td>
+<td style="text-align: left;">Política del hook <code>PreToolUse</code> que bloquea escrituras en <code>src/</code> ante cualquier anomalía.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>HITL</code></strong></td>
+<td style="text-align: left;">Human-in-the-Loop</td>
+<td style="text-align: left;">Gobernanza</td>
+<td style="text-align: left;">Obligación de revisión y firma humana explícita (<code>approved_by</code>), prohibiendo auto-aprobación IA.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>HMAC-SHA256</code></strong></td>
+<td style="text-align: left;">Hash-based Message Authentication Code</td>
+<td style="text-align: left;">Criptografía</td>
+<td style="text-align: left;">Algoritmo de firma con clave secreta de 256 bits implementado en SDD v6.6 (RFC 2104).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>ISO/IEC 25010</code></strong></td>
+<td style="text-align: left;">Systems and Software Quality Models</td>
+<td style="text-align: left;">Calidad</td>
+<td style="text-align: left;">Estándar internacional de calidad de software (mantenibilidad, seguridad y eficiencia).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>ISO/IEC 27001</code></strong></td>
+<td style="text-align: left;">Information Security Management</td>
+<td style="text-align: left;">Regulación</td>
+<td style="text-align: left;">Estándar de seguridad de la información cuyos controles A.8.25, A.8.28 y A.8.32 soporta SDD.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>k6</code></strong></td>
+<td style="text-align: left;">Grafana k6 Load Testing Engine</td>
+<td style="text-align: left;">Rendimiento</td>
+<td style="text-align: left;">Motor de pruebas de carga que valida umbrales SLA (\(P_{95} \le 200\text{ ms}\)) en la Compuerta 9.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>SAST</code></strong></td>
+<td style="text-align: left;">Static Application Security Testing</td>
+<td style="text-align: left;">Seguridad</td>
+<td style="text-align: left;">Análisis estático de código fuente contra inyecciones OWASP ejecutado por <code>verify-security.ps1</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>SKIPPED_LOCAL</code></strong></td>
+<td style="text-align: left;">Estado de Omisión Local Transparente</td>
+<td style="text-align: left;">Rendimiento</td>
+<td style="text-align: left;">Estado reportado en v6.6 cuando <code>k6</code> no está instalado localmente, delegando la carga a CI/CD.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>SOC 2 Type II</code></strong></td>
+<td style="text-align: left;">System and Organization Controls 2</td>
+<td style="text-align: left;">Regulación</td>
+<td style="text-align: left;">Marco AICPA de controles de integridad del procesamiento y gestión de cambios auditables.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>STRIDE</code></strong></td>
+<td style="text-align: left;">Spoofing, Tampering, Repudiation, Info Disclosure, DoS, EoP</td>
+<td style="text-align: left;">Seguridad</td>
+<td style="text-align: left;">Metodología de modelado de amenazas obligatoria dentro de cada <code>plan.md</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>TopoSort</code></strong></td>
+<td style="text-align: left;">Topological Sorting</td>
+<td style="text-align: left;">Observabilidad</td>
+<td style="text-align: left;">Algoritmo que ordena linealmente el grafo DAG en el Cockpit Web Dashboard.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><code>WCAG 2.1 AA</code></strong></td>
+<td style="text-align: left;">Web Content Accessibility Guidelines</td>
+<td style="text-align: left;">UI/UX</td>
+<td style="text-align: left;">Estándar de accesibilidad cuyo ratio mínimo de contraste (\(4.5:1\)) audita la Compuerta 7.</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="14-conclusiones-y-beneficios-estrategicos">14. Conclusiones y Beneficios Estratégicos</h2>
 <p>El <strong>Framework SDD v6.6 (Regulatory &amp; Compliance Hardened Edition)</strong> culmina la evolución desde el uso experimental de asistentes de código hacia una <strong>disciplina de ingeniería de software formal, criptográficamente blindada y lista para el escrutinio regulatorio más riguroso</strong>:</p>
