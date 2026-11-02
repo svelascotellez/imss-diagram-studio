@@ -957,7 +957,7 @@ erDiagram
     }
     APPROVAL_SEAL {
         string approval_hash "HMAC-SHA256 Hex"
-        string approved_by "Nombre <email> HITL"
+        string approved_by "Nombre y correo HITL"
         datetime approved_at "ISO-8601 UTC"
         string algorithm "HMAC-SHA256"
     }
@@ -995,7 +995,7 @@ flowchart TD
     subgraph E3["ESTACIÓN 3: IMPLEMENTACIÓN DISCIPLINADA (DOUBLE-LOOP TDD)"]
         S5["5. Codificación por Capas\n(Domain -> Ports -> App -> Infra -> Presentation)\nProtegida por Hook PreToolUse Fail-Closed"]
         S6["6. Verificación de Seguridad y SLA\n(verify-security.ps1 + verify-performance.ps1)"]
-        S7["7. Guía de Usuario Viva\n(docs/user_guide_<id>.md + fix-markdown)"]
+        S7["7. Guía de Usuario Viva\n(docs/user_guide_[id].md + fix-markdown)"]
     end
 
     subgraph E4["ESTACIÓN 4: AUDITORÍA NÓNUPLA Y EXPEDIENTE"]
@@ -1083,7 +1083,7 @@ flowchart TD
     G4 -->|"No"| FAIL4["EXIT 1: Sello inválido o sin aprobación HITL"]
     G4 -->|"Sí"| G5{"Gate 5: Anti-Fake Tests & Tareas\n¿0 tests vacíos/skip, suite pasa\ny 100% tareas [x] en tasks.md?"}
     G5 -->|"No"| FAIL5["EXIT 1: Fake tests, fallo de test o tareas pendientes"]
-    G5 -->|"Sí"| G6{"Gate 6: Guía de Usuario & Markdown\n¿Existe user_guide_<id>.md con 4 secciones,\n0 placeholders y reglas MD022/MD047?"}
+    G5 -->|"Sí"| G6{"Gate 6: Guía de Usuario & Markdown\n¿Existe user_guide_[id].md con 4 secciones,\n0 placeholders y reglas MD022/MD047?"}
     G6 -->|"No"| FAIL6["EXIT 1: Documentación de usuario incompleta"]
     G6 -->|"Sí"| G7{"Gate 7: UI/UX Pro Max & WCAG 2.1 AA\n¿0 magic hex codes, 5 estados UI\ny contraste >= 4.5:1?"}
     G7 -->|"No"| FAIL7["EXIT 1: Violación de tokens o accesibilidad WCAG"]
@@ -1254,7 +1254,7 @@ flowchart TD
     SRC -->|"No (ej. specs/ o docs/)"| ALLOW_DOC["DECISION: ALLOW\nEdición documental permitida"]
     SRC -->|"Sí (Código de Producción)"| FLIST{"¿Existe feature_list.json y\nfeature activa in_progress\ncon approval_hash?"}
     FLIST -->|"No"| DENY_NO_SEAL["DECISION: DENY\nFalta aprobación HITL y sello HMAC"]
-    FLIST -->|"Sí"| PLAN{"¿Existe specs/<id>/plan.md?"}
+    FLIST -->|"Sí"| PLAN{"¿Existe specs/[id]/plan.md?"}
     PLAN -->|"No"| DENY_NO_PLAN["DECISION: DENY\nFalta plan arquitectónico"]
     PLAN -->|"Sí"| HMAC{"Recalcula HMAC-SHA256(spec+feature+plan)\n¿Coincide con approval_hash?"}
     HMAC -->|"No"| DENY_TAMPER["DECISION: DENY\nSpec o Plan adulterado (Tampering)"]
