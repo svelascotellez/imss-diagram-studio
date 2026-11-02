@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gobernanza de Desarrollo con IA — DIDT IMSS (SDD v6.0 Enterprise Security Edition)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .slide-fade {
+      animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    pre, code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  </style>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2 sm:p-4 select-none">
+
+  <!-- Main Presentation Container -->
+  <div class="max-w-5xl mx-auto bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl shadow-2xl overflow-hidden flex flex-col min-h-[620px]">
+    
+    <!-- Top Bar: Header & Indicator -->
+    <div class="px-6 py-4 border-b border-[var(--border)] bg-[var(--sidebar)] flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-700 via-emerald-600 to-teal-500 flex items-center justify-center text-white font-black text-sm shadow-md">
+          IMSS
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm font-bold text-[var(--foreground)] tracking-tight">DIDT • IMSS</h1>
+            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              Marco de Gobernanza SDD v6.0
+            </span>
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-500 border border-rose-500/20">
+              Enterprise Security
+            </span>
+          </div>
+          <p class="text-xs text-[var(--muted-foreground)]">Dirección de Innovación y Desarrollo Tecnológico — Instituto Mexicano del Seguro Social</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <span id="slideCounter" class="text-xs font-semibold px-3 py-1 rounded-full bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]">
+          1 / 9
+        </span>
+      </div>
+    </div>
+
+    <!-- Progress Indicator Bar -->
+    <div class="w-full bg-[var(--background)] h-1.5 overflow-hidden">
+      <div id="progressBar" class="bg-gradient-to-r from-emerald-600 via-teal-500 to-blue-600 h-1.5 transition-all duration-300 ease-out" style="width: 11.1%;"></div>
+    </div>
+
+    <!-- Slide Content Area -->
+    <div class="flex-1 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto">
+      <div id="slideContent" class="slide-fade">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+
+    <!-- Bottom Navigation Controls -->
+    <div class="px-6 py-4 border-t border-[var(--border)] bg-[var(--sidebar)] flex items-center justify-between gap-4">
+      <button id="prevBtn" onclick="prevSlide()" class="px-4 py-2 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--background)] text-xs font-semibold text-[var(--foreground)] transition-all flex items-center gap-2 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed">
+        <span>←</span> Anterior
+      </button>
+
+      <!-- Dots Matrix -->
+      <div id="dotsContainer" class="flex items-center gap-2 overflow-x-auto py-1">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <button id="nextBtn" onclick="nextSlide()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white shadow-md hover:shadow-emerald-500/25 transition-all flex items-center gap-2 cursor-pointer">
+        Siguiente <span>→</span>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    const slides = [
+      {
+        tag: "VISIÓN INSTITUCIONAL",
+        tagColor: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+        title: "Innovación Tecnológica Acelerada con Rigor de Estado",
+        subtitle: "Marco de Gobernanza y Ciberseguridad para el Desarrollo con IA en el IMSS (SDD v6.0)",
+        html: `
+          <div class="space-y-4 my-2">
+            <div class="p-5 rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 via-teal-500/5 to-transparent">
+              <div class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider mb-2">
+                <span>🏛️</span> Propósito Estratégico de la DIDT
+              </div>
+              <p class="text-xs sm:text-sm text-[var(--foreground)] leading-relaxed">
+                Adoptar el potencial acelerador de la Inteligencia Artificial en el desarrollo de los sistemas del IMSS, garantizando <strong>cero tolerancia a fallos en producción, trazabilidad total ante órganos de fiscalización (OIC / ASF), protección rigurosa de datos personales de salud (NOM-024 / LGPDPPSO) y máxima accesibilidad ciudadana</strong>.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <div class="font-bold text-[var(--foreground)] mb-1 flex items-center gap-1.5">
+                  <span class="text-emerald-500">🛡️</span> Misión Crítica
+                </div>
+                <p class="text-[var(--muted-foreground)]">Sistemas que sustentan consultas médicas, recetas electrónicas, pensiones y recaudación para más de 70 millones de derechohabientes.</p>
+              </div>
+
+              <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <div class="font-bold text-[var(--foreground)] mb-1 flex items-center gap-1.5">
+                  <span class="text-blue-500">🔒</span> Criptografía y Control
+                </div>
+                <p class="text-[var(--muted-foreground)]">Firma digital SHA-256 obligatoria por personal institucional antes de autorizar cualquier línea de código generada.</p>
+              </div>
+
+              <div class="p-3.5 rounded-xl border border-rose-500/30 bg-rose-500/5">
+                <div class="font-bold text-rose-500 mb-1 flex items-center gap-1.5">
+                  <span>🚨</span> Ciberseguridad Activa (v6.0)
+                </div>
+                <p class="text-[var(--muted-foreground)]">Modelado STRIDE, detección de la tríada letal, escaneo automático de secretos y análisis estático SAST.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "EL RETO DEL IMSS",
+        tagColor: "bg-red-500/10 text-red-500 border-red-500/20",
+        title: "El Desafío de la DIDT en Sistemas de Misión Crítica",
+        subtitle: "¿Por qué el uso libre y descontrolado de Inteligencia Artificial es inviable en el IMSS?",
+        html: `
+          <div class="space-y-4 my-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div class="p-4 rounded-xl border border-red-500/20 bg-red-500/5">
+                <h4 class="font-bold text-red-500 mb-2 flex items-center gap-1.5 text-xs">
+                  <span>⚠️</span> Los Riesgos de la IA sin Gobernanza
+                </h4>
+                <ul class="text-[var(--muted-foreground)] space-y-2 list-disc list-inside">
+                  <li><strong>Spec Drift:</strong> La IA añade o modifica lógica no contemplada en las reglas de negocio institucionales.</li>
+                  <li><strong>Falta de Trazabilidad:</strong> Imposible justificar ante el OIC o la ASF qué cambió y quién lo autorizó.</li>
+                  <li><strong>Vulnerabilidades OWASP:</strong> Concatenación de consultas SQL en expedientes clínicos y llaves expuestas.</li>
+                  <li><strong>Pruebas Falsas (Fake Tests):</strong> Tests simulados con <code class="text-xs">pass</code> que dan falsos verdes.</li>
+                </ul>
+              </div>
+
+              <div class="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5">
+                <h4 class="font-bold text-emerald-600 dark:text-emerald-400 mb-2 flex items-center gap-1.5 text-xs">
+                  <span>✅</span> La Solución Institucional SDD v6.0
+                </h4>
+                <ul class="text-[var(--muted-foreground)] space-y-2 list-disc list-inside">
+                  <li><strong>Lista Blanca Estricta:</strong> La IA solo tiene permiso para tocar archivos explícitamente autorizados.</li>
+                  <li><strong>Candado Criptográfico:</strong> Requisitos inalterables firmados con SHA-256 por el personal técnico.</li>
+                  <li><strong>Blindaje de Seguridad Activo:</strong> Compuerta automática que bloquea vulnerabilidades OWASP y CVEs.</li>
+                  <li><strong>Auditor Óctuple:</strong> 8 compuertas duras automatizadas que deben superarse al 100%.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)] flex items-center gap-3 text-xs">
+              <span class="text-xl">🩺</span>
+              <p class="text-[var(--foreground)]">
+                <strong>Impacto Directo:</strong> En el IMSS, un fallo de software o una fuga de datos puede comprometer un tratamiento médico o vulnerar datos sensibles protegidos por la Ley General de Protección de Datos Personales.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "LOS 6 PILARES",
+        tagColor: "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20",
+        title: "La Respuesta Institucional: Framework SDD v6.0",
+        subtitle: "6 Pilares de ingeniería determinista para el desarrollo en el sector público",
+        html: `
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 my-2 text-xs">
+            <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold mb-2">1</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">Spec-First & Anti-Drift</h4>
+              <p class="text-[var(--muted-foreground)]">Cero código sin especificación formal previa aprobada. La IA tiene un perímetro cerrado.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center font-bold mb-2">2</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">BDD Bidireccional</h4>
+              <p class="text-[var(--muted-foreground)]">Criterios funcionales EARS vinculados 1:1 con escenarios de pruebas Gherkin automatizadas.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center font-bold mb-2">3</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">Clean Arch Políglota</h4>
+              <p class="text-[var(--muted-foreground)]">Desacoplamiento total de la lógica clínica institucional. Soporte para Spring Boot Java 21, Angular 21, .NET, etc.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="w-7 h-7 rounded-lg bg-pink-500/10 text-pink-500 flex items-center justify-center font-bold mb-2">4</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">UI/UX Accesible (WCAG AA)</h4>
+              <p class="text-[var(--muted-foreground)]">Contraste cromático verificado por algoritmo ($\ge 4.5:1$) para adultos mayores y derechohabiencia general.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold mb-2">5</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">Candado Criptográfico & DAG</h4>
+              <p class="text-[var(--muted-foreground)]">Sello SHA-256 humano inalterable y grafo acíclico de dependencias que previene cuellos de botella.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-rose-500/30 bg-rose-500/5">
+              <div class="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-500 flex items-center justify-center font-bold mb-2">6</div>
+              <h4 class="font-bold text-rose-500 mb-1">Ciberseguridad OWASP (NUEVO)</h4>
+              <p class="text-[var(--muted-foreground)]">Modelado STRIDE, protección de datos sensibles (NOM-024) y escáner automático de secretos y dependencias.</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "FISCALIZACIÓN Y AUDITORÍA",
+        tagColor: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+        title: "Transparencia Criptográfica Total para OIC y ASF",
+        subtitle: "Evidencia documental inmutable generada automáticamente para auditorías",
+        html: `
+          <div class="space-y-3 my-2 text-xs">
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <h4 class="font-bold text-[var(--foreground)] mb-2 flex items-center gap-1.5">
+                <span class="text-blue-500">🔗</span> La Cadena de Trazabilidad Institucional
+              </h4>
+              <p class="text-[var(--muted-foreground)] mb-3 leading-relaxed">
+                Cada desarrollo genera una matriz bidireccional continua que permite auditar en segundos el origen de cualquier línea de código:
+              </p>
+              <div class="p-3 rounded-lg border border-blue-500/20 bg-blue-500/5 text-center font-mono text-xs text-blue-600 dark:text-blue-400 font-bold overflow-x-auto">
+                Normativa IMSS ➔ Requisito EARS (AC-x.x) ➔ Escenario BDD (@AC-x.x) ➔ Test Automatizado ➔ Código en src/
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <h4 class="font-bold text-[var(--foreground)] mb-1">Candado SHA-256 Inalterable</h4>
+                <p class="text-[var(--muted-foreground)] leading-relaxed">
+                  Garantiza que nadie (ni la IA ni un programador) pueda modificar un requerimiento después de su firma sin invalidar el proceso y alertar al responsable.
+                </p>
+              </div>
+
+              <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <h4 class="font-bold text-[var(--foreground)] mb-1">Cumplimiento sin Fricción</h4>
+                <p class="text-[var(--muted-foreground)] leading-relaxed">
+                  El Órgano Interno de Control (OIC) y la ASF obtienen informes consolidados en <code class="text-xs">docs/traceability_*.md</code> listos para solventar observaciones técnicas.
+                </p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "CALIDAD DE MISIÓN CRÍTICA",
+        tagColor: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+        title: "Las 8 Aduanas Institucionales de Software (El Auditor Óctuple)",
+        subtitle: "Compuertas automatizadas que impiden que código defectuoso o vulnerable llegue a producción",
+        html: `
+          <div class="border border-[var(--border)] rounded-xl overflow-hidden my-2 bg-[var(--background)] text-xs">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-[var(--border)] bg-[var(--sidebar)] text-[var(--foreground)] font-semibold">
+                  <th class="p-2.5 text-center w-12">#</th>
+                  <th class="p-2.5">Aduana Institucional</th>
+                  <th class="p-2.5">Impacto en los Servicios del IMSS</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[var(--border)] text-[var(--muted-foreground)]">
+                <tr>
+                  <td class="p-2 text-center font-bold text-emerald-500">1</td>
+                  <td class="p-2 font-semibold text-[var(--foreground)]">Cero Desviaciones (Spec Drift)</td>
+                  <td class="p-2">La IA no toca ningún archivo fuera de la lista permitida; protege sistemas legados.</td>
+                </tr>
+                <tr>
+                  <td class="p-2 text-center font-bold text-emerald-500">2</td>
+                  <td class="p-2 font-semibold text-[var(--foreground)]">Cobertura 100% de Requisitos</td>
+                  <td class="p-2">Cada regla médica o administrativa cuenta con pruebas que validan su funcionamiento.</td>
+                </tr>
+                <tr>
+                  <td class="p-2 text-center font-bold text-emerald-500">3</td>
+                  <td class="p-2 font-semibold text-[var(--foreground)]">Clean Architecture Estricta</td>
+                  <td class="p-2">La lógica de negocio institucional nunca se mezcla con la base de datos o la UI.</td>
+                </tr>
+                <tr>
+                  <td class="p-2 text-center font-bold text-emerald-500">4</td>
+                  <td class="p-2 font-semibold text-[var(--foreground)]">Integridad del Candado</td>
+                  <td class="p-2">Certifica que el código corresponde exactamente a la versión aprobada por el área técnica.</td>
+                </tr>
+                <tr>
+                  <td class="p-2 text-center font-bold text-emerald-500">5</td>
+                  <td class="p-2 font-semibold text-[var(--foreground)]">Anti-Fake Tests (Anti-Trampas)</td>
+                  <td class="p-2">El arnés detecta y rechaza pruebas falsas o simuladas por IA; exige ejecución real.</td>
+                </tr>
+                <tr>
+                  <td class="p-2 text-center font-bold text-emerald-500">6</td>
+                  <td class="p-2 font-semibold text-[var(--foreground)]">Guía de Usuario en 4 Secciones</td>
+                  <td class="p-2">Manual operativo obligatorio para que el personal médico o administrativo sepa operar el sistema.</td>
+                </tr>
+                <tr>
+                  <td class="p-2 text-center font-bold text-emerald-500">7</td>
+                  <td class="p-2 font-semibold text-[var(--foreground)]">Accesibilidad Ciudadana (WCAG)</td>
+                  <td class="p-2">Contraste cromático validado matemáticamente para inclusión de derechohabientes.</td>
+                </tr>
+                <tr class="bg-rose-500/5">
+                  <td class="p-2 text-center font-bold text-rose-500">8</td>
+                  <td class="p-2 font-bold text-rose-500">Ciberseguridad OWASP & NOM-024 (NUEVO)</td>
+                  <td class="p-2 text-[var(--foreground)]">Escaneo de secretos, blindaje contra inyección SQL en expedientes clínicos y análisis SAST.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        tag: "INCLUSIÓN Y ACCESIBILIDAD",
+        tagColor: "bg-pink-500/10 text-pink-500 border-pink-500/20",
+        title: "IMSS Digital Inclusivo y Accesible",
+        subtitle: "Garantía matemática de acceso a los servicios de salud y prestaciones",
+        html: `
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 my-2 text-xs">
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="text-2xl mb-1">👴👵</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">Enfoque en Derechohabientes</h4>
+              <p class="text-[var(--muted-foreground)] leading-relaxed">
+                Millones de usuarios son adultos mayores, pensionados o derechohabientes con discapacidad visual. Las interfaces no admiten textos ilegibles.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="text-2xl mb-1">📐</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">Norma WCAG 2.1 AA</h4>
+              <p class="text-[var(--muted-foreground)] leading-relaxed">
+                El arnés calcula algorítmicamente la luminancia relativa. Si el contraste texto/fondo es inferior a <strong>4.5 a 1</strong>, el componente se rechaza.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="text-2xl mb-1">🔄</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">5 Estados UI Resilientes</h4>
+              <p class="text-[var(--muted-foreground)] leading-relaxed">
+                Toda pantalla institucional debe declarar: <em>Reposo, Foco accesible, Carga, Datos vacíos</em> y <em>Mensajes claros ante fallas de red</em>.
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-3 p-3.5 rounded-xl border border-pink-500/20 bg-pink-500/5 text-xs text-[var(--foreground)] flex items-center justify-between">
+            <div>
+              <span class="font-bold">Derecho a la Salud Digital:</span>
+              <span class="text-[var(--muted-foreground)] ml-2">La tecnología del IMSS se diseña para no dejar a ningún mexicano atrás.</span>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "CIBERSEGURIDAD INSTITUCIONAL",
+        tagColor: "bg-rose-500/10 text-rose-500 border-rose-500/20",
+        title: "Blindaje de Datos Médicos Sensibles (NOM-024 / LGPDPPSO)",
+        subtitle: "Seguridad defensiva activa y modelado preventivo de amenazas en SDD v6.0",
+        html: `
+          <div class="space-y-3 my-2 text-xs">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <div class="text-rose-500 text-lg mb-1">🛡️</div>
+                <h4 class="font-bold text-[var(--foreground)] mb-1">Protección de Datos Clínicos</h4>
+                <p class="text-[var(--muted-foreground)] leading-relaxed">
+                  Inspección estricta contra inyección SQL. Prohibida la concatenación de texto en consultas a bases de datos de pacientes.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <div class="text-amber-500 text-lg mb-1">⚡</div>
+                <h4 class="font-bold text-[var(--foreground)] mb-1">Alerta: Tríada Letal</h4>
+                <p class="text-[var(--muted-foreground)] leading-relaxed">
+                  Supervisión reforzada en puntos donde confluyen: <strong>Datos Médicos Privados + Entrada Externa + Exportación a Red</strong>.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <div class="text-blue-500 text-lg mb-1">🔍</div>
+                <h4 class="font-bold text-[var(--foreground)] mb-1">Escáner Preventivo</h4>
+                <p class="text-[var(--muted-foreground)] leading-relaxed">
+                  <code class="text-xs">verify-security.ps1</code> detecta credenciales expuestas en código y vulnerabilidades en dependencias (CVEs).
+                </p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-rose-500/20 bg-rose-500/5 flex items-center justify-between text-xs">
+              <div>
+                <span class="font-bold text-[var(--foreground)]">Cumplimiento Legal y Normativo:</span>
+                <span class="text-[var(--muted-foreground)] ml-2">Alineado a NOM-024-SSA3 (Expediente Clínico Electrónico) y directrices de ciberseguridad federal.</span>
+              </div>
+              <code class="px-2.5 py-1 rounded bg-[var(--card)] border border-[var(--border)] text-rose-500 font-mono text-xs">
+                .\\harness\\sdd.ps1 -Action verify-security
+              </code>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "SOBERANÍA Y EFICIENCIA",
+        tagColor: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+        title: "Optimización Presupuestal y Stacks Institucionales",
+        subtitle: "Compatibilidad con estándares corporativos: Spring Boot Java 21, Angular 21 y PostgreSQL 17",
+        html: `
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 my-2 text-xs">
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="text-2xl mb-2">⚡</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">3x Velocidad de Entrega</h4>
+              <p class="text-[var(--muted-foreground)] leading-relaxed">
+                Permite a los desarrolladores de la DIDT acelerar el despliegue de nuevos trámites y módulos clínicos sin arriesgar la operación hospitalaria.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="text-2xl mb-2">☕</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">Stacks Institucionales</h4>
+              <p class="text-[var(--muted-foreground)] leading-relaxed">
+                Integración nativa con <strong>Spring Boot Java 21, Angular 21, PostgreSQL 17 y Swagger/Postman</strong> bajo Clean Architecture pura.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="text-2xl mb-2">💰</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">Cero Retrabajo Costoso</h4>
+              <p class="text-[var(--muted-foreground)] leading-relaxed">
+                Corregir una especificación formal cuesta minutos; solventar una contingencia en un sistema hospitalario activo cuesta millones y vidas.
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-3 p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)] text-xs text-[var(--foreground)] flex items-center justify-between">
+            <span class="text-[var(--muted-foreground)]">Soberanía Tecnológica Plena:</span>
+            <span class="font-bold text-emerald-600 dark:text-emerald-400">El código resultante es 100% propiedad del IMSS, libre de ataduras a proveedores.</span>
+          </div>
+        `
+      },
+      {
+        tag: "CONCLUSIÓN Y HOJA DE RUTA",
+        tagColor: "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20",
+        title: "Innovar con Responsabilidad de Estado",
+        subtitle: "Hoja de ruta sugerida para la adopción institucional en la DIDT",
+        html: `
+          <div class="space-y-4 my-2 text-xs">
+            <div class="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5">
+              <p class="text-xs sm:text-sm text-[var(--foreground)] italic text-center leading-relaxed">
+                "El Framework SDD v6.0 permite a la DIDT del IMSS capitalizar la revolución de la Inteligencia Artificial, transformándola de un riesgo potencial a una palanca institucional de excelencia técnica, ciberseguridad, transparencia y servicio público a la salud mexicana."
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <div class="font-bold text-emerald-500 mb-1">Paso 1: Piloto Controlado</div>
+                <p class="text-[var(--muted-foreground)]">Implementar SDD v6.0 en un trámite digital o módulo clínico prioritario de la DIDT.</p>
+              </div>
+
+              <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <div class="font-bold text-blue-500 mb-1">Paso 2: Células de Desarrollo</div>
+                <p class="text-[var(--muted-foreground)]">Habilitar a los ingenieros de software en Antigravity IDE con las 16 skills canónicas.</p>
+              </div>
+
+              <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <div class="font-bold text-purple-500 mb-1">Paso 3: Norma Interna DIDT</div>
+                <p class="text-[var(--muted-foreground)]">Institucionalizar el Auditor Óctuple y el candado SHA-256 como estándar de entrega de software.</p>
+              </div>
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    let currentSlide = 0;
+
+    function renderSlide(index) {
+      const slide = slides[index];
+      const container = document.getElementById("slideContent");
+      
+      container.className = "slide-fade";
+      container.innerHTML = `
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded-full border ${slide.tagColor}">
+            ${slide.tag}
+          </span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-black text-[var(--foreground)] tracking-tight mb-1">
+          ${slide.title}
+        </h2>
+        <p class="text-xs sm:text-sm text-[var(--muted-foreground)] mb-4">
+          ${slide.subtitle}
+        </p>
+        <div>
+          ${slide.html}
+        </div>
+      `;
+
+      // Update counter and progress bar
+      document.getElementById("slideCounter").textContent = `${index + 1} / ${slides.length}`;
+      const progressPercent = ((index + 1) / slides.length) * 100;
+      document.getElementById("progressBar").style.width = `${progressPercent}%`;
+
+      // Update Buttons
+      document.getElementById("prevBtn").disabled = index === 0;
+      const nextBtn = document.getElementById("nextBtn");
+      if (index === slides.length - 1) {
+        nextBtn.innerHTML = `Reiniciar <span>↺</span>`;
+      } else {
+        nextBtn.innerHTML = `Siguiente <span>→</span>`;
+      }
+
+      // Update Dots
+      const dotsContainer = document.getElementById("dotsContainer");
+      dotsContainer.innerHTML = slides.map((_, i) => `
+        <button onclick="goToSlide(${i})" class="h-2 rounded-full transition-all cursor-pointer ${
+          i === index ? 'w-6 bg-emerald-500' : 'w-2 bg-[var(--border)] hover:bg-[var(--muted-foreground)]'
+        }" title="Diapositiva ${i + 1}"></button>
+      `).join("");
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        currentSlide++;
+      } else {
+        currentSlide = 0;
+      }
+      renderSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        renderSlide(currentSlide);
+      }
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      renderSlide(currentSlide);
+    }
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") {
+        nextSlide();
+      } else if (e.key === "ArrowLeft") {
+        prevSlide();
+      }
+    });
+
+    // Initial render
+    renderSlide(0);
+  </script>
+</body>
+</html>

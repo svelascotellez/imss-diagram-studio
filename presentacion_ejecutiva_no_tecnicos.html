@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Presentación Ejecutiva: Desarrollo Seguro con IA (SDD v5.4)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .slide-fade {
+      animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2 sm:p-4 select-none">
+
+  <!-- Main Presentation Container -->
+  <div class="max-w-4xl mx-auto bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl shadow-2xl overflow-hidden flex flex-col min-h-[590px]">
+    
+    <!-- Top Bar: Header & Indicator -->
+    <div class="px-6 py-4 border-b border-[var(--border)] bg-[var(--sidebar)] flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-black text-sm shadow-md">
+          💼
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm font-bold text-[var(--foreground)] tracking-tight">Desarrollo Seguro con Inteligencia Artificial</h1>
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">Edición Ejecutiva</span>
+          </div>
+          <p class="text-xs text-[var(--muted-foreground)]">Cómo garantizar calidad, control y valor de negocio con el Framework SDD</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <span id="slideCounter" class="text-xs font-semibold px-3 py-1 rounded-full bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)]">
+          1 / 7
+        </span>
+      </div>
+    </div>
+
+    <!-- Progress Indicator Bar -->
+    <div class="w-full bg-[var(--background)] h-1.5 overflow-hidden">
+      <div id="progressBar" class="bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-500 h-1.5 transition-all duration-300 ease-out" style="width: 14.28%;"></div>
+    </div>
+
+    <!-- Slide Content Area -->
+    <div class="flex-1 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto">
+      <div id="slideContent" class="slide-fade">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+
+    <!-- Bottom Navigation Controls -->
+    <div class="px-6 py-4 border-t border-[var(--border)] bg-[var(--sidebar)] flex items-center justify-between gap-4">
+      <button id="prevBtn" onclick="prevSlide()" class="px-4 py-2 rounded-lg border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--background)] text-xs font-semibold text-[var(--foreground)] transition-all flex items-center gap-2 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed">
+        <span>←</span> Anterior
+      </button>
+
+      <!-- Dots Matrix -->
+      <div id="dotsContainer" class="flex items-center gap-2 overflow-x-auto py-1">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <button id="nextBtn" onclick="nextSlide()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white shadow-md hover:shadow-emerald-500/25 transition-all flex items-center gap-2 cursor-pointer">
+        Siguiente <span>→</span>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    const slides = [
+      {
+        tag: "EL RETO DEL NEGOCIO",
+        tagColor: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+        title: "¿La Inteligencia Artificial Programa tu Negocio o lo Pone en Riesgo?",
+        subtitle: "La velocidad no sirve de nada si el destino no es el planeado",
+        html: `
+          <div class="space-y-4 my-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-5 rounded-xl border border-red-500/20 bg-red-500/5">
+                <div class="flex items-center gap-2 text-red-500 font-bold text-xs uppercase tracking-wider mb-2">
+                  <span>❌</span> Desarrollo con IA sin Reglas
+                </div>
+                <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                  Pedirle a una IA que escriba código libremente es como contratar albañiles que empiezan a levantar muros sin un plano arquitectónico aprobado.
+                </p>
+                <div class="mt-3 text-xs text-red-400 space-y-1 font-medium">
+                  <div>• La IA "alucina" funciones innecesarias.</div>
+                  <div>• El software se vuelve frágil y nadie sabe mantenerlo.</div>
+                  <div>• Costos ocultos por corregir errores en producción.</div>
+                </div>
+              </div>
+
+              <div class="p-5 rounded-xl border border-emerald-500/20 bg-emerald-500/5">
+                <div class="flex items-center gap-2 text-emerald-500 font-bold text-xs uppercase tracking-wider mb-2">
+                  <span>✅</span> El Modelo de Gobierno SDD
+                </div>
+                <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                  Establece un marco riguroso de ingeniería: <strong>ninguna línea de software se escribe sin la autorización formal de una persona</strong>.
+                </p>
+                <div class="mt-3 text-xs text-emerald-400 space-y-1 font-medium">
+                  <div>• Primero el plano formal; luego la construcción.</div>
+                  <div>• Bloqueos automáticos para evitar desvíos.</div>
+                  <div>• Auditoría total de costos, tiempos y calidad.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--background)] flex items-center gap-3">
+              <span class="text-2xl">💡</span>
+              <p class="text-xs text-[var(--foreground)]">
+                <strong>Visión Ejecutiva:</strong> La IA debe ser un asistente acelerador altamente disciplinado, nunca quien toma las decisiones de negocio.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "CONCEPTO CLAVE",
+        tagColor: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+        title: "¿Qué es SDD en Palabras Simples?",
+        subtitle: "Specification-Driven Development: El software guiado por acuerdos claros",
+        html: `
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 my-2">
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center font-bold text-sm mb-2">1</div>
+              <h3 class="font-semibold text-xs text-[var(--foreground)] mb-1">Acuerdo Formal</h3>
+              <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                Antes de programar, se define en lenguaje claro qué hará la función, qué casos de error atenderá y qué queda fuera de alcance.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-bold text-sm mb-2">2</div>
+              <h3 class="font-semibold text-xs text-[var(--foreground)] mb-1">El Humano al Mando</h3>
+              <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                El líder del proyecto sella la especificación. La IA no puede auto-aprobarse ni inventar requerimientos por su cuenta.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-bold text-sm mb-2">3</div>
+              <h3 class="font-semibold text-xs text-[var(--foreground)] mb-1">Construcción Inmune</h3>
+              <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                Si la IA intenta tocar partes del sistema no autorizadas, el sistema la detiene físicamente en seco.
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-4 p-4 rounded-xl border border-blue-500/20 bg-blue-500/5 text-xs text-[var(--foreground)] flex items-center justify-between">
+            <div>
+              <span class="font-bold">Regla de Oro de SDD:</span>
+              <span class="text-[var(--muted-foreground)] ml-2">«Si no está en el documento aprobado, no existe en el sistema.»</span>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-blue-500 text-white font-bold text-xs">Cero Desviaciones</span>
+          </div>
+        `
+      },
+      {
+        tag: "FLUJO DE TRABAJO",
+        tagColor: "bg-indigo-500/10 text-indigo-500 border-indigo-500/20",
+        title: "El Ciclo de Vida en 4 Pasos Intuitivos",
+        subtitle: "Cómo viaja una idea desde la necesidad de negocio hasta el cliente",
+        html: `
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 my-2 text-xs">
+            <div class="p-4 rounded-xl border border-blue-500/30 bg-blue-500/5 flex flex-col justify-between">
+              <div>
+                <span class="text-lg">📋</span>
+                <h4 class="font-bold text-blue-500 mt-2 mb-1">Paso 1: Entrevista</h4>
+                <p class="text-[var(--muted-foreground)]">Una conversación guiada donde la IA hace 1 pregunta a la vez para entender a fondo la necesidad.</p>
+              </div>
+              <div class="mt-3 text-xs text-blue-400 font-semibold">Cero tecnicismos confusos</div>
+            </div>
+
+            <div class="p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 flex flex-col justify-between">
+              <div>
+                <span class="text-lg">🔐</span>
+                <h4 class="font-bold text-amber-500 mt-2 mb-1">Paso 2: Candado</h4>
+                <p class="text-[var(--muted-foreground)]">El líder revisa el plan. Al aprobarlo, se emite un sello digital que congela la especificación.</p>
+              </div>
+              <div class="mt-3 text-xs text-amber-400 font-semibold">Garantía inalterable</div>
+            </div>
+
+            <div class="p-4 rounded-xl border border-teal-500/30 bg-teal-500/5 flex flex-col justify-between">
+              <div>
+                <span class="text-lg">⚙️</span>
+                <h4 class="font-bold text-teal-500 mt-2 mb-1">Paso 3: Construcción</h4>
+                <p class="text-[var(--muted-foreground)]">La IA escribe el código estrictamente delimitado y crea pruebas automáticas para cada función.</p>
+              </div>
+              <div class="mt-3 text-xs text-teal-400 font-semibold">Desarrollo blindado</div>
+            </div>
+
+            <div class="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/5 flex flex-col justify-between">
+              <div>
+                <span class="text-lg">🏆</span>
+                <h4 class="font-bold text-emerald-500 mt-2 mb-1">Paso 4: Aduana Final</h4>
+                <p class="text-[var(--muted-foreground)]">El sistema pasa por 7 filtros de calidad antes de considerarse listo para su uso final.</p>
+              </div>
+              <div class="mt-3 text-xs text-emerald-400 font-semibold">Aprobación garantizada</div>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "CONTROL Y SEGURIDAD",
+        tagColor: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+        title: "El Candado Digital: El Humano Siempre Decide",
+        subtitle: "Por qué tus directores pueden dormir tranquilos con SDD",
+        html: `
+          <div class="space-y-4 my-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <h4 class="text-xs font-bold text-amber-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <span>🔒</span> La Firma Digital Inmutable
+                </h4>
+                <p class="text-xs text-[var(--muted-foreground)] leading-relaxed mb-3">
+                  Cuando apruebas una función, el sistema genera una huella digital matemática (como la firma de un notario).
+                </p>
+                <div class="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-xs text-[var(--foreground)]">
+                  <strong>Si la IA o alguien cambia una sola letra</strong> de lo acordado, el sistema detecta que la huella no coincide y bloquea cualquier cambio en el software.
+                </div>
+              </div>
+
+              <div class="p-5 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+                <h4 class="text-xs font-bold text-blue-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <span>📈</span> El Grafo de Dependencias
+                </h4>
+                <p class="text-xs text-[var(--muted-foreground)] leading-relaxed mb-3">
+                  Evita construir el techo antes de que los cimientos estén fraguados.
+                </p>
+                <div class="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)] text-xs text-[var(--foreground)]">
+                  Si la funcionalidad <em>"Facturación"</em> depende de <em>"Autenticación de Clientes"</em>, el sistema prohíbe tocar Facturación hasta que la primera esté completamente aprobada y sellada.
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-xs text-[var(--foreground)] flex items-center gap-3">
+              <span class="text-emerald-500 text-lg">🛡️</span>
+              <span><strong>Cumplimiento Normativo (Compliance):</strong> Todo queda registrado con fecha, hora, responsable y motivo del cambio para futuras auditorías corporativas.</span>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "CALIDAD CERTIFICADA",
+        tagColor: "bg-rose-500/10 text-rose-500 border-rose-500/20",
+        title: "Las 7 Aduanas de Calidad",
+        subtitle: "Como la inspección previa al despegue de un avión",
+        html: `
+          <div class="border border-[var(--border)] rounded-xl overflow-hidden my-2 bg-[var(--background)] text-xs">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-[var(--border)] bg-[var(--sidebar)] text-[var(--foreground)] font-semibold">
+                  <th class="p-2.5 text-center w-12">#</th>
+                  <th class="p-2.5">Aduana de Control</th>
+                  <th class="p-2.5">¿Qué Protege para el Negocio?</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[var(--border)] text-[var(--muted-foreground)]">
+                <tr>
+                  <td class="p-2.5 text-center font-bold text-emerald-500">1</td>
+                  <td class="p-2.5 font-semibold text-[var(--foreground)]">Cero Modificaciones Sorpresa</td>
+                  <td class="p-2.5">Evita que la IA modifique archivos ajenos y descomponga partes que ya funcionaban.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 text-center font-bold text-emerald-500">2</td>
+                  <td class="p-2.5 font-semibold text-[var(--foreground)]">Cumplimiento al 100% de Requisitos</td>
+                  <td class="p-2.5">Garantiza que cada necesidad planteada por el cliente cuente con una validación real.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 text-center font-bold text-emerald-500">3</td>
+                  <td class="p-2.5 font-semibold text-[var(--foreground)]">Arquitectura Limpia y Escalable</td>
+                  <td class="p-2.5">Protege el código contra la obsolescencia para que pueda crecer por años sin volverse lento.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 text-center font-bold text-emerald-500">4</td>
+                  <td class="p-2.5 font-semibold text-[var(--foreground)]">Integridad del Candado</td>
+                  <td class="p-2.5">Certifica que nadie alteró la especificación aprobada a espaldas del equipo.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 text-center font-bold text-emerald-500">5</td>
+                  <td class="p-2.5 font-semibold text-[var(--foreground)]">Detección de Pruebas Falsas</td>
+                  <td class="p-2.5">Detecta y descarta trampas donde la IA simula pruebas que siempre dicen "aprobado".</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 text-center font-bold text-emerald-500">6</td>
+                  <td class="p-2.5 font-semibold text-[var(--foreground)]">Manual de Usuario Incluido</td>
+                  <td class="p-2.5">No se aprueba ninguna función sin su guía explicativa lista para los usuarios finales.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 text-center font-bold text-emerald-500">7</td>
+                  <td class="p-2.5 font-semibold text-[var(--foreground)]">Diseño Accesible e Inclusivo</td>
+                  <td class="p-2.5">Comprueba que el contraste y los textos sean legibles para personas con problemas visuales.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      {
+        tag: "RETORNO DE INVERSIÓN",
+        tagColor: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+        title: "Impacto Financiero y Beneficios Estratégicos",
+        subtitle: "¿Por qué invertir en gobernanza agéntica genera mayor rentabilidad?",
+        html: `
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 my-2 text-xs">
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="text-2xl mb-2">💰</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">Ahorro en Retrabajo</h4>
+              <p class="text-[var(--muted-foreground)] leading-relaxed">
+                Descubrir una falla en la especificación toma <strong>5 minutos</strong> de conversación. Corregir una falla tras semanas de programación defectuosa cuesta miles de dólares.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="text-2xl mb-2">⏱️</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">Velocidad sin Riesgos</h4>
+              <p class="text-[var(--muted-foreground)] leading-relaxed">
+                El equipo aprovecha la velocidad bruta de la IA generativa mientras el marco SDD garantiza que no se acumule deuda técnica que paralice la empresa en el futuro.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)]">
+              <div class="text-2xl mb-2">📖</div>
+              <h4 class="font-bold text-[var(--foreground)] mb-1">Documentación Real</h4>
+              <p class="text-[var(--muted-foreground)] leading-relaxed">
+                Se acabó el drama de desarrolladores que se van sin dejar manuales. SDD exige manuales de usuario y matrices de trazabilidad generadas al momento.
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-3 p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-xs text-[var(--foreground)] flex items-center justify-between">
+            <div>
+              <span class="font-bold text-emerald-500">Conclusión de Rentabilidad:</span>
+              <span class="text-[var(--muted-foreground)] ml-2">SDD convierte la IA en un activo de software institucional, no en un experimento efímero.</span>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "RESUMEN EJECUTIVO",
+        tagColor: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+        title: "La Ventaja Competitiva de Nuestra Empresa",
+        subtitle: "Innovación responsable, medible y escalable",
+        html: `
+          <div class="space-y-4 my-2">
+            <div class="p-5 rounded-2xl border border-[var(--border)] bg-[var(--background)]">
+              <h3 class="text-base font-bold text-[var(--foreground)] mb-3">Los 4 Mensajes que Debes Llevarte:</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div class="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+                  <strong class="text-emerald-500 block mb-1">1. Máxima Eficiencia</strong>
+                  Desarrollamos hasta 5 veces más rápido con IA sin sacrificar calidad ni control.
+                </div>
+                <div class="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+                  <strong class="text-blue-500 block mb-1">2. Control Humano 100%</strong>
+                  Ningún robot decide qué construir; la persona a cargo sella cada requerimiento.
+                </div>
+                <div class="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+                  <strong class="text-indigo-500 block mb-1">3. Cero Sorpresas en Producción</strong>
+                  Las 7 aduanas aseguran que lo prometido al cliente es lo entregado.
+                </div>
+                <div class="p-3 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+                  <strong class="text-amber-500 block mb-1">4. Software que Perdura</strong>
+                  Arquitectura limpia, diseño accesible y documentación entregada a tiempo.
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-sm">¿Listo para Verlo en Acción?</h4>
+                <p class="text-xs text-emerald-100">Cualquier nuevo proyecto puede iniciar gobernado bajo SDD en menos de 2 minutos.</p>
+              </div>
+              <span class="px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 text-xs font-bold tracking-wide transition cursor-pointer">
+                SDD v5.4 Listo
+              </span>
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    let currentSlide = 0;
+
+    function renderSlide(index) {
+      const slide = slides[index];
+      const container = document.getElementById("slideContent");
+      
+      container.className = "slide-fade";
+      container.innerHTML = `
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-xs font-bold px-2.5 py-0.5 rounded-full border ${slide.tagColor}">
+            ${slide.tag}
+          </span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-black text-[var(--foreground)] tracking-tight mb-1">
+          ${slide.title}
+        </h2>
+        <p class="text-xs sm:text-sm text-[var(--muted-foreground)] mb-4">
+          ${slide.subtitle}
+        </p>
+        <div>
+          ${slide.html}
+        </div>
+      `;
+
+      // Counter & Progress Bar
+      document.getElementById("slideCounter").textContent = `${index + 1} / ${slides.length}`;
+      const progressPercent = ((index + 1) / slides.length) * 100;
+      document.getElementById("progressBar").style.width = `${progressPercent}%`;
+
+      // Buttons
+      document.getElementById("prevBtn").disabled = index === 0;
+      const nextBtn = document.getElementById("nextBtn");
+      if (index === slides.length - 1) {
+        nextBtn.innerHTML = `Reiniciar <span>↺</span>`;
+      } else {
+        nextBtn.innerHTML = `Siguiente <span>→</span>`;
+      }
+
+      // Dots
+      const dotsContainer = document.getElementById("dotsContainer");
+      dotsContainer.innerHTML = slides.map((_, i) => `
+        <button onclick="goToSlide(${i})" class="h-2 rounded-full transition-all cursor-pointer ${
+          i === index ? 'w-6 bg-emerald-500' : 'w-2 bg-[var(--border)] hover:bg-[var(--muted-foreground)]'
+        }" title="Diapositiva ${i + 1}"></button>
+      `).join("");
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        currentSlide++;
+      } else {
+        currentSlide = 0;
+      }
+      renderSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        renderSlide(currentSlide);
+      }
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      renderSlide(currentSlide);
+    }
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") {
+        nextSlide();
+      } else if (e.key === "ArrowLeft") {
+        prevSlide();
+      }
+    });
+
+    // Initial render
+    renderSlide(0);
+  </script>
+</body>
+</html>
