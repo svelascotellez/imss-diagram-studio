@@ -136,4 +136,23 @@ Describe "SDD v6.6 Suite de Gobernanza y Compliance Hardened" {
             $fixedContent | Should -Not -Match ' \r?$'
         }
     }
+
+    Context "Cockpit Web Dashboard & DAG Interactivo (harness\dashboard.ps1)" {
+        It "Genera sdd_dashboard.html con sintaxis JavaScript 100% valida y auto-fit del DAG" {
+            & ".\harness\dashboard.ps1" -NoBrowser | Out-Null
+            Test-Path "progress\sdd_dashboard.html" | Should -BeTrue
+
+            $html = Get-Content "progress\sdd_dashboard.html" -Raw -Encoding UTF8
+            $html | Should -Match "function fitToScreen\(\)"
+            $html | Should -Match "function switchTab\(tabId, btnEl\)"
+            $html | Should -Not -Match "translate\(px, px\)"
+
+            $match = [regex]::Match($html, '(?s)<script>\s*(mermaid\.initialize.*?)</script>')
+            $match.Success | Should -BeTrue
+            $tempJs = Join-Path $global:TestSandbox "dashboard_syntax_check.js"
+            [System.IO.File]::WriteAllText($tempJs, $match.Groups[1].Value, [System.Text.Encoding]::UTF8)
+            & node --check $tempJs
+            $LASTEXITCODE | Should -Be 0
+        }
+    }
 }
