@@ -1,4 +1,4 @@
-﻿# Guía de Preparación: Entrevista de Onboarding SDD 2.0
+# Guía de Preparación: Entrevista de Onboarding SDD 2.0
 
 ## Requisitos, Decisiones y Datos Previos para el Desarrollador (v5.4)
 
