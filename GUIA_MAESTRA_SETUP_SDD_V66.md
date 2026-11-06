@@ -68,7 +68,7 @@ Parámetros admitidos:
 MiSistemaSeguro/
 ├── .agents/
 │   ├── hooks.json                # Hooks SessionStart, PreToolUse (Fail-Closed) y PostToolUse
-│   └── skills/                   # 20 Skills Canonicas de SDD v6.6
+│   └── skills/                   # 20 Skills Canonicas de SDD v6.6 + frontend-design
 ├── .github/workflows/sdd-gate.yml# Pipeline GitHub Actions con 9 Aduanas
 ├── .gitlab-ci.yml                # Pipeline GitLab CI
 ├── .specify/
@@ -107,7 +107,15 @@ Esto genera automáticamente:
 - `specs/FEAT-001/plan.md`: Arquitectura técnica y lista explícita de `## Allowed Files`.
 - `specs/FEAT-001/tasks.md`: Desglose secuencial de tareas.
 
-### 4.2. Aprobación Formal Human-in-the-Loop (HITL)
+### 4.2. Refinamiento Visual y de Interfaz con `frontend-design`
+
+Para proyectos con interfaz visual, active la skill `frontend-design` (`.agents/skills/frontend-design/SKILL.md`) antes de codificar vistas:
+
+- Prohíbe el uso de componentes genéricos repetitivos (*anti-AI slop*).
+- Define la paleta de 4 a 6 colores base y la escala tipográfica deliberada.
+- Genera el wireframe estructural ASCII alineado con `design-tokens.json` y accesibilidad WCAG 2.1 AA ($\ge 4.5:1$).
+
+### 4.3. Aprobación Formal Human-in-the-Loop (HITL)
 
 Una vez revisada y completada la especificación con el agente, el desarrollador humano aprueba el alcance:
 

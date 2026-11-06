@@ -792,6 +792,7 @@ flowchart TB
         SK6["#06 sdd-ui-ux"]
         SK7["#07 sdd-design-system"]
         SK8["#08 sdd-preview-design"]
+        SKFD["frontend-design\n(Diseño Visual e Identidad Única)"]
     end
 
     subgraph D4["DOMINIO 4: ARQUITECTURA E IMPLEMENTACIÓN"]
@@ -845,6 +846,22 @@ flowchart TB
 | **18** | `sdd-cicd` | Ingeniero DevSecOps Cloud | Fase 6 | `.github/workflows/`, `.gitlab-ci.yml` | Mantiene pipelines cloud y genera `progress/pr_summary.md`. |
 | **19** | `sdd-performance` | Ingeniero de Rendimiento y SLA | Fase 5 | `tests/performance/k6_benchmark.js` | Ejecuta `verify-performance.ps1` y audita percentiles $P_{95} \le 200\text{ ms}$. |
 | **20** | `sdd-compliance` | Auditor de Evidencia Técnica | Fase 6 | Todos los reportes y sellos HMAC | Ejecuta `export-compliance.ps1` generando `compliance_dossier.pdf` y `.html`. |
+
+### 8.5. Skill Especializada de Diseño de Interfaz: `frontend-design` (Anthropic)
+
+Para proyectos con interfaz gráfica (Web, SaaS, Mobile), SDD v6.6 integra la skill de referencia **`frontend-design`** (de Anthropic / `skills.sh`) en `.agents/skills/frontend-design/SKILL.md`. Esta habilidad actúa como complemento de alto nivel para `sdd-ui-ux` y `sdd-design-system`:
+
+1. **Erradicación de Clichés de IA (*Anti-AI Slop*):**
+   - Prohíbe el uso de patrones genéricos como fondos crema con serifas repetitivas, sombras grises idénticas (`rgba(0,0,0,0.1)`), tarjetas SaaS homogéneas y gradientes púrpura por defecto.
+2. **Plan de Diseño Previo Obligatorio (Two-Pass Process):**
+   - **Paleta Cromática Semántica:** Definición explícita de 4 a 6 valores hexadecimales con propósito funcional.
+   - **Jerarquía Tipográfica:** Selección deliberada de máximo 2 familias tipográficas con roles específicos para títulos y cuerpo de texto, respetando longitudes de línea $< 80$ caracteres.
+   - **Concepto de Maquetación y Wireframes ASCII:** Bosquejos estructurales previos a la codificación HTML/CSS.
+   - **Principios del Dominio:** El diseño visual se fundamenta en la industria, usuarios y propósito del negocio.
+3. **Piso de Calidad y Restricción Estética:**
+   - Cumplimiento estricto de WCAG 2.1 AA ($\text{contraste} \ge 4.5:1$).
+   - Foco visible accesible por teclado y respeto por preferencias de movimiento reducido (`prefers-reduced-motion`).
+   - Microcopy intencional en voz activa, orientado a la resolución de errores y estados vacíos sin textos de relleno cosméticos.
 
 ---
 

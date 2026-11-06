@@ -157,9 +157,9 @@ Scripts automáticos que se interceptan y disparan ante eventos del IDE:
 * **`PostToolUse`:** Revisa silenciosamente tras cada cambio que las reglas de Clean Architecture se mantengan intactas.
 * **`Git pre-commit`:** Impide confirmar cambios en el repositorio si los tests o el arnés de calidad fallan.
 
-### **Skills (Habilidades Agénticas Canónicas)**
+### **Skills (Habilidades Agénticas Canónicas y de Extensión)**
 
-Módulos de instrucciones especializadas ubicados en `.agents/skills/<nombre>/SKILL.md` que enseñan al agente de IA cómo ejecutar una fase concreta del desarrollo (ej. `sdd-onboard`, `sdd-specify`, `sdd-plan`, `sdd-implement`, etc.).
+Módulos de instrucciones especializadas ubicados en `.agents/skills/<nombre>/SKILL.md` que enseñan al agente de IA cómo ejecutar una fase concreta del desarrollo (ej. `sdd-onboard`, `sdd-specify`, `sdd-plan`, `sdd-implement`, etc.). Incluye skills especializadas del ecosistema como **`frontend-design`** (de Anthropic) para erradicar patrones genéricos de IA, definir tokens tipográficos intencionales y construir interfaces gráficas de alto impacto con accesibilidad WCAG 2.1 AA.
 
 ### **Harness (Arnés de Calidad)**
 

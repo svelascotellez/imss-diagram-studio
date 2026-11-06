@@ -71,7 +71,7 @@
 - **`SessionStart` (`session-start.ps1`):** Detecta el estado del proyecto al abrir el IDE e inicia la entrevista socrática o inyecta el contexto activo.
 - **`PreToolUse` (`pre-tool-enforce.ps1`) [Fail-Closed]:** Intercepta llamadas a `write_file` y `edit_file`. Si el archivo destino está en `src/`, verifica en vivo el sello HMAC-SHA256; ante cualquier discrepancia, deniega físicamente la operación (`decision: "deny"`).
 - **`PostToolUse` (`post-tool-check.ps1`):** Audita importaciones tras cada edición para impedir violaciones de Clean Architecture.
-- **20 Skills Canónicas (`.agents/skills/`):** Agentes especializados gobernados por `sdd-orchestrator` que cubren desde el descubrimiento socrático hasta la emisión del dossier PDF.
+- **20 Skills Canónicas + Skills de Frontend (`frontend-design`):** Agentes especializados en `.agents/skills/` que cubren desde el descubrimiento socrático y el diseño visual anti-slop hasta la emisión del dossier PDF.
 
 ---
 

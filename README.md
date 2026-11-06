@@ -15,19 +15,21 @@
 1. [Resumen Ejecutivo](#-resumen-ejecutivo)
 2. [Los 10 Pilares Sinérgicos de SDD v6.6](#-los-10-pilares-sinérgicos-de-sdd-v66)
 3. [Flujo de Trabajo y Ciclo de Vida Agéntico](#-flujo-de-trabajo-y-ciclo-de-vida-agéntico)
-4. [Estructura del Repositorio y Entregables](#-estructura-del-repositorio-y-entregables)
-5. [Inicio Rápido (Quickstart)](#-inicio-rápido-quickstart)
-6. [Las 9+1 Hard Gates del Auditor (`spec-gate.ps1`)](#-las-91-hard-gates-del-auditor-spec-gateps1)
-7. [Documentación y Ecosistema de Recursos](#-documentación-y-ecosistema-de-recursos)
-8. [Verificación Formal y Pruebas Automatizadas](#-verificación-formal-y-pruebas-automatizadas)
-9. [Alineación Regulatoria y Cumplimiento](#-alineación-regulatoria-y-cumplimiento)
-10. [Créditos y Licencia](#-créditos-y-licencia)
+4. [Ecosistema de Skills Agénticas y Diseño Frontend](#-ecosistema-de-skills-agénticas-y-diseño-frontend)
+5. [Estructura del Repositorio y Entregables](#-estructura-del-repositorio-y-entregables)
+6. [Inicio Rápido (Quickstart)](#-inicio-rápido-quickstart)
+7. [Las 9+1 Hard Gates del Auditor (`spec-gate.ps1`)](#-las-91-hard-gates-del-auditor-spec-gateps1)
+8. [Documentación y Ecosistema de Recursos](#-documentación-y-ecosistema-de-recursos)
+9. [Verificación Formal y Pruebas Automatizadas](#-verificación-formal-y-pruebas-automatizadas)
+10. [Alineación Regulatoria y Cumplimiento](#-alineación-regulatoria-y-cumplimiento)
+11. [Créditos y Licencia](#-créditos-y-licencia)
 
 ---
 
 ## 🎯 Resumen Ejecutivo
 
 El desarrollo de software asistido por Modelos de Lenguaje (LLMs) y agentes de codificación ofrece una aceleración sin precedentes, pero introduce riesgos críticos:
+
 - **Alucinaciones y Spec Drift**: Desviación inadvertida de los requerimientos y alcances.
 - **Pruebas Falsas (*Fake Tests*)**: Mocks vacíos o aserciones triviales para aparentar aprobación.
 - **Erosión Arquitectónica**: Código acoplado y mezclas entre infraestructura y dominio.
@@ -88,10 +90,25 @@ sequenceDiagram
 
 ---
 
+## 🎨 Ecosistema de Skills Agénticas y Diseño Frontend
+
+SDD v6.6 opera mediante una arquitectura de **habilidades modulares (*Agent Skills*)** descubiertas automáticamente por Antigravity IDE en `.agents/skills/`:
+
+- **20 Skills Canónicas SDD (`sdd-*`):** Orquestación integral (`sdd-orchestrator`), onboarding socrático (`sdd-onboard`), especificación EARS (`sdd-specify`), arquitectura limpia (`sdd-plan`), desarrollo TDD (`sdd-implement`), ciberseguridad STRIDE (`sdd-secure-coding`) y auditoría regulatoria (`sdd-compliance`).
+- **Skill de Especialización Frontend (`frontend-design`):** Skill oficial importada del ecosistema de agentes (Anthropic) diseñada para erradicar patrones genéricos de IA (*anti-AI slop*) y elevar la calidad visual de las interfaces:
+  - **Identidad Propia:** Prohíbe fondos crema repetitivos, sombras homogéneas idénticas (`rgba(0,0,0,0.1)`) y tarjetas SaaS clonadas.
+  - **Plan de Diseño Previo:** Exige definir una paleta base de 4 a 6 colores hex, jerarquías tipográficas deliberadas y wireframes ASCII antes de codificar.
+  - **Piso de Calidad:** Asegura contraste accesible WCAG 2.1 AA ($\ge 4.5:1$), navegación por teclado y microcopy en voz activa orientado al usuario.
+
+---
+
 ## 📂 Estructura del Repositorio y Entregables
 
-```
+```text
 sdd-projects/
+├── .agents/                                   # Ecosistema Agéntico (Hooks y Skills)
+│   ├── hooks.json                            # Interceptores SessionStart, PreToolUse y PostToolUse
+│   └── skills/                               # Skills Canónicas y de Frontend (frontend-design)
 ├── DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md     # Libro Blanco Maestro v6.6 (MD canónico)
 ├── DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.html    # Libro Blanco compilado en HTML5 interactivo
 ├── DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.pdf     # Libro Blanco en PDF vectorial
@@ -149,44 +166,54 @@ python setup-sdd-project-v66.py --project-name "mi-sistema-critico" --stack "pyt
 ```powershell
 cd mi-sistema-critico
 
-# 1. Crear una nueva funcionalidad
-.\harness\sdd.ps1 -Action create -FeatureId "FEAT-101" -FeatureName "Autenticacion Multi-Factor"
+# Crear una nueva funcionalidad formal
+.\harness\sdd.ps1 -Action create -FeatureId "FEAT-001" -FeatureName "Autenticacion Segura"
 
-# 2. Aprobar formalmente la especificación (Human-in-the-Loop)
-.\harness\sdd.ps1 -Action approve -FeatureId "FEAT-101"
+# Aprobar formalmente tras inspeccionar spec y plan (Sello HMAC-SHA256 HITL)
+.\harness\sdd.ps1 -Action approve -FeatureId "FEAT-001" -Approver "lider.tecnico"
 
-# 3. Auditar la funcionalidad con las 9+1 Hard Gates
-.\harness\sdd.ps1 -Action gate -FeatureId "FEAT-101"
+# Abrir el Cockpit Ejecutivo de Observabilidad en tiempo real
+.\harness\sdd.ps1 -Action dashboard -Live
 
-# 4. Lanzar el Cockpit Ejecutivo de Observabilidad
-.\harness\sdd.ps1 -Action dashboard
-
-# 5. Exportar el expediente técnico de cumplimiento regulatorio
-.\harness\sdd.ps1 -Action export-compliance -FeatureId "FEAT-101"
+# Ejecutar el Auditor Nónuplo de Gobernanza
+.\harness\spec-gate.ps1 -FeatureId "FEAT-001"
 ```
 
 ---
 
 ## 🛡️ Las 9+1 Hard Gates del Auditor (`spec-gate.ps1`)
 
-| Gate | Nombre | Criterio de Aprobación |
+```mermaid
+flowchart LR
+    G0["Gate 0:\nHMAC Seal"] --> G1["Gate 1:\nAllowed Files"]
+    G1 --> G2["Gate 2:\nBDD 1:1"]
+    G2 --> G3["Gate 3:\nClean Arch"]
+    G3 --> G4["Gate 4:\nAnti-Fake Tests"]
+    G4 --> G5["Gate 5:\nGuía Usuario"]
+    G5 --> G6["Gate 6:\nUI/UX WCAG"]
+    G6 --> G7["Gate 7:\nAudit Trail"]
+    G7 --> G8["Gate 8:\nSecurity SAST"]
+    G8 --> G9["Gate 9:\nResilience k6"]
+```
+
+| Hard Gate | Nombre Formal | Criterio de Aprobación Inflexible |
 | :---: | :--- | :--- |
-| **0** | **HMAC-SHA256 Cryptographic Lock** | La firma criptográfica coincide con `spec.md`, `scenarios.feature` y `plan.md`. |
-| **1** | **Spec Drift & Scope Containment** | Ningún archivo fuera de `Allowed Files` en `plan.md` ha sido modificado. |
-| **2** | **BDD Acceptance Scenarios** | 100% de escenarios Gherkin ejecutados y pasando sin decoradores `@skip`. |
-| **3** | **TDD Unit Testing & Coverage** | Pruebas unitarias de dominio con cobertura mínima exigida (≥ 80%). |
-| **4** | **Clean Architecture Integrity** | Capa de dominio pura sin dependencias de infraestructura o presentación. |
-| **5** | **Zero Fake Tests Detection** | Detección estricta de aserciones vacías, pruebas complacientes y mocks falsos. |
-| **6** | **Security & Secret Scanning** | Cero llaves, contraseñas o tokens en texto plano y cero vulnerabilidades OWASP. |
-| **7** | **Static Analysis & Linting** | Cero violaciones críticas de estilo y análisis estático en el código fuente. |
-| **8** | **Audit Trail & Documentation** | Trazabilidad completa de cambios, diagramas actualizados y bitácora firmada. |
-| **9** | **k6 SLA & Resiliency Benchmark** | Percentiles de latencia P95/P99 validados (<200 ms) y tasa de error < 1%. |
+| **Gate 0** | **HMAC-SHA256 Pre-Check** | Coincidencia criptográfica del hash tridocumental (`spec.md` + `scenarios.feature` + `plan.md`) contra `.specify/.sdd_key`. |
+| **Gate 1** | **Allowed Files & Anti-Drift** | Ningún archivo modificado en `src/` o `tests/` fuera de la lista `## 4. Allowed Files` de `plan.md`. Cero falsos positivos en scripts de scaffold. |
+| **Gate 2** | **Paridad BDD 1:1** | Cobertura exacta de cada `@AC-X.Y` en `scenarios.feature` reflejada en los tests correspondientes. |
+| **Gate 3** | **Clean Architecture Pure** | Cero importaciones o referencias impuras hacia capas de infraestructura desde el núcleo de dominio. |
+| **Gate 4** | **Anti-Fake Tests** | Cero pruebas vacías, aserciones triviales (`assert True`), `pass` o decoradores `@pytest.mark.skip` no justificados. |
+| **Gate 5** | **Guía de Usuario Canónica** | Existencia y completitud de `docs/user_guide_<id>.md` con las 4 secciones estándar sin texto *placeholder*. |
+| **Gate 6** | **UI/UX Pro Max & WCAG** | Contraste de color algorítmico $\ge 4.5:1$ (WCAG 2.1 AA) y validación de los 5 estados obligatorios de componentes. |
+| **Gate 7** | **Inmutabilidad y Audit Trail** | Registro cronológico inviolable en `CHECKPOINTS.md` con atribución formal de usuario y fecha ISO 8601. |
+| **Gate 8** | **Ciberseguridad y SAST** | Cero vulnerabilidades críticas/altas (CVEs), cero secretos hardcodeados y sanitización contra inyecciones OWASP. |
+| **Gate 9** | **Resiliencia SLA (k6)** | Percentiles de latencia en carga sostenida con $P_{95} \le 200\text{ ms}$ y tasa de errores $< 1\%$. |
 
 ---
 
 ## 📚 Documentación y Ecosistema de Recursos
 
-- **[Libro Blanco Maestro v6.6 (Markdown)](DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md)**: Especificación formal completa de 14 capítulos y fundamentos matemáticos.
+- **[Documento Maestro v6.6 (Libro Blanco)](DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md)**: Fundamentos teóricos, arquitectura formal y evidencia de auditoría.
 - **[Guía Maestra de Setup (Markdown)](GUIA_MAESTRA_SETUP_SDD_V66.md)**: Manual operativo de despliegue y configuración de proyectos.
 - **[Guía Clean Architecture Políglota](GUIA_CLEAN_ARCHITECTURE_POLIGLOTA.md)**: Patrones de implementación para Java, Python, TypeScript, .NET y Go.
 - **[Guía de Onboarding para Desarrolladores](GUIA_PREPARACION_ONBOARDING_DESARROLLADOR.md)**: Manual de preparación para entrevistas técnicas y adopción del estándar.
