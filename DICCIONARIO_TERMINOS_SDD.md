@@ -33,8 +33,8 @@ Este glosario define los conceptos, acrónimos, metodologías y componentes téc
 
 ### **Greenfield vs. Brownfield**
 
-* **Greenfield:** Desarrollo de un proyecto nuevo desde cero, con arquitectura limpia desde el primer día.
-* **Brownfield:** Proyecto con una base de código preexistente o heredada (*legacy*). En SDD se aborda con la skill `sdd-reverse-spec` para extraer especificaciones retroactivas sin romper la compatibilidad.
+- **Greenfield:** Desarrollo de un proyecto nuevo desde cero, con arquitectura limpia desde el primer día.
+- **Brownfield:** Proyecto con una base de código preexistente o heredada (*legacy*). En SDD se aborda con la skill `sdd-reverse-spec` para extraer especificaciones retroactivas sin romper la compatibilidad.
 
 ---
 
@@ -44,8 +44,8 @@ Este glosario define los conceptos, acrónimos, metodologías y componentes téc
 
 Sintaxis estandarizada de ingeniería de requisitos diseñada para eliminar ambigüedades en el lenguaje natural. Utiliza patrones rigurosos (Ubicuos, Conducidos por Eventos, Estados, Opciones o Respuestas a Errores):
 
-* Ejemplo: *"When [evento], the [sistema] shall [acción]"*.
-* En SDD, cada criterio recibe un identificador único e inmutable (ej. `AC-1.1`).
+- Ejemplo: *"When [evento], the [sistema] shall [acción]"*.
+- En SDD, cada criterio recibe un identificador único e inmutable (ej. `AC-1.1`).
 
 ### **Gherkin**
 
@@ -96,10 +96,10 @@ $$\text{Requisito EARS } (AC\text{-}x.x) \longleftrightarrow \text{Escenario Ghe
 
 Patrón arquitectónico propuesto por Robert C. Martin que organiza el software en capas concéntricas con la regla fundamental de dependencia: *las capas internas nunca conocen nada de las capas externas*.
 
-* **`domain/` (Capa de Dominio):** Entidades, reglas de negocio y Value Objects puros. Cero dependencias externas o de base de datos.
-* **`application/` (Capa de Aplicación):** Casos de uso, orquestación del negocio e interfaces (puertos).
-* **`infrastructure/` (Capa de Infraestructura):** Implementación técnica concreta: bases de datos, APIs de terceros, repositorios y sistemas de archivos.
-* **`presentation/` (Capa de Presentación):** Interfaz gráfica de usuario (UI), endpoints REST o interfaces de consola (CLI). Nunca importa infraestructura de forma directa.
+- **`domain/` (Capa de Dominio):** Entidades, reglas de negocio y Value Objects puros. Cero dependencias externas o de base de datos.
+- **`application/` (Capa de Aplicación):** Casos de uso, orquestación del negocio e interfaces (puertos).
+- **`infrastructure/` (Capa de Infraestructura):** Implementación técnica concreta: bases de datos, APIs de terceros, repositorios y sistemas de archivos.
+- **`presentation/` (Capa de Presentación):** Interfaz gráfica de usuario (UI), endpoints REST o interfaces de consola (CLI). Nunca importa infraestructura de forma directa.
 
 ### **Inversión de Dependencias (Dependency Inversion Principle - DIP)**
 
@@ -152,10 +152,10 @@ Generación automática de la estructura completa de carpetas, configuraciones, 
 
 Scripts automáticos que se interceptan y disparan ante eventos del IDE:
 
-* **`SessionStart`:** Inicializa la sesión del agente, lee la memoria del proyecto y retoma el contexto de trabajo.
-* **`PreToolUse`:** Interceptor de seguridad que inspecciona llamadas a herramientas (`write_file`, `edit_file`) antes de que se ejecuten. Si el archivo destino no está en `Allowed Files`, aborta la operación físicamente.
-* **`PostToolUse`:** Revisa silenciosamente tras cada cambio que las reglas de Clean Architecture se mantengan intactas.
-* **`Git pre-commit`:** Impide confirmar cambios en el repositorio si los tests o el arnés de calidad fallan.
+- **`SessionStart`:** Inicializa la sesión del agente, lee la memoria del proyecto y retoma el contexto de trabajo.
+- **`PreToolUse`:** Interceptor de seguridad que inspecciona llamadas a herramientas (`write_file`, `edit_file`) antes de que se ejecuten. Si el archivo destino no está en `Allowed Files`, aborta la operación físicamente.
+- **`PostToolUse`:** Revisa silenciosamente tras cada cambio que las reglas de Clean Architecture se mantengan intactas.
+- **`Git pre-commit`:** Impide confirmar cambios en el repositorio si los tests o el arnés de calidad fallan.
 
 ### **Skills (Habilidades Agénticas Canónicas y de Extensión)**
 
@@ -165,10 +165,10 @@ Módulos de instrucciones especializadas ubicados en `.agents/skills/<nombre>/SK
 
 Conjunto de herramientas de CLI y validación ubicadas en la carpeta `harness/` del proyecto:
 
-* `init.ps1`: Ejecuta diagnósticos de entorno, tests automatizados y linters.
-* `sdd.ps1`: CLI central para gestionar el backlog, aprobar candados criptográficos y consultar el estado del DAG.
-* `spec-gate.ps1`: Motor de auditoría y ejecución de compuertas duras.
-* `preview-design.ps1`: Generador de visualizaciones interactivas HTML del sistema de diseño.
+- `init.ps1`: Ejecuta diagnósticos de entorno, tests automatizados y linters.
+- `sdd.ps1`: CLI central para gestionar el backlog, aprobar candados criptográficos y consultar el estado del DAG.
+- `spec-gate.ps1`: Motor de auditoría y ejecución de compuertas duras.
+- `preview-design.ps1`: Generador de visualizaciones interactivas HTML del sistema de diseño.
 
 ### **Auditor Séptuple**
 

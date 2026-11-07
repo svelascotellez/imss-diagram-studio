@@ -49,7 +49,6 @@ def lint_markdown(content, filename="<string>"):
         if re.match(r"^#{1,6}\s+", line):
             # Check above
             if i > 0 and lines[i-1].strip() != "":
-                # Exception: frontmatter closing line '---' directly above? Actually in markdownlint frontmatter is before line 1.
                 errors.append(f"MD022/blanks-around-headings: Missing blank line ABOVE heading at line {line_num} in {filename}")
             # Check below
             if i < len(lines) - 1 and lines[i+1].strip() != "":
@@ -73,6 +72,12 @@ def lint_markdown(content, filename="<string>"):
         # List detection
         is_list_item = bool(re.match(r"^\s*([*+-]|\d+\.)\s+", line))
         if is_list_item:
+            # MD004: Unordered list style (Expected: dash)
+            if re.match(r"^\s*\*\s+", line):
+                errors.append(f"MD004/ul-style: Unordered list style [Expected: dash; Actual: asterisk] at line {line_num} in {filename}")
+            elif re.match(r"^\s*\+\s+", line):
+                errors.append(f"MD004/ul-style: Unordered list style [Expected: dash; Actual: plus] at line {line_num} in {filename}")
+
             if not in_list:
                 in_list = True
                 # MD032: Blank line before list

@@ -34,22 +34,22 @@
 
 ### Paso 00: Inicialización y Scaffolding de Infraestructura v6.0
 
-* **Actor:** Desarrollador (PowerShell o Python).
-* **Acción:** Ejecución única del comando:
+- **Actor:** Desarrollador (PowerShell o Python).
+- **Acción:** Ejecución única del comando:
 
   ```powershell
   powershell -ExecutionPolicy Bypass -File .\setup-sdd-project-v6.ps1 -ProjectName "MiProyecto" -Stack "python" -GitInit
   ```
 
-* **Resultado:** Despliega el árbol Clean Architecture, 16 skills operativas canónicas en `.agents/skills/` (incluyendo `sdd-secure-coding`), plantillas maestras, arnés de seguridad (`verify-security.ps1`) y los interceptores físicos de ciclo de vida (`hooks.json`).
+- **Resultado:** Despliega el árbol Clean Architecture, 16 skills operativas canónicas en `.agents/skills/` (incluyendo `sdd-secure-coding`), plantillas maestras, arnés de seguridad (`verify-security.ps1`) y los interceptores físicos de ciclo de vida (`hooks.json`).
 
 ---
 
 ### Paso 01: Descubrimiento Socrático (Onboarding Adaptativo SDD 2.0)
 
-* **Actor:** Desarrollador + Agente en el chat de Antigravity IDE (`sdd-onboard`).
-* **Regla de Oro:** **1 pregunta o fase por turno**.
-* **Las 5 Fases:**
+- **Actor:** Desarrollador + Agente en el chat de Antigravity IDE (`sdd-onboard`).
+- **Regla de Oro:** **1 pregunta o fase por turno**.
+- **Las 5 Fases:**
   1. *Propósito y Usuarios:* Greenfield vs. Brownfield y resultado clave esperado.
   2. *Tipo de Interfaz y Stack:* Web, Headless API, CLI o Móvil + presets (`java-spring`, `python-pytest`, `ts-vitest`, etc.).
   3. *Identidad Visual UI/UX:* Arquetipo visual y accesibilidad WCAG 2.1 AA ($\ge 4.5:1$).
@@ -60,58 +60,58 @@
 
 ### Paso 02: Especificación Formal & Escenarios BDD
 
-* **Actor:** Agente (`sdd-specify` y `sdd-clarify`).
-* **Artefactos Generados:**
-  * `specs/FEAT-001/spec.md`: Criterios de aceptación EARS (`AC-1.1` a `AC-1.4`) y lista cerrada `## 5. Allowed Files`.
-  * `specs/FEAT-001/scenarios.feature`: Escenarios ejecutables Gherkin mapeados 1:1 (`@AC-1.1` a `@AC-1.4`).
-* **Blindaje:** Cualquier modificación fuera de `Allowed Files` es ilegal y bloqueada.
+- **Actor:** Agente (`sdd-specify` y `sdd-clarify`).
+- **Artefactos Generados:**
+  - `specs/FEAT-001/spec.md`: Criterios de aceptación EARS (`AC-1.1` a `AC-1.4`) y lista cerrada `## 5. Allowed Files`.
+  - `specs/FEAT-001/scenarios.feature`: Escenarios ejecutables Gherkin mapeados 1:1 (`@AC-1.1` a `@AC-1.4`).
+- **Blindaje:** Cualquier modificación fuera de `Allowed Files` es ilegal y bloqueada.
 
 ---
 
 ### Paso 03: El Candado Humano (Firma Criptográfica SHA-256)
 
-* **Actor:** Desarrollador / Líder Técnico (Human-in-the-Loop).
-* **Comando:**
+- **Actor:** Desarrollador / Líder Técnico (Human-in-the-Loop).
+- **Comando:**
 
   ```powershell
   .\harness\sdd.ps1 -Action approve -FeatureId FEAT-001 -Reason "Especificación validada"
   ```
 
-* **Gobernanza:** Se genera un hash inmutable. La IA **tiene prohibido físicamente tocar código en `src/` sin este candado**.
+- **Gobernanza:** Se genera un hash inmutable. La IA **tiene prohibido físicamente tocar código en `src/` sin este candado**.
 
 ---
 
 ### Paso 04: Plan Técnico, Arquitectura Limpia y Modelado STRIDE
 
-* **Actor:** Agente (`sdd-plan`, `sdd-secure-coding` y `sdd-tasks`).
-* **Acciones:**
-  * Define las 4 capas de Clean Architecture (`domain`, `application`, `infrastructure`, `presentation`).
-  * Modela amenazas en **Sección 5 STRIDE / OWASP**: Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation of Privilege.
-  * Verifica Trust Boundaries (`‖`) y ausencia de la Tríada Letal.
-  * Genera el checklist atómico TDD en `tasks.md`.
+- **Actor:** Agente (`sdd-plan`, `sdd-secure-coding` y `sdd-tasks`).
+- **Acciones:**
+  - Define las 4 capas de Clean Architecture (`domain`, `application`, `infrastructure`, `presentation`).
+  - Modela amenazas en **Sección 5 STRIDE / OWASP**: Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation of Privilege.
+  - Verifica Trust Boundaries (`‖`) y ausencia de la Tríada Letal.
+  - Genera el checklist atómico TDD en `tasks.md`.
 
 ---
 
 ### Paso 05: Implementación en Doble Bucle TDD
 
-* **Actor:** Agente (`sdd-implement`).
-* **Flujo:** Bucle exterior (BDD / Aceptación) + Bucle interior (TDD unitario): **Rojo $\rightarrow$ Verde $\rightarrow$ Refactor**.
-* **Protección Activa:** El hook nativo `PreToolUse` inspecciona cada `write_file` y `edit_file`. Si el archivo no está en `Allowed Files`, la herramienta aborta físicamente en tiempo real.
+- **Actor:** Agente (`sdd-implement`).
+- **Flujo:** Bucle exterior (BDD / Aceptación) + Bucle interior (TDD unitario): **Rojo $\rightarrow$ Verde $\rightarrow$ Refactor**.
+- **Protección Activa:** El hook nativo `PreToolUse` inspecciona cada `write_file` y `edit_file`. Si el archivo no está en `Allowed Files`, la herramienta aborta físicamente en tiempo real.
 
 ---
 
 ### Paso 06: Documentación Obligatoria del Usuario Final
 
-* **Actor:** Agente (`sdd-user-guide`).
-* **Artefacto:** `docs/user_guide_FEAT-001.md`.
-* **Regla Estricta:** Debe contener las 4 secciones canónicas (*Quick Start, Core Workflows, Error Handling, FAQ*) con **cero placeholders** (`TODO`, `TBD`).
+- **Actor:** Agente (`sdd-user-guide`).
+- **Artefacto:** `docs/user_guide_FEAT-001.md`.
+- **Regla Estricta:** Debe contener las 4 secciones canónicas (*Quick Start, Core Workflows, Error Handling, FAQ*) con **cero placeholders** (`TODO`, `TBD`).
 
 ---
 
 ### Paso 07: La Aduana Final — El Auditor Óctuple
 
-* **Actor:** Arnés de Calidad (`harness/spec-gate.ps1`).
-* **Las 8 Compuertas Duras:**
+- **Actor:** Arnés de Calidad (`harness/spec-gate.ps1`).
+- **Las 8 Compuertas Duras:**
   1. *Spec Drift:* Cero cambios fuera de `Allowed Files` (workspace y commits).
   2. *BDD 1:1:* Cobertura total de criterios EARS en escenarios Gherkin y tests.
   3. *Clean Architecture:* Dominio 100% puro; cero dependencias de base de datos o frameworks en `domain`.
@@ -125,10 +125,10 @@
 
 ### Paso 08: Cierre Formal & Sellado del Grafo DAG
 
-* **Actor:** Arnés de Calidad (`harness/sdd.ps1 -Action complete`).
-* **Acciones:**
-  * Valida que las 8 compuertas del Auditor Óctuple estén aprobadas al 100%.
-  * Calcula el `completion_hash` final.
-  * Registra el hito en `CHECKPOINTS.md`.
-  * Genera la **Matriz de Trazabilidad Bidireccional** en `docs/traceability_FEAT-001.md`.
-  * Desbloquea las funcionalidades dependientes en `feature_list.json`.
+- **Actor:** Arnés de Calidad (`harness/sdd.ps1 -Action complete`).
+- **Acciones:**
+  - Valida que las 8 compuertas del Auditor Óctuple estén aprobadas al 100%.
+  - Calcula el `completion_hash` final.
+  - Registra el hito en `CHECKPOINTS.md`.
+  - Genera la **Matriz de Trazabilidad Bidireccional** en `docs/traceability_FEAT-001.md`.
+  - Desbloquea las funcionalidades dependientes en `feature_list.json`.

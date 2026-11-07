@@ -718,16 +718,16 @@ Write-SddFile -Path ".specify\templates\plan.template.md" -Lines @(
     '',
     '- **Trust Boundaries (‖)**: Fronteras de confianza cruzadas por la funcionalidad (ej. Cliente ‖ API ‖ DB ‖ 3rd-Party).',
     '- **Evaluacion STRIDE**:',
-    '  * Spoofing: Sesion verificada en servidor / Token con algoritmo fijado (pinned algorithm).',
-    '  * Tampering: Validacion estricta en servidor, payloads HMAC, restricciones de integridad DB.',
-    '  * Repudiation: Logs estructurados auditables con user_id y timestamp.',
-    '  * Information Disclosure: Modelos de respuesta con allowlist de campos, consultas acotadas a propiedad (`WHERE owner_id = :me`).',
-    '  * Denial of Service: Rate-limiting, limite de tamano de payload, timeouts de consulta.',
-    '  * Elevation of Privilege: Autorizacion deny-by-default en cada objeto y operacion.',
+    '  - Spoofing: Sesion verificada en servidor / Token con algoritmo fijado (pinned algorithm).',
+    '  - Tampering: Validacion estricta en servidor, payloads HMAC, restricciones de integridad DB.',
+    '  - Repudiation: Logs estructurados auditables con user_id y timestamp.',
+    '  - Information Disclosure: Modelos de respuesta con allowlist de campos, consultas acotadas a propiedad (`WHERE owner_id = :me`).',
+    '  - Denial of Service: Rate-limiting, limite de tamano de payload, timeouts de consulta.',
+    '  - Elevation of Privilege: Autorizacion deny-by-default en cada objeto y operacion.',
     '- **OWASP Sinks & Defensas**:',
-    '  * Queries SQL: Consultas parametrizadas (bound parameters / ORM). Cero concatenacion f-string.',
-    '  * URLs externas: Validacion estricta https, allowlist de dominios y bloqueo de rangos IP privados (anti-SSRF).',
-    '  * Carga de archivos: Verificacion de tipo por magic bytes, tamano maximo y almacenamiento fuera de raiz web.',
+    '  - Queries SQL: Consultas parametrizadas (bound parameters / ORM). Cero concatenacion f-string.',
+    '  - URLs externas: Validacion estricta https, allowlist de dominios y bloqueo de rangos IP privados (anti-SSRF).',
+    '  - Carga de archivos: Verificacion de tipo por magic bytes, tamano maximo y almacenamiento fuera de raiz web.',
     '',
     '## 6. Matriz de Trazabilidad BDD / TDD',
     '',
@@ -881,7 +881,7 @@ Write-SddFile -Path ".specify\memory\constitution.md" -Lines @(
     '8. **Guia de Usuario Obligatoria:** Ninguna funcionalidad puede considerarse finalizada ni pasar a estado `done` sin contar con su Guia de Usuario en `docs\user_guide_<feature>.md`, redactada a partir de los escenarios BDD para usuarios finales.',
     '9. **UI/UX Design-System First & Aislamiento de Presentacion:** Toda interfaz de usuario reside exclusivamente en `src\presentation\`, gobernada por `.specify\design-system\design-tokens.json` y definida en la seccion 2 de `plan.md` antes de implementar. Las pruebas BDD validan interaccion, roles semanticos y accesibilidad (WCAG 2.1 AA), prohibiendose aserciones acopladas a clases CSS cosmeticas.',
     '10. **Secure Coding by Design & Cero Vulnerabilidades OWASP:** Toda funcionalidad que procese entradas externas, datos de usuario, autenticacion, tokens o acceso a infraestructura debe modelar amenazas (STRIDE) en la seccion 5 de plan.md. Queda terminantemente prohibido el uso de f-strings en SQL, shell=True, eval/exec o secretos hardcodeados. El Auditor Nonuplo valida que no existan credenciales ni patrones vulnerables OWASP antes del cierre formal.',
-    '11. **Higiene Estricta de Formato Markdown (MD003, MD009, MD022, MD029, MD031, MD032, MD040, MD047, MD058):** Todo documento Markdown generado o editado en el proyecto (specs, planes, tareas, guias de usuario, matrices de trazabilidad, changelog) debe cumplir rigurosamente las 9 reglas de calidad, espaciado y estructura de markdownlint: (a) MD003 (heading-style): estilo de encabezados exclusivamente ATX (#, ##, ###), prohibido setext (=== o --- bajo texto). (b) MD009 (no-trailing-spaces): cero espacios o tabulaciones al final de cada linea. (c) MD022 (blanks-around-headings): encabezados rodeados por exactamente una linea en blanco arriba y abajo. (d) MD029 (ol-prefix): numeracion coherente en listas ordenadas sin reinicios accidentales por saltos en blanco. (e) MD031 (blanks-around-fences): bloques de codigo cercados (```) rodeados por lineas en blanco arriba y abajo. (f) MD032 (blanks-around-lists): listas rodeadas por lineas en blanco arriba y abajo. (g) MD040 (fenced-code-language): todo bloque cercado debe declarar explicitamente su lenguaje (ej: ```text, ```powershell, ```json, ```markdown). (h) MD047 (single-trailing-newline): todo archivo DEBE terminar estrictamente con un unico salto de linea final, sin lineas en blanco residuales al final. (i) MD058 (blanks-around-tables): tablas rodeadas por lineas en blanco arriba y abajo.'
+    '11. **Higiene Estricta de Formato Markdown (MD003, MD004, MD009, MD022, MD029, MD031, MD032, MD040, MD047, MD058):** Todo documento Markdown generado o editado en el proyecto (specs, planes, tareas, guias de usuario, matrices de trazabilidad, changelog) debe cumplir rigurosamente las 9 reglas de calidad, espaciado y estructura de markdownlint: (a) MD003 (heading-style): estilo de encabezados exclusivamente ATX (#, ##, ###), prohibido setext (=== o --- bajo texto). (b) MD009 (no-trailing-spaces): cero espacios o tabulaciones al final de cada linea. (c) MD022 (blanks-around-headings): encabezados rodeados por exactamente una linea en blanco arriba y abajo. (d) MD029 (ol-prefix): numeracion coherente en listas ordenadas sin reinicios accidentales por saltos en blanco. (e) MD031 (blanks-around-fences): bloques de codigo cercados (```) rodeados por lineas en blanco arriba y abajo. (f) MD032 (blanks-around-lists): listas rodeadas por lineas en blanco arriba y abajo. (g) MD040 (fenced-code-language): todo bloque cercado debe declarar explicitamente su lenguaje (ej: ```text, ```powershell, ```json, ```markdown). (h) MD047 (single-trailing-newline): todo archivo DEBE terminar estrictamente con un unico salto de linea final, sin lineas en blanco residuales al final. (i) MD058 (blanks-around-tables): tablas rodeadas por lineas en blanco arriba y abajo.'
 )
 
 Write-SddFile -Path "feature_list.json" -Lines @('[]')
@@ -4033,7 +4033,7 @@ Write-SddFile -Path "harness\sdd.ps1" -Lines @(
     '        Invoke-PrSummary',
     '    }',
     '    "fix-markdown" {',
-    '        Write-Host "=== [SDD Fix-Markdown]: Escaneando y corrigiendo violaciones MD003, MD009, MD022, MD029, MD031, MD032, MD040, MD047 y MD058... ===" -ForegroundColor Cyan',
+    '        Write-Host "=== [SDD Fix-Markdown]: Escaneando y corrigiendo violaciones MD003, MD004, MD009, MD022, MD029, MD031, MD032, MD040, MD047 y MD058... ===" -ForegroundColor Cyan',
     '        $mdFiles = Get-ChildItem -Path "." -Filter "*.md" -Recurse -File | Where-Object { $_.FullName -notmatch "\\(\.git|node_modules|venv|\.venv)\\" }',
     '        $totalFixed = 0',
     '        foreach ($file in $mdFiles) {',
@@ -4170,6 +4170,11 @@ Write-SddFile -Path "harness\sdd.ps1" -Lines @(
     '                }',
     '                $isListItem = ($curLine -match ''^\s*([*+-]|\d+\.)\s+'')',
     '                if ($isListItem) {',
+    '                    if ($curLine -match ''^(\s*)[*+](\s+.*)$'') {',
+    '                        $curLine = "$($Matches[1])-$($Matches[2])"',
+    '                        $fileChanged = $true',
+    '                        $totalFixed++',
+    '                    }',
     '                    if (-not $inList) {',
     '                        if ($output.Count -gt 0 -and $output[$output.Count - 1].Trim() -ne '''') {',
     '                            $output.Add('''')',
@@ -4249,7 +4254,7 @@ Write-SddFile -Path "harness\sdd.ps1" -Lines @(
     '            if ($fileChanged -or $needsNlFix) {',
     '                $finalContent = ($output -join "`r`n") + "`r`n"',
     '                [System.IO.File]::WriteAllText($file.FullName, $finalContent, [System.Text.Encoding]::UTF8)',
-    '                Write-Host "  [Markdown Fixed MD003/MD009/MD022/MD029/MD031/MD032/MD040/MD047/MD058]: $($file.FullName -replace [regex]::Escape($PWD.Path + ''\''), '''')" -ForegroundColor Yellow',
+    '                Write-Host "  [Markdown Fixed MD003/MD004/MD009/MD022/MD029/MD031/MD032/MD040/MD047/MD058]: $($file.FullName -replace [regex]::Escape($PWD.Path + ''\''), '''')" -ForegroundColor Yellow',
     '                $totalFixed++',
     '            }',
     '        }',
@@ -4770,7 +4775,7 @@ Write-SddFile -Path "harness\spec-gate.ps1" -Lines @(
     '    Write-Host "[Fallo Documentacion]: Se detectaron placeholders residuales sin rellenar en $($FoundGuide): $distinctUnfilled" -ForegroundColor Red',
     '    exit 1',
     '}',
-    '# 6C. Validacion y Auto-Reparacion Markdownlint (MD003, MD009, MD022, MD029, MD031, MD032, MD040, MD047, MD058)',
+    '# 6C. Validacion y Auto-Reparacion Markdownlint (MD003, MD004, MD009, MD022, MD029, MD031, MD032, MD040, MD047, MD058)',
     '$AllMdFiles = @($FoundGuide, $SpecFile, $PlanFile)',
     'if (Test-Path "specs\$FeatureId\tasks.md") { $AllMdFiles += "specs\$FeatureId\tasks.md" }',
     '$MdFixedCount = 0',
@@ -4909,6 +4914,11 @@ Write-SddFile -Path "harness\spec-gate.ps1" -Lines @(
     '            }',
     '            $isListItem = ($curLine -match ''^\s*([*+-]|\d+\.)\s+'')',
     '            if ($isListItem) {',
+    '                    if ($curLine -match ''^(\s*)[*+](\s+.*)$'') {',
+    '                        $curLine = "$($Matches[1])-$($Matches[2])"',
+    '                        $fileChanged = $true',
+    '                        $MdFixedCount++',
+    '                    }',
     '                if (-not $inList) {',
     '                    if ($output.Count -gt 0 -and $output[$output.Count - 1].Trim() -ne '''') {',
     '                        $output.Add('''')',
@@ -4988,7 +4998,7 @@ Write-SddFile -Path "harness\spec-gate.ps1" -Lines @(
     '        if ($fileChanged -or $needsNlFix) {',
     '            $finalContent = ($output -join "`r`n") + "`r`n"',
     '            [System.IO.File]::WriteAllText((Resolve-Path $mdPath).Path, $finalContent, [System.Text.Encoding]::UTF8)',
-    '            Write-Host "  [Auto-Fix MD003/MD009/MD022/MD029/MD031/MD032/MD040/MD047/MD058]: Formato Markdown saneado en $mdPath." -ForegroundColor Yellow',
+    '            Write-Host "  [Auto-Fix MD003/MD004/MD009/MD022/MD029/MD031/MD032/MD040/MD047/MD058]: Formato Markdown saneado en $mdPath." -ForegroundColor Yellow',
     '        }',
     '    }',
     '}',
@@ -5945,7 +5955,7 @@ Write-SddSkill -SkillName "sdd-compliance" -Lines @(
 )
 
 # ==============================================================================
-# 7.9 AUTO-HIGIENE MARKDOWN INICIAL (MD003, MD009, MD022, MD029, MD031, MD032, MD040, MD047, MD058)
+# 7.9 AUTO-HIGIENE MARKDOWN INICIAL (MD003, MD004, MD009, MD022, MD029, MD031, MD032, MD040, MD047, MD058)
 # ==============================================================================
 if (Test-Path "harness\sdd.ps1") {
     & .\harness\sdd.ps1 -Action fix-markdown | Out-Null
