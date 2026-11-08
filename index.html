@@ -1297,6 +1297,38 @@
             </div>
           </div>
           <div class="stencil-grid">
+            <!-- Conectores y Líneas Draw.io -->
+            <div class="stencil-card" data-title="Conector de Flujo" data-tags="line linea flecha arrow conector flujo connector orthogonal"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'connector', 'Flujo', 120, 60)"
+                 onclick="quickAddOrConnect('orthogonal')" title="Conector Ortogonal de Flujo (Haz clic para conectar)">
+              <svg viewBox="0 0 32 32">
+                <path d="M 4 24 L 16 24 L 16 8 L 26 8" fill="none" stroke="#006341" stroke-width="2"/>
+                <polygon points="25,5 29,8 25,11" fill="#006341"/>
+              </svg>
+            </div>
+            <div class="stencil-card" data-title="Línea con Flecha" data-tags="line linea flecha straight conector"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'connector', 'Línea', 120, 60)"
+                 onclick="quickAddOrConnect('straight')" title="Línea Recta con Flecha">
+              <svg viewBox="0 0 32 32">
+                <line x1="4" y1="26" x2="24" y2="6" stroke="#006341" stroke-width="2"/>
+                <polygon points="21,5 27,5 27,11" fill="#006341"/>
+              </svg>
+            </div>
+            <div class="stencil-card" data-title="Línea Simple" data-tags="line linea simple conector"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'connector', 'Línea Simple', 120, 60)"
+                 onclick="quickAddOrConnect('straight_noarrow')" title="Línea Simple sin Flecha">
+              <svg viewBox="0 0 32 32">
+                <line x1="4" y1="26" x2="28" y2="6" stroke="#334155" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="stencil-card" data-title="Conector Curvo" data-tags="curva curvo curve conector"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'connector', 'Curva', 120, 60)"
+                 onclick="quickAddOrConnect('curved')" title="Conector Curvo Suave">
+              <svg viewBox="0 0 32 32">
+                <path d="M 4 26 C 14 26 18 6 26 6" fill="none" stroke="#006341" stroke-width="2"/>
+                <polygon points="24,3 29,6 24,9" fill="#006341"/>
+              </svg>
+            </div>
             <!-- 1. Rectangle -->
             <div class="stencil-card" data-title="Rectangle" data-tags="rectangle cuadro rectangulo box"
                  draggable="true" ondragstart="handleShapeDragStart(event, 'rectangle', 'Rectangle', 120, 60)"
@@ -1780,8 +1812,14 @@
           <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
             <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E2E8F0" stroke-width="0.75"/>
           </pattern>
-          <marker id="arrowClassic" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <marker id="arrowClassic" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
             <path d="M 0 1 L 9 5 L 0 9 z" fill="#006341" />
+          </marker>
+          <marker id="arrowClassicGold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#B38E5D" />
+          </marker>
+          <marker id="arrowClassicDark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#334155" />
           </marker>
           <marker id="arrowBlock" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <polygon points="0 1, 10 6, 0 11" fill="#006341" />
@@ -1821,7 +1859,7 @@
     </main>
 
     <!-- Right Format Panel (Draw.io Style) -->
-    <aside class="format-panel" id="formatPanel">
+    <aside class="format-panel collapsed" id="formatPanel">
       <div class="format-panel-header">
         <span id="formatPanelTitle">Formato / Propiedades</span>
         <button class="btn-close-panel" onclick="toggleFormatPanel()" title="Cerrar panel">✕</button>
@@ -2422,13 +2460,18 @@
     function addShape(type, label, w = 140, h = 65, x, y) {
       pushHistory();
 
-      // Centro del viewport actual
+      // Centro del viewport actual o posición segura garantizada
       const rect = svg.getBoundingClientRect();
-      const defaultX = (rect.width / 2 - panOffset.x) / zoomLevel - w / 2;
-      const defaultY = (rect.height / 2 - panOffset.y) / zoomLevel - h / 2;
+      const viewportW = (rect.width && rect.width > 100) ? rect.width : (window.innerWidth - 300);
+      const viewportH = (rect.height && rect.height > 100) ? rect.height : (window.innerHeight - 120);
 
-      let posX = x !== undefined ? x : defaultX + (Math.random() * 40 - 20);
-      let posY = y !== undefined ? y : defaultY + (Math.random() * 40 - 20);
+      const defaultX = (viewportW / 2 - panOffset.x) / zoomLevel - w / 2;
+      const defaultY = (viewportH / 2 - panOffset.y) / zoomLevel - h / 2;
+
+      // Desplazamiento escalonado para no tapar elementos añadidos sucesivamente
+      const cascade = (shapes.length * 25) % 180;
+      let posX = x !== undefined ? x : (defaultX + cascade - 40);
+      let posY = y !== undefined ? y : (defaultY + cascade - 40);
 
       if (snapToGrid) {
         posX = Math.round(posX / 10) * 10;
@@ -2439,8 +2482,8 @@
         id: 'shape-' + Math.random().toString(36).substring(2, 9),
         type,
         label,
-        x: Math.max(10, posX),
-        y: Math.max(10, posY),
+        x: Math.max(20, Math.round(posX)),
+        y: Math.max(20, Math.round(posY)),
         w: Math.max(w, 24),
         h: Math.max(h, 24),
         rotation: 0,
@@ -2463,7 +2506,40 @@
       shapes.push(shape);
       selectShape(shape);
       render();
+      showToast(`Elemento agregado: ${label}`);
       return shape;
+    }
+
+    function quickAddOrConnect(routing = 'orthogonal') {
+      if (shapes.length === 0) {
+        showToast('Agrega figuras al lienzo primero para conectarlas.', true);
+        return;
+      }
+      if (selectedShape) {
+        const src = selectedShape;
+        const target = shapes.find(s => s.id !== src.id);
+        if (target) {
+          const conn = addConnector(src.id, 'east', target.id, 'west', 'Flujo');
+          if (conn) {
+            conn.routing = routing.startsWith('straight') ? 'straight' : (routing === 'curved' ? 'curved' : 'orthogonal');
+            render();
+            showToast(`✓ Conectado: "${src.label}" ➔ "${target.label}"`);
+            return;
+          }
+        }
+      } else if (shapes.length >= 2) {
+        const s1 = shapes[shapes.length - 2];
+        const s2 = shapes[shapes.length - 1];
+        const conn = addConnector(s1.id, 'east', s2.id, 'west', 'Flujo');
+        if (conn) {
+          conn.routing = routing.startsWith('straight') ? 'straight' : (routing === 'curved' ? 'curved' : 'orthogonal');
+          render();
+          showToast(`✓ Conectado: "${s1.label}" ➔ "${s2.label}"`);
+          return;
+        }
+      }
+      setMode('connect');
+      showToast('Modo Conectar: Haz clic en la figura origen y luego en la destino.');
     }
 
     function addConnector(sourceId, sourcePort, targetId, targetPort, label = '') {
@@ -2553,12 +2629,14 @@
         const strokeW = isSelected ? 3.5 : c.strokeWidth;
         const dash = c.linePattern === 'dashed' ? 'stroke-dasharray="6 4"' : (c.linePattern === 'dotted' ? 'stroke-dasharray="2 3"' : '');
 
+        const marker = isSelected ? 'url(#arrowClassicGold)' : 'url(#arrowClassic)';
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         g.innerHTML = `
+          <path d="${d}" fill="none" stroke="transparent" stroke-width="14" style="cursor:pointer;" />
           <path d="${d}" fill="none" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash}
-                marker-end="url(#arrowClassic)" style="cursor:pointer;" />
+                marker-end="${marker}" style="cursor:pointer;" />
           ${c.label ? `
-            <rect x="${(p1.x + p2.x)/2 - 30}" y="${(p1.y + p2.y)/2 - 16}" width="60" height="16" fill="#FFFFFF" rx="3" stroke="#CBD5E1" opacity="0.9" />
+            <rect x="${(p1.x + p2.x)/2 - 32}" y="${(p1.y + p2.y)/2 - 18}" width="64" height="20" fill="#FFFFFF" rx="4" stroke="#CBD5E1" opacity="0.95" />
             <text x="${(p1.x + p2.x)/2}" y="${(p1.y + p2.y)/2 - 4}" fill="#0F172A" font-size="11" font-weight="600"
                   text-anchor="middle" font-family="Inter, sans-serif" style="cursor:pointer;">${c.label}</text>
           ` : ''}
@@ -2580,6 +2658,7 @@
       shapesLayer.innerHTML = '';
       shapes.forEach(s => {
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('class', 'shape-node');
         let transformStr = `translate(${s.x}, ${s.y})`;
         if (s.rotation) {
           transformStr += ` rotate(${s.rotation}, ${s.w/2}, ${s.h/2})`;
@@ -2588,12 +2667,12 @@
         g.style.cursor = currentMode === 'connect' ? 'crosshair' : (currentMode === 'pan' ? 'grab' : 'move');
 
         const isSelected = selectedShape && selectedShape.id === s.id;
-        const strokeColor = isSelected ? '#B38E5D' : s.stroke;
-        const strokeW = isSelected ? 3 : s.strokeWidth;
+        const isConnectSource = connectingSource && connectingSource.shapeId === s.id;
+        const strokeColor = isSelected ? '#B38E5D' : (isConnectSource ? '#006341' : s.stroke);
+        const strokeW = isSelected || isConnectSource ? 3 : s.strokeWidth;
 
         const shapeSvg = renderShapeGeometry(s, strokeColor, strokeW);
 
-        // Estilos de texto
         let fontWeight = s.isBold ? 'bold' : '600';
         let fontStyle = s.isItalic ? 'italic' : 'normal';
         let textDecor = s.isUnderline ? 'underline' : 'none';
@@ -2612,10 +2691,26 @@
           openInlineEditor(s);
         };
 
-        // Selección y Arrastre
+        // Selección, Modo Conectar o Arrastre
         g.onmousedown = (e) => {
           if (currentMode === 'pan') return;
           e.stopPropagation();
+
+          if (currentMode === 'connect') {
+            if (!connectingSource) {
+              connectingSource = { shapeId: s.id, port: 'east' };
+              showToast(`Origen: "${s.label}". Haz clic en la figura destino.`);
+              render();
+            } else if (connectingSource.shapeId !== s.id) {
+              finishConnecting(s.id, 'west');
+            } else {
+              connectingSource = null;
+              showToast('Conexión cancelada.');
+              render();
+            }
+            return;
+          }
+
           selectShape(s);
 
           if (currentMode === 'select') {
@@ -2625,6 +2720,66 @@
             const mouseY = (e.clientY - rect.top - panOffset.y) / zoomLevel;
             dragStartPos = { x: mouseX, y: mouseY };
             initialShapeGeom = { x: s.x, y: s.y, w: s.w, h: s.h };
+          }
+        };
+
+        // Puertos de Conexión N, S, E, W interactivos en cada figura
+        const ports = [
+          { p: 'north', cx: s.w / 2, cy: 0 },
+          { p: 'south', cx: s.w / 2, cy: s.h },
+          { p: 'east', cx: s.w, cy: s.h / 2 },
+          { p: 'west', cx: 0, cy: s.h / 2 }
+        ];
+
+        const portsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        portsGroup.setAttribute('class', 'shape-ports');
+        const showPorts = isSelected || currentMode === 'connect' || connectingSource !== null;
+        portsGroup.style.opacity = showPorts ? '1' : '0.2';
+        portsGroup.style.transition = 'opacity 0.2s ease';
+
+        ports.forEach(pt => {
+          const portG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          portG.style.cursor = 'crosshair';
+          portG.innerHTML = `
+            <circle cx="${pt.cx}" cy="${pt.cy}" r="12" fill="transparent" />
+            <circle cx="${pt.cx}" cy="${pt.cy}" r="5" fill="#006341" stroke="#FFFFFF" stroke-width="1.5" />
+          `;
+          portG.onmousedown = (e) => {
+            e.stopPropagation();
+            startConnecting(s.id, pt.p);
+          };
+          portG.onmouseup = (e) => {
+            e.stopPropagation();
+            if (connectingSource && connectingSource.shapeId !== s.id) {
+              finishConnecting(s.id, pt.p);
+            }
+          };
+          portsGroup.appendChild(portG);
+        });
+
+        g.appendChild(portsGroup);
+
+        g.onmouseenter = () => { portsGroup.style.opacity = '1'; };
+        g.onmouseleave = () => {
+          if (!isSelected && currentMode !== 'connect' && !connectingSource) {
+            portsGroup.style.opacity = '0.2';
+          }
+        };
+
+        // Si se suelta el mouse sobre la figura al arrastrar un conector
+        g.onmouseup = (e) => {
+          if (connectingSource && connectingSource.shapeId !== s.id) {
+            e.stopPropagation();
+            const rect = svg.getBoundingClientRect();
+            const mouseX = (e.clientX - rect.left - panOffset.x) / zoomLevel;
+            const mouseY = (e.clientY - rect.top - panOffset.y) / zoomLevel;
+            const relX = mouseX - s.x;
+            const relY = mouseY - s.y;
+            let targetPort = 'west';
+            if (relX > s.w * 0.75) targetPort = 'east';
+            else if (relY < s.h * 0.25) targetPort = 'north';
+            else if (relY > s.h * 0.75) targetPort = 'south';
+            finishConnecting(s.id, targetPort);
           }
         };
 
@@ -2881,18 +3036,30 @@
       canvasWrapper.classList.toggle('panning', mode === 'pan');
       connectingSource = null;
       tempConnectorLayer.innerHTML = '';
+      if (mode === 'connect') {
+        showToast('Modo Conectar: Haz clic en la figura origen y luego en la destino, o arrastra desde sus puertos verdes.');
+      }
       render();
     }
 
     function startConnecting(shapeId, port) {
       connectingSource = { shapeId, port };
+      render();
     }
 
     function finishConnecting(targetId, targetPort) {
       if (connectingSource) {
-        addConnector(connectingSource.shapeId, connectingSource.port, targetId, targetPort, 'Flujo');
+        if (connectingSource.shapeId !== targetId) {
+          const s1 = shapes.find(s => s.id === connectingSource.shapeId);
+          const s2 = shapes.find(s => s.id === targetId);
+          const conn = addConnector(connectingSource.shapeId, connectingSource.port, targetId, targetPort, 'Flujo');
+          if (conn) {
+            showToast(`✓ Conector creado: "${s1 ? s1.label : 'Origen'}" ➔ "${s2 ? s2.label : 'Destino'}"`);
+          }
+        }
         connectingSource = null;
         tempConnectorLayer.innerHTML = '';
+        render();
       }
     }
 
@@ -2974,7 +3141,7 @@
           const p1 = getPortCoords(s1, connectingSource.port);
           tempConnectorLayer.innerHTML = `
             <line x1="${p1.x}" y1="${p1.y}" x2="${mouseX}" y2="${mouseY}"
-                  stroke="#B38E5D" stroke-width="2" stroke-dasharray="4 4"/>
+                  stroke="#006341" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#arrowClassic)" />
           `;
         }
       }
@@ -3489,14 +3656,10 @@
         return;
       }
 
-      let xml = '<mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
-';
-      xml += '  <root>
-';
-      xml += '    <mxCell id="0"/>
-';
-      xml += '    <mxCell id="1" parent="0"/>
-';
+      let xml = '<mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">\n';
+      xml += '  <root>\n';
+      xml += '    <mxCell id="0"/>\n';
+      xml += '    <mxCell id="1" parent="0"/>\n';
 
       // Nodos
       shapes.forEach(s => {
@@ -3538,8 +3701,7 @@
 `;
         xml += `      <mxGeometry x="${Math.round(s.x)}" y="${Math.round(s.y)}" width="${Math.round(s.w)}" height="${Math.round(s.h)}" as="geometry"/>
 `;
-        xml += '    </mxCell>
-';
+        xml += '    </mxCell>\n';
       });
 
       // Conectores
@@ -3547,14 +3709,11 @@
         const style = `edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=${c.stroke};strokeWidth=${c.strokeWidth};endArrow=classic;`;
         xml += `    <mxCell id="${c.id}" value="${escapeXml(c.label)}" style="${style}" edge="1" parent="1" source="${c.sourceId}" target="${c.targetId}">
 `;
-        xml += '      <mxGeometry relative="1" as="geometry"/>
-';
-        xml += '    </mxCell>
-';
+        xml += '      <mxGeometry relative="1" as="geometry"/>\n';
+        xml += '    </mxCell>\n';
       });
 
-      xml += '  </root>
-';
+      xml += '  </root>\n';
       xml += '</mxGraphModel>';
 
       const fileName = document.getElementById('diagramTitle').value.replace(/\.drawio$/, '') + '.drawio.xml';
@@ -3697,12 +3856,9 @@
 
       let doc = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${minX} ${minY} ${w} ${h}" width="${w}" height="${h}">
 `;
-      doc += '  <defs>
-';
-      doc += '    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#006341" /></marker>
-';
-      doc += '  </defs>
-';
+      doc += '  <defs>\n';
+      doc += '    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#006341" /></marker>\n';
+      doc += '  </defs>\n';
       doc += `  <rect x="${minX}" y="${minY}" width="${w}" height="${h}" fill="#FFFFFF" />
 `;
 
@@ -3760,34 +3916,20 @@
 
       let svgDoc = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Diagrama de Arquitectura DIDT IMSS">
 `;
-      svgDoc += '  <defs>
-';
-      svgDoc += '    <style>
-';
-      svgDoc += '      .imss-title { font-family: Inter, system-ui, sans-serif; font-size: 15px; font-weight: 700; fill: #FFFFFF; }
-';
-      svgDoc += '      .imss-sub { font-family: Inter, system-ui, sans-serif; font-size: 11px; fill: #E2E8F0; }
-';
-      svgDoc += '      .imss-node-label { font-family: Inter, system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #0F172A; text-anchor: middle; dominant-baseline: middle; }
-';
-      svgDoc += '      .imss-footer { font-family: Inter, system-ui, sans-serif; font-size: 10px; fill: #64748B; }
-';
-      svgDoc += '    </style>
-';
-      svgDoc += '    <marker id="arrowhead-imss" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-';
-      svgDoc += '      <polygon points="0 0, 10 3.5, 0 7" fill="#006341" />
-';
-      svgDoc += '    </marker>
-';
-      svgDoc += '    <pattern id="imss-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-';
-      svgDoc += '      <circle cx="2" cy="2" r="1" fill="#CBD5E1" opacity="0.5" />
-';
-      svgDoc += '    </pattern>
-';
-      svgDoc += '  </defs>
-';
+      svgDoc += '  <defs>\n';
+      svgDoc += '    <style>\n';
+      svgDoc += '      .imss-title { font-family: Inter, system-ui, sans-serif; font-size: 15px; font-weight: 700; fill: #FFFFFF; }\n';
+      svgDoc += '      .imss-sub { font-family: Inter, system-ui, sans-serif; font-size: 11px; fill: #E2E8F0; }\n';
+      svgDoc += '      .imss-node-label { font-family: Inter, system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #0F172A; text-anchor: middle; dominant-baseline: middle; }\n';
+      svgDoc += '      .imss-footer { font-family: Inter, system-ui, sans-serif; font-size: 10px; fill: #64748B; }\n';
+      svgDoc += '    </style>\n';
+      svgDoc += '    <marker id="arrowhead-imss" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">\n';
+      svgDoc += '      <polygon points="0 0, 10 3.5, 0 7" fill="#006341" />\n';
+      svgDoc += '    </marker>\n';
+      svgDoc += '    <pattern id="imss-grid" width="20" height="20" patternUnits="userSpaceOnUse">\n';
+      svgDoc += '      <circle cx="2" cy="2" r="1" fill="#CBD5E1" opacity="0.5" />\n';
+      svgDoc += '    </pattern>\n';
+      svgDoc += '  </defs>\n';
 
       // Fondo
       svgDoc += `  <rect width="${w}" height="${h}" fill="#F8FAFC" />
@@ -3810,8 +3952,7 @@
 `;
 
       // Conectores
-      svgDoc += '  <g id="imss-connectors">
-';
+      svgDoc += '  <g id="imss-connectors">\n';
       connectors.forEach(c => {
         const s1 = shapes.find(s => s.id === c.sourceId);
         const s2 = shapes.find(s => s.id === c.targetId);
@@ -3823,12 +3964,10 @@
 `;
         }
       });
-      svgDoc += '  </g>
-';
+      svgDoc += '  </g>\n';
 
       // Formas
-      svgDoc += '  <g id="imss-shapes">
-';
+      svgDoc += '  <g id="imss-shapes">\n';
       shapes.forEach(s => {
         svgDoc += `    <g transform="translate(${s.x}, ${s.y})">
 `;
@@ -3839,8 +3978,7 @@
         svgDoc += `    </g>
 `;
       });
-      svgDoc += '  </g>
-';
+      svgDoc += '  </g>\n';
 
       // Pie Institucional
       svgDoc += `  <g id="imss-footer" transform="translate(0, ${h - 36})">
