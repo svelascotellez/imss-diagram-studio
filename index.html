@@ -2677,12 +2677,30 @@
         let fontStyle = s.isItalic ? 'italic' : 'normal';
         let textDecor = s.isUnderline ? 'underline' : 'none';
 
+        // Mapeo correcto de alineacion para SVG text-anchor (middle, start, end)
+        let textAnchor = 'middle';
+        let textX = s.w / 2;
+        if (s.textAlign === 'left' || s.textAlign === 'start') {
+          textAnchor = 'start';
+          textX = 12;
+        } else if (s.textAlign === 'right' || s.textAlign === 'end') {
+          textAnchor = 'end';
+          textX = s.w - 12;
+        } else {
+          textAnchor = 'middle';
+          textX = s.w / 2;
+        }
+
+        if (s.type === 'imss_gateway' && textAnchor === 'middle') {
+          textX = s.w / 2 + 10;
+        }
+
         g.innerHTML = `
           ${shapeSvg}
-          <text x="${s.w / 2}" y="${s.h / 2}" dominant-baseline="middle" text-anchor="${s.textAlign || 'middle'}"
+          <text x="${textX}" y="${s.h / 2}" dominant-baseline="central" text-anchor="${textAnchor}"
                 fill="${s.fontColor || '#0F172A'}" font-size="${s.fontSize || 12}" font-weight="${fontWeight}"
                 font-style="${fontStyle}" text-decoration="${textDecor}" font-family="${s.fontFamily || 'Inter'}, sans-serif"
-                style="pointer-events:none;">${s.label}</text>
+                style="pointer-events:none; user-select:none;">${escapeXml(s.label)}</text>
         `;
 
         // Doble clic para edición inline
