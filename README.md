@@ -1,10 +1,12 @@
 # SDD Framework — Specification-Driven Development
 
-[![Version](https://img.shields.io/badge/version-6.6--hardened-blue.svg)](DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md)
-[![Status](https://img.shields.io/badge/status-production--ready-success.svg)](DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md)
-[![Security](https://img.shields.io/badge/governance-HMAC--SHA256-orange.svg)](GUIA_MAESTRA_SETUP_SDD_V66.md)
+[![CI / Governance Gates](https://github.com/svelascotellez/ssd-projects/actions/workflows/ci.yml/badge.svg)](https://github.com/svelascotellez/ssd-projects/actions/workflows/ci.yml)
+[![Version](https://img.shields.io/badge/version-6.6.0--hardened-blue.svg)](DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Security Policy](https://img.shields.io/badge/security-audited-orange.svg)](SECURITY.md)
 [![Compliance](https://img.shields.io/badge/compliance-ISO_27001_|_21_CFR_11_|_SOC_2_|_HIPAA-brightgreen.svg)](DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md)
-[![Platform](https://img.shields.io/badge/platform-PowerShell_|_Python_|_Cross--Platform-lightgrey.svg)](setup-sdd-project-v66.ps1)
+[![DevContainer](https://img.shields.io/badge/DevContainer-ready-blueviolet.svg)](.devcontainer/devcontainer.json)
+[![Platform](https://img.shields.io/badge/platform-PowerShell_|_Python_|_POSIX_Bash-lightgrey.svg)](setup-sdd-project-v66.ps1)
 
 > **Marco de Gobernanza Matemática, Arquitectura Limpia Políglota, Candado Criptográfico HMAC-SHA256, Ciberseguridad Defensiva, Resiliencia SLA k6 y Evidencia Técnica Auditable para el Desarrollo Asistido por Agentes de Inteligencia Artificial.**
 
@@ -15,14 +17,14 @@
 1. [Resumen Ejecutivo](#-resumen-ejecutivo)
 2. [Los 10 Pilares Sinérgicos de SDD v6.6](#-los-10-pilares-sinérgicos-de-sdd-v66)
 3. [Flujo de Trabajo y Ciclo de Vida Agéntico](#-flujo-de-trabajo-y-ciclo-de-vida-agéntico)
-4. [Ecosistema de Skills Agénticas y Diseño Frontend](#-ecosistema-de-skills-agénticas-y-diseño-frontend)
+4. [Ecosistema de Skills Agénticas](#-ecosistema-de-skills-agénticas)
 5. [Estructura del Repositorio y Entregables](#-estructura-del-repositorio-y-entregables)
 6. [Inicio Rápido (Quickstart)](#-inicio-rápido-quickstart)
 7. [Las 9+1 Hard Gates del Auditor (`spec-gate.ps1`)](#-las-91-hard-gates-del-auditor-spec-gateps1)
 8. [Documentación y Ecosistema de Recursos](#-documentación-y-ecosistema-de-recursos)
 9. [Verificación Formal y Pruebas Automatizadas](#-verificación-formal-y-pruebas-automatizadas)
 10. [Alineación Regulatoria y Cumplimiento](#-alineación-regulatoria-y-cumplimiento)
-11. [Créditos y Licencia](#-créditos-y-licencia)
+11. [Créditos, Licencia y Seguridad](#-créditos-licencia-y-seguridad)
 
 ---
 
@@ -58,7 +60,7 @@ flowchart TD
 2. **Especificación BDD 1:1 Formal**: Paridad total entre criterios de aceptación (`@AC-X.Y`) y escenarios Gherkin ejecutables.
 3. **Candado Criptográfico HMAC-SHA256**: Sellado conjunto de `spec.md`, `scenarios.feature` y `plan.md` con firma digital HITL obligatoria.
 4. **Hooks Nativos Fail-Closed**: Bloqueo físico en tiempo real de escrituras no autorizadas (`pre-tool-enforce.ps1`).
-5. **Clean Architecture Políglota**: Dominio aislado sin dependencias externas (Java/Maven, Python, Node.js, .NET, Go).
+5. **Clean Architecture Políglota**: Dominio aislado sin dependencias externas (Java/Maven, Python, Node.js, .NET, Go, Rust).
 6. **Ciberseguridad Defensiva**: Auditoría estática anti-hardcoding, análisis de dependencias vulnerables y sanitización OWASP.
 7. **Resiliencia SLA & Benchmarking k6**: Medición de percentiles P95/P99 con umbrales estrictos (<200 ms).
 8. **Doble Bucle de Pruebas**: TDD estricto para lógica de dominio + BDD para aceptación de negocio.
@@ -90,25 +92,10 @@ sequenceDiagram
 
 ---
 
-## 🎨 Ecosistema de Skills Agénticas y Diseño Frontend
-
-SDD v6.6 opera mediante una arquitectura de **habilidades modulares (*Agent Skills*)** descubiertas automáticamente por Antigravity IDE en `.agents/skills/`:
-
-- **20 Skills Canónicas SDD (`sdd-*`):** Orquestación integral (`sdd-orchestrator`), onboarding socrático (`sdd-onboard`), especificación EARS (`sdd-specify`), arquitectura limpia (`sdd-plan`), desarrollo TDD (`sdd-implement`), ciberseguridad STRIDE (`sdd-secure-coding`) y auditoría regulatoria (`sdd-compliance`).
-- **Skill de Especialización Frontend (`frontend-design`):** Skill oficial importada del ecosistema de agentes (Anthropic) diseñada para erradicar patrones genéricos de IA (*anti-AI slop*) y elevar la calidad visual de las interfaces:
-  - **Identidad Propia:** Prohíbe fondos crema repetitivos, sombras homogéneas idénticas (`rgba(0,0,0,0.1)`) y tarjetas SaaS clonadas.
-  - **Plan de Diseño Previo:** Exige definir una paleta base de 4 a 6 colores hex, jerarquías tipográficas deliberadas y wireframes ASCII antes de codificar.
-  - **Piso de Calidad:** Asegura contraste accesible WCAG 2.1 AA ($\ge 4.5:1$), navegación por teclado y microcopy en voz activa orientado al usuario.
-
----
-
 ## 📂 Estructura del Repositorio y Entregables
 
-```text
-sdd-projects/
-├── .agents/                                   # Ecosistema Agéntico (Hooks y Skills)
-│   ├── hooks.json                            # Interceptores SessionStart, PreToolUse y PostToolUse
-│   └── skills/                               # Skills Canónicas y de Frontend (frontend-design)
+```
+ssd-projects/
 ├── DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md     # Libro Blanco Maestro v6.6 (MD canónico)
 ├── DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.html    # Libro Blanco compilado en HTML5 interactivo
 ├── DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.pdf     # Libro Blanco en PDF vectorial
@@ -125,11 +112,18 @@ sdd-projects/
 ├── INFOGRAFIA_PROCEDIMIENTO_SDD.md           # Procedimiento paso a paso en formato visual
 ├── setup-sdd-project-v66.ps1                 # Scaffolding automatizado para PowerShell
 ├── setup-sdd-project-v66.py                  # Scaffolding automatizado para Python
+├── install.ps1                               # Instalador one-liner para PowerShell
+├── install.sh                                # Instalador one-liner para Linux/macOS
+├── pyproject.toml                            # Configuración de paquete Python
+├── SddFramework.psd1                         # Manifiesto de módulo PowerShell
+├── LICENSE                                   # Licencia oficial MIT
+├── SECURITY.md                               # Política y proceso de reporte de vulnerabilidades
+├── CONTRIBUTING.md                           # Guía de contribución y estándares
+├── .github/workflows/ci.yml                  # Pipeline CI/CD para GitHub Actions
+├── .devcontainer/                            # Entorno Docker reproducible en VS Code / Codespaces
 ├── docs/                                     # Diagramas, blueprints y recursos gráficos
-│   └── assets/                               # Imágenes vectoriales y arquitectura
-├── tests/                                    # Suites de verificación formal
-│   └── v66-governance.Tests.ps1              # Pruebas de gobernanza en Pester 6
-├── tools/                                    # Herramientas de soporte (Pester, PScriptAnalyzer)
+├── tests/                                    # Suites de verificación formal (Pester 6)
+├── tools/                                    # CLIs multiplataforma y constructores (sdd_cli.py, sdd.sh)
 └── archive/                                  # Versiones históricas archivadas (v4.x a v6.5)
 ```
 
@@ -137,15 +131,23 @@ sdd-projects/
 
 ## 🚀 Inicio Rápido (Quickstart)
 
-### Requisitos Previos
+### 1. Instalación Rápida (One-Liner)
 
-- **PowerShell 5.1+** o **PowerShell 7+** (disponible en Windows, macOS y Linux) o **Python 3.10+**.
-- **Git 2.30+** configurado con `user.name` y `user.email`.
-- Opcional: **Google Chrome** o **Microsoft Edge** para renderizado headless de reportes PDF.
+#### Windows (PowerShell)
 
-### Creación de un Nuevo Proyecto SDD
+```powershell
+irm https://raw.githubusercontent.com/svelascotellez/ssd-projects/main/install.ps1 | iex
+```
 
-#### Opción A: Mediante PowerShell (Recomendada en Windows)
+#### Linux / macOS / Docker (Bash)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/svelascotellez/ssd-projects/main/install.sh | bash
+```
+
+### 2. Creación de un Nuevo Proyecto SDD
+
+#### Mediante PowerShell
 
 ```powershell
 # Crear un proyecto con stack Python
@@ -155,46 +157,33 @@ sdd-projects/
 .\setup-sdd-project-v66.ps1 -ProjectName "pagos-spei" -Stack "java-maven" -Interactive
 ```
 
-#### Opción B: Mediante Python (Multiplataforma)
+#### Mediante Python (Multiplataforma)
 
 ```bash
 python setup-sdd-project-v66.py --project-name "mi-sistema-critico" --stack "python" --interactive
 ```
 
-### Operaciones Básicas en el Proyecto Creado
+### 3. Operaciones Básicas en el Proyecto Creado
 
 ```powershell
 cd mi-sistema-critico
 
-# Crear una nueva funcionalidad formal
+# 1. Crear una nueva funcionalidad formal
 .\harness\sdd.ps1 -Action create -FeatureId "FEAT-001" -FeatureName "Autenticacion Segura"
 
-# Aprobar formalmente tras inspeccionar spec y plan (Sello HMAC-SHA256 HITL)
+# 2. Aprobar formalmente tras inspeccionar spec y plan (Sello HMAC-SHA256 HITL)
 .\harness\sdd.ps1 -Action approve -FeatureId "FEAT-001" -Approver "lider.tecnico"
 
-# Abrir el Cockpit Ejecutivo de Observabilidad en tiempo real
+# 3. Abrir el Cockpit Ejecutivo de Observabilidad en tiempo real
 .\harness\sdd.ps1 -Action dashboard -Live
 
-# Ejecutar el Auditor Nónuplo de Gobernanza
+# 4. Ejecutar el Auditor Nónuplo de Gobernanza
 .\harness\spec-gate.ps1 -FeatureId "FEAT-001"
 ```
 
 ---
 
 ## 🛡️ Las 9+1 Hard Gates del Auditor (`spec-gate.ps1`)
-
-```mermaid
-flowchart LR
-    G0["Gate 0:\nHMAC Seal"] --> G1["Gate 1:\nAllowed Files"]
-    G1 --> G2["Gate 2:\nBDD 1:1"]
-    G2 --> G3["Gate 3:\nClean Arch"]
-    G3 --> G4["Gate 4:\nAnti-Fake Tests"]
-    G4 --> G5["Gate 5:\nGuía Usuario"]
-    G5 --> G6["Gate 6:\nUI/UX WCAG"]
-    G6 --> G7["Gate 7:\nAudit Trail"]
-    G7 --> G8["Gate 8:\nSecurity SAST"]
-    G8 --> G9["Gate 9:\nResilience k6"]
-```
 
 | Hard Gate | Nombre Formal | Criterio de Aprobación Inflexible |
 | :---: | :--- | :--- |
@@ -215,7 +204,7 @@ flowchart LR
 
 - **[Documento Maestro v6.6 (Libro Blanco)](DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md)**: Fundamentos teóricos, arquitectura formal y evidencia de auditoría.
 - **[Guía Maestra de Setup (Markdown)](GUIA_MAESTRA_SETUP_SDD_V66.md)**: Manual operativo de despliegue y configuración de proyectos.
-- **[Guía Clean Architecture Políglota](GUIA_CLEAN_ARCHITECTURE_POLIGLOTA.md)**: Patrones de implementación para Java, Python, TypeScript, .NET y Go.
+- **[Guía Clean Architecture Políglota](GUIA_CLEAN_ARCHITECTURE_POLIGLOTA.md)**: Patrones de implementación para Java, Python, TypeScript, .NET, Go y Rust.
 - **[Guía de Onboarding para Desarrolladores](GUIA_PREPARACION_ONBOARDING_DESARROLLADOR.md)**: Manual de preparación para entrevistas técnicas y adopción del estándar.
 - **[Diccionario y Glosario Exhaustivo](DICCIONARIO_TERMINOS_SDD.md)**: 50 definiciones categorizadas y tabla de referencia rápida A-Z.
 - **[Presentación Ejecutiva (PowerPoint)](PRESENTACION_EJECUTIVA_SDD_V66.pptx)**: Deck corporativo de 14 diapositivas de alto impacto visual.
@@ -224,7 +213,7 @@ flowchart LR
 
 ## 🧪 Verificación Formal y Pruebas Automatizadas
 
-El framework incluye una suite de pruebas automatizadas en **Pester 6** para validar la integridad de todas las compuertas de gobernanza y el candado criptográfico:
+El framework incluye una suite de pruebas automatizadas en **Pester 6** para validar la integridad de todas las compuertas de gobernanza y la matriz políglota:
 
 ```powershell
 # Ejecutar suite de pruebas de gobernanza
@@ -244,9 +233,11 @@ SDD v6.6 está diseñado para satisfacer los requisitos más exigentes de audito
 
 ---
 
-## 👥 Créditos y Autores
+## 👥 Créditos, Licencia y Seguridad
 
 - **Autor:** Salvador Velasco ([@svelascotellez](https://github.com/svelascotellez)) & Antigravity (Google DeepMind Team).
-- **Versión Oficial:** 6.6 (*Regulatory & Compliance Hardened Edition*).
-- **Publicación:** Noviembre de 2026.
+- **Versión Oficial:** 6.6.0 (*Regulatory & Compliance Hardened Edition*).
+- **Licencia:** Distribuido bajo la Licencia MIT. Consulta [LICENSE](LICENSE) para más detalles.
+- **Seguridad:** Para reportar vulnerabilidades criptográficas o de contención, consulta [SECURITY.md](SECURITY.md).
+- **Contribuciones:** Lee nuestra [Guía de Contribución](CONTRIBUTING.md) antes de enviar Pull Requests.
 - **Repositorio Oficial:** [svelascotellez/ssd-projects](https://github.com/svelascotellez/ssd-projects)

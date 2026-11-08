@@ -1,5 +1,11 @@
 __pycache__/
 *.pyc
-tools/
+tools/Pester/
+tools/PSScriptAnalyzer/
 scratch/
 progress/sdd_dashboard.html
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/

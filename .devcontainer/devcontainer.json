@@ -1,0 +1,24 @@
+{
+  "name": "SDD Framework DevContainer (v6.6 Hardened)",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "powershell.powerShellDefaultVersion": "pwsh",
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "ms-vscode.powershell",
+        "ms-python.python",
+        "DavidAnson.vscode-markdownlint",
+        "eamodio.gitlens",
+        "bierner.markdown-mermaid"
+      ]
+    }
+  },
+  "remoteUser": "root",
+  "postCreateCommand": "pwsh -Command 'Write-Host \"[SDD DevContainer]: Entorno listo con pwsh, python3, k6 y Pester 6.\"' "
+}

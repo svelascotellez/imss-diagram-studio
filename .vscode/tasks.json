@@ -1,0 +1,60 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "SDD: Radar de Estado (Status)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/tools/sdd-status.ps1"
+      ],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "SDD: Ejecutar Suite de Gobernanza (Pester)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "Import-Module ./tools/Pester/6.2.0/Pester.psd1 -Force; Invoke-Pester -Path ./tests/v66-governance.Tests.ps1 -Output Detailed"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "SDD: Validar Higiene Markdown (0 Violaciones)",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/lint_md.py"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "SDD: Verificar Pipeline Documental",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/tools/build_docs.py"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "SDD: Validar Paridad del Scaffolder",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/tools/build_scaffolder.py"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

@@ -102,6 +102,46 @@ Describe "SDD v6.6 Suite de Gobernanza y Compliance Hardened" {
         }
     }
 
+    Context "Matriz Poliglota de Stacks Empresariales (Node, DotNet, Go, Rust)" {
+        It "Configura correctamente el stack node/typescript" {
+            & ".\harness\sdd.ps1" -Action configure-stack -Stack "node" | Out-Null
+            $cfg = Get-Content ".specify\harness-config.json" -Raw | ConvertFrom-Json
+            $cfg.stack | Should -Be "typescript"
+            $cfg.dependency_manifest | Should -Be "package.json"
+            $cfg.test_cmd | Should -Be "npx vitest run"
+        }
+
+        It "Configura correctamente el stack dotnet/csharp" {
+            & ".\harness\sdd.ps1" -Action configure-stack -Stack "dotnet" | Out-Null
+            $cfg = Get-Content ".specify\harness-config.json" -Raw | ConvertFrom-Json
+            $cfg.stack | Should -Be "dotnet"
+            $cfg.dependency_manifest | Should -Be "*.csproj"
+            $cfg.test_cmd | Should -Be "dotnet test"
+        }
+
+        It "Configura correctamente el stack go" {
+            & ".\harness\sdd.ps1" -Action configure-stack -Stack "go" | Out-Null
+            $cfg = Get-Content ".specify\harness-config.json" -Raw | ConvertFrom-Json
+            $cfg.stack | Should -Be "go"
+            $cfg.dependency_manifest | Should -Be "go.mod"
+            $cfg.test_cmd | Should -Be "go test ./..."
+        }
+
+        It "Configura correctamente el stack rust" {
+            & ".\harness\sdd.ps1" -Action configure-stack -Stack "rust" | Out-Null
+            $cfg = Get-Content ".specify\harness-config.json" -Raw | ConvertFrom-Json
+            $cfg.stack | Should -Be "rust"
+            $cfg.dependency_manifest | Should -Be "Cargo.toml"
+            $cfg.test_cmd | Should -Be "cargo test"
+        }
+
+        It "Restaura el stack de prueba a python para subsecuentes pruebas" {
+            & ".\harness\sdd.ps1" -Action configure-stack -Stack "python" | Out-Null
+            $cfg = Get-Content ".specify\harness-config.json" -Raw | ConvertFrom-Json
+            $cfg.stack | Should -Be "python"
+        }
+    }
+
     Context "Higiene Estricta Markdown - 9 Reglas (MD003, MD009, MD022, MD029, MD031, MD032, MD040, MD047, MD058)" {
         It "Sanea automaticamente violaciones de las 9 reglas con sdd.ps1 -Action fix-markdown" {
             $dirtyMd = @(
