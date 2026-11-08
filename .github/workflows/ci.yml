@@ -1,112 +1,30 @@
-name: SDD Framework CI / Governance Gates
+name: Diagram Studio CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
-  lint-markdown:
-    name: Markdown Hygiene & Lint (0 Violations)
+  test:
+    name: Run Tests and Typecheck
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: '20'
+          cache: 'npm'
 
-      - name: Run Markdown Linter
-        run: |
-          python lint_md.py
+      - name: Install dependencies
+        run: npm ci
 
-  syntax-check:
-    name: Code Syntax & Static Analysis
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Verify TypeScript types
+        run: npm run typecheck
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Validate Python Syntax (AST Compilation)
-        run: |
-          python -m py_compile setup-sdd-project-v66.py lint_md.py tools/build_docs.py
-
-      - name: PowerShell Script Syntax Analysis
-        shell: pwsh
-        run: |
-          $files = Get-ChildItem -Path . -Filter "*.ps1" -Recurse -Exclude "tools"
-          foreach ($f in $files) {
-            $errors = $null
-            $tokens = $null
-            [System.Management.Automation.Language.Parser]::ParseFile($f.FullName, [ref]$tokens, [ref]$errors) | Out-Null
-            if ($errors.Count -gt 0) {
-              Write-Error "Syntax error in $($f.FullName): $($errors[0].Message)"
-              exit 1
-            }
-          }
-          Write-Host "All PowerShell scripts parsed with 0 syntax errors." -ForegroundColor Green
-
-  pester-governance:
-    name: Governance Suite (Pester 6) on ${{ matrix.os }}
-    needs: [lint-markdown, syntax-check]
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, ubuntu-latest]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install Pester 6 (if not present)
-        shell: pwsh
-        run: |
-          if (-not (Get-Module -ListAvailable -Name Pester | Where-Object { $_.Version.Major -ge 5 })) {
-            Install-Module -Name Pester -MinimumVersion 5.3.0 -Force -SkipPublisherCheck -Scope CurrentUser
-          }
-
-      - name: Configure Git User for Testing
-        run: |
-          git config --global user.name "SDD CI Tester"
-          git config --global user.email "ci-tester@sdd-framework.org"
-
-      - name: Run SDD Governance Tests
-        shell: pwsh
-        run: |
-          $config = New-PesterConfiguration
-          $config.Run.Path = "tests/v66-governance.Tests.ps1"
-          $config.Output.Verbosity = "Detailed"
-          $config.Run.Exit = $true
-          Invoke-Pester -Configuration $config
-
-  docs-build:
-    name: Documentation Pipeline Verification
-    needs: [lint-markdown]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Verify Documentation Mapping
-        run: |
-          python tools/build_docs.py
-
+      - name: Run test suite
+        run: npm test
