@@ -1,0 +1,101 @@
+[
+  {
+    "id": "FEAT-001",
+    "name": "Canvas Interactivo y Motor de Renderizado de Nodos y Formas",
+    "status": "done",
+    "feature_dir": "FEAT-001",
+    "depends_on": [],
+    "created_at": "2026-11-08T19:35:00Z",
+    "algorithm": "HMAC-SHA256",
+    "approval_hash": "31DD66EEAD5CCA9F4665DF93169DCCD522D345F402E35162C365093B843DC053",
+    "approved_by": "Arquitecto DIDT IMSS (HITL)",
+    "approved_at": "2026-11-08T19:41:13Z",
+    "approval_history": [
+      {
+        "algorithm": "HMAC-SHA256",
+        "approval_hash": "31DD66EEAD5CCA9F4665DF93169DCCD522D345F402E35162C365093B843DC053",
+        "approved_by": "Arquitecto DIDT IMSS (HITL)",
+        "approved_at": "2026-11-08T19:41:13Z",
+        "reason": "Aprobacion inicial de Onboarding Adaptativo SDD 2.0"
+      }
+    ],
+    "completion_hash": "0D3BF56A01D87240F29DDB7A411D4C52047D710EDD3F374DF3CB415F7D9E5B20",
+    "completed_at": "2026-11-08T19:49:25Z"
+  },
+  {
+    "id": "FEAT-002",
+    "name": "Conectores Din\u00e1micos, Puntos de Anclaje y Enrutamiento Ortogonal",
+    "status": "done",
+    "feature_dir": "FEAT-002",
+    "depends_on": [
+      "FEAT-001"
+    ],
+    "created_at": "2026-11-08T19:35:00Z",
+    "algorithm": "HMAC-SHA256",
+    "approval_hash": "D726E24370BFBA55F01EAFAAB478E722F6C7658625C49FDD9BF17E26A40B35DE",
+    "approved_by": "Arquitecto DIDT IMSS (HITL)",
+    "approved_at": "2026-11-08T19:55:47Z",
+    "approval_history": [
+      {
+        "algorithm": "HMAC-SHA256",
+        "approval_hash": "D726E24370BFBA55F01EAFAAB478E722F6C7658625C49FDD9BF17E26A40B35DE",
+        "approved_by": "Arquitecto DIDT IMSS (HITL)",
+        "approved_at": "2026-11-08T19:55:47Z",
+        "reason": "Aprobacion formal de especificacion FEAT-002"
+      }
+    ],
+    "completion_hash": "263994C4B29EFB1CB55E84754150363C921279038E617D150A66CD32D1F832B6",
+    "completed_at": "2026-11-08T19:59:22Z"
+  },
+  {
+    "id": "FEAT-003",
+    "name": "Cat\u00e1logo de Stencils Arquitect\u00f3nicos DIDT y Procesos IMSS",
+    "status": "done",
+    "feature_dir": "FEAT-003",
+    "depends_on": [
+      "FEAT-001"
+    ],
+    "created_at": "2026-11-08T19:35:00Z",
+    "algorithm": "HMAC-SHA256",
+    "approval_hash": "4901085BAC7CDE7EB02B3913EF315C275E94A7911ABA07A22B7E527F18E01080",
+    "approved_by": "Arquitecto DIDT IMSS (HITL)",
+    "approved_at": "2026-11-08T20:07:18Z",
+    "approval_history": [
+      {
+        "algorithm": "HMAC-SHA256",
+        "approval_hash": "4901085BAC7CDE7EB02B3913EF315C275E94A7911ABA07A22B7E527F18E01080",
+        "approved_by": "Arquitecto DIDT IMSS (HITL)",
+        "approved_at": "2026-11-08T20:07:18Z",
+        "reason": "Aprobacion formal de especificacion FEAT-003"
+      }
+    ],
+    "completion_hash": "9D43818957BAF1E5B892CD35FD1996B542160BC4542147FED517930B5890C1E0",
+    "completed_at": "2026-11-08T20:11:01Z"
+  },
+  {
+    "id": "FEAT-004",
+    "name": "Serializaci\u00f3n XML (Compatible con Draw.io) y Exportaci\u00f3n SVG/PNG",
+    "status": "done",
+    "feature_dir": "FEAT-004",
+    "depends_on": [
+      "FEAT-001",
+      "FEAT-002"
+    ],
+    "created_at": "2026-11-08T19:35:00Z",
+    "algorithm": "HMAC-SHA256",
+    "approval_hash": "E52932FC88F6B06C1A7CF0DCC9CC75742AE01D7D4EB1AF0291564BADDD0D53B6",
+    "approved_by": "Arquitecto DIDT IMSS (HITL)",
+    "approved_at": "2026-11-08T20:16:08Z",
+    "approval_history": [
+      {
+        "algorithm": "HMAC-SHA256",
+        "approval_hash": "E52932FC88F6B06C1A7CF0DCC9CC75742AE01D7D4EB1AF0291564BADDD0D53B6",
+        "approved_by": "Arquitecto DIDT IMSS (HITL)",
+        "approved_at": "2026-11-08T20:16:08Z",
+        "reason": "Aprobacion formal de especificacion FEAT-004"
+      }
+    ],
+    "completion_hash": "EFD2304BB52ED41063A575E047D831E9F69D46C97CFC1FA8F845E70ADD2ECF70",
+    "completed_at": "2026-11-08T20:23:15Z"
+  }
+]

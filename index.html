@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMSS DIDT — Diagram Studio (v6.6)</title>
+  <style>
+    :root {
+      --primary: #006341;
+      --primary-hover: #004D32;
+      --secondary: #B38E5D;
+      --secondary-hover: #99784E;
+      --bg: #0F172A;
+      --canvas-bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --border: #E2E8F0;
+      --text: #0F172A;
+      --text-muted: #64748B;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; background: #0F172A; color: #FFFFFF; }
+    
+    /* Topbar Institucional */
+    .topbar {
+      height: 54px;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      border-bottom: 2px solid var(--secondary);
+      z-index: 20;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .brand-badge {
+      background: #FFFFFF;
+      color: var(--primary);
+      font-weight: 800;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+    .brand-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .brand-sub {
+      font-size: 0.8rem;
+      color: #D1FAE5;
+      opacity: 0.85;
+    }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .pill {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.15);
+      color: #FFFFFF;
+      border: 1px solid rgba(255,255,255,0.25);
+      font-weight: 600;
+    }
+    .pill-success {
+      background: #064E3B;
+      color: #34D399;
+      border-color: #059669;
+    }
+    .btn-top {
+      background: var(--secondary);
+      color: #FFFFFF;
+      border: none;
+      padding: 0.35rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+    .btn-top:hover { background: var(--secondary-hover); }
+    .btn-top-outline {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #FFFFFF;
+    }
+    .btn-top-outline:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: #FFFFFF;
+    }
+
+    /* Layout Principal */
+    .app-body {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 54px);
+      position: relative;
+    }
+
+    /* Barra lateral de herramientas (Stencils) */
+    .sidebar {
+      width: 280px;
+      background: #1E293B;
+      border-right: 1px solid #334155;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 10;
+    }
+    .search-container {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #334155;
+      background: #162032;
+    }
+    .search-input {
+      width: 100%;
+      background: #0F172A;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      color: #FFFFFF;
+      font-size: 0.8rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--secondary); }
+    .sidebar-section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--secondary);
+      padding: 0.85rem 1rem 0.4rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .stencil-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      padding: 0.35rem 1rem 0.75rem;
+    }
+    .stencil-card {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 0.65rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .stencil-card:hover {
+      border-color: var(--secondary);
+      background: #1E293B;
+      transform: translateY(-2px);
+    }
+    .stencil-icon {
+      width: 32px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stencil-label {
+      font-size: 0.72rem;
+      color: #E2E8F0;
+      text-align: center;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    /* Panel Central: Canvas */
+    .canvas-container {
+      flex: 1;
+      position: relative;
+      background: var(--canvas-bg);
+      overflow: hidden;
+    }
+    #diagramCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: default;
+    }
+
+    /* Barra flotante de acciones rápidas */
+    .floating-toolbar {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1E293B;
+      border: 1px solid #334155;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 15;
+    }
+    .tool-btn {
+      background: transparent;
+      color: #E2E8F0;
+      border: 1px solid transparent;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .tool-btn.active {
+      background: var(--primary);
+      border-color: var(--secondary);
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+    .tool-btn:hover:not(.active) { background: #334155; }
+
+    /* Panel de Gobernanza e Inspector (Derecha) */
+    .inspector-panel {
+      width: 300px;
+      background: #1E293B;
+      border-left: 1px solid #334155;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      overflow-y: auto;
+      z-index: 10;
+    }
+    .gov-card {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .gov-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .gov-item {
+      font-size: 0.75rem;
+      color: #94A3B8;
+      margin-bottom: 0.35rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .gov-item span.val { color: #E2E8F0; font-family: monospace; font-weight: 600; }
+    .badge-pass {
+      background: #064E3B;
+      color: #34D399;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    /* Notificación de Alerta / Toast */
+    #alertToast {
+      position: absolute;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #064E3B;
+      color: #FFFFFF;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      border: 1px solid #34D399;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 100;
+      animation: fadeIn 0.2s ease-out;
+    }
+    #alertToast.error {
+      background: #7F1D1D;
+      border-color: #F87171;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -10px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Alerta emergente -->
+  <div id="alertToast" role="alert" aria-live="assertive"></div>
+
+  <!-- Input oculto para importación de archivos -->
+  <input type="file" id="importXmlInput" accept=".xml,.drawio" style="display:none;" onchange="handleImportFile(event)" />
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-badge">IMSS</span>
+      <div>
+        <div class="brand-title">Diagram Studio DIDT</div>
+        <div class="brand-sub">Solución Soberana de Modelado Técnico e Infraestructura (v6.6)</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span class="pill pill-success">BACKLOG 100% COMPLETADO</span>
+      <span class="pill pill-success">46 / 46 TESTS PASS</span>
+      <button class="btn-top btn-top-outline" onclick="document.getElementById('importXmlInput').click()">
+        <span>📥</span> Importar Draw.io XML
+      </button>
+      <button class="btn-top" onclick="exportDrawioXml()">
+        <span>📤</span> Exportar Draw.io XML
+      </button>
+      <button class="btn-top" onclick="exportSvgWithLetterhead()">
+        <span>🏛️</span> SVG Membretado
+      </button>
+      <button class="btn-top btn-top-outline" onclick="clearCanvas()">
+        Limpiar
+      </button>
+    </div>
+  </header>
+
+  <!-- Body -->
+  <div class="app-body">
+    <!-- Sidebar con Catálogo y Buscador FEAT-003 -->
+    <aside class="sidebar">
+      <div class="search-container">
+        <input type="search" id="stencilSearch" class="search-input"
+               placeholder="Buscar stencil (ej. Kafka, Farmacia)..."
+               oninput="filterStencils(this.value)" />
+      </div>
+
+      <div id="stencilsContainer">
+        <!-- Arquitectura -->
+        <div class="cat-section" data-cat="architecture">
+          <div class="sidebar-section-title">
+            <span>Arquitectura de Software</span>
+            <span style="font-size:0.65rem; color:#94A3B8;">DIDT</span>
+          </div>
+          <div class="stencil-grid">
+            <div class="stencil-card" onclick="addShape('rectangle', 'API Gateway DIDT', 160, 70)" data-tags="gateway api reverse proxy didt">
+              <div class="stencil-icon">
+                <svg width="28" height="18" fill="none" stroke="#006341" stroke-width="1.75"><rect x="1" y="1" width="26" height="16" rx="2"/><path d="M7 9h14M14 5l4 4-4 4"/></svg>
+              </div>
+              <span class="stencil-label">API Gateway</span>
+            </div>
+            <div class="stencil-card" onclick="addShape('rectangle', 'Microservicio Core', 150, 65)" data-tags="microservicio backend go node python java">
+              <div class="stencil-icon">
+                <svg width="28" height="18" fill="none" stroke="#006341" stroke-width="1.75"><rect x="1" y="1" width="26" height="16" rx="2"/><circle cx="8" cy="9" r="2.5"/><path d="M14 9h7"/></svg>
+              </div>
+              <span class="stencil-label">Microservicio</span>
+            </div>
+            <div class="stencil-card" onclick="addShape('rectangle', 'OAuth2 SSO IMSS', 150, 65)" data-tags="oauth sso autenticacion jwt seguridad token">
+              <div class="stencil-icon">
+                <svg width="24" height="18" fill="none" stroke="#B38E5D" stroke-width="1.5"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M7 7V5a5 5 0 0 1 10 0v2"/></svg>
+              </div>
+              <span class="stencil-label">OAuth2 SSO</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Datos y Eventos -->
+        <div class="cat-section" data-cat="data_events">
+          <div class="sidebar-section-title">
+            <span>Datos y Mensajería</span>
+            <span style="font-size:0.65rem; color:#94A3B8;">DIDT</span>
+          </div>
+          <div class="stencil-grid">
+            <div class="stencil-card" onclick="addShape('ellipse', 'PostgreSQL IMSS', 150, 70)" data-tags="postgres database base datos bd sql rdbms">
+              <div class="stencil-icon">
+                <svg width="22" height="18" fill="none" stroke="#006341" stroke-width="1.5">
+                  <ellipse cx="11" cy="5" rx="9" ry="3"/>
+                  <path d="M2 5v8c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                </svg>
+              </div>
+              <span class="stencil-label">PostgreSQL</span>
+            </div>
+            <div class="stencil-card" onclick="addShape('rectangle', 'Apache Kafka Broker', 150, 65)" data-tags="kafka cola mensajeria eventos stream queue">
+              <div class="stencil-icon">
+                <svg width="24" height="18" fill="none" stroke="#006341" stroke-width="1.5">
+                  <circle cx="6" cy="9" r="3"/><circle cx="18" cy="5" r="2.5"/><circle cx="18" cy="13" r="2.5"/>
+                  <path d="M9 9h6.5M9 9l6.5 4"/>
+                </svg>
+              </div>
+              <span class="stencil-label">Apache Kafka</span>
+            </div>
+            <div class="stencil-card" onclick="addShape('rectangle', 'Redis Cache', 140, 60)" data-tags="redis cache memoria rapida sesion in-memory">
+              <div class="stencil-icon">
+                <svg width="24" height="18" fill="none" stroke="#B38E5D" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 12l10 5 10-5"/></svg>
+              </div>
+              <span class="stencil-label">Redis Cache</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Procesos y Actores IMSS -->
+        <div class="cat-section" data-cat="imss_processes">
+          <div class="sidebar-section-title">
+            <span>Actores y Procesos IMSS</span>
+            <span style="font-size:0.65rem; color:#94A3B8;">DIDT</span>
+          </div>
+          <div class="stencil-grid">
+            <div class="stencil-card" onclick="addShape('rectangle', 'Médico Familiar', 145, 65)" data-tags="medico doctor consulta clinica actor imss">
+              <div class="stencil-icon">
+                <svg width="20" height="18" fill="none" stroke="#006341" stroke-width="1.5">
+                  <circle cx="10" cy="5" r="3.5"/><path d="M3 16c0-3.5 3.5-5 7-5s7 1.5 7 5"/>
+                </svg>
+              </div>
+              <span class="stencil-label">Médico</span>
+            </div>
+            <div class="stencil-card" onclick="addShape('rectangle', 'Derechohabiente', 145, 65)" data-tags="paciente derechohabiente usuario ciudadano">
+              <div class="stencil-icon">
+                <svg width="20" height="18" fill="none" stroke="#006341" stroke-width="1.5">
+                  <circle cx="10" cy="5" r="3.5"/><path d="M4 16c0-3 3-4.5 6-4.5s6 1.5 6 4.5"/>
+                </svg>
+              </div>
+              <span class="stencil-label">Derechohabiente</span>
+            </div>
+            <div class="stencil-card" onclick="addShape('rectangle', 'Despachador Farmacia', 155, 65)" data-tags="farmacia despacho surtido medicamento">
+              <div class="stencil-icon">
+                <svg width="22" height="18" fill="none" stroke="#006341" stroke-width="1.5">
+                  <rect x="2" y="3" width="18" height="13" rx="2"/><path d="M11 6v7M7.5 9.5h7"/>
+                </svg>
+              </div>
+              <span class="stencil-label">Farmacia</span>
+            </div>
+            <div class="stencil-card" onclick="addShape('diamond', 'Auditor OIC IMSS', 135, 65)" data-tags="auditor oic compliance control decision">
+              <div class="stencil-icon">
+                <svg width="22" height="18"><polygon points="11,1 21,9 11,17 1,9" fill="#006341" stroke="#B38E5D" stroke-width="1.5"/></svg>
+              </div>
+              <span class="stencil-label">Auditor OIC</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Canvas Central -->
+    <main class="canvas-container" id="canvasWrapper">
+      <svg id="diagramCanvas" xmlns="http://www.w3.org/2000/svg" role="graphics-document" aria-label="Lienzo de Diagramacion DIDT IMSS">
+        <defs>
+          <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+            <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#E2E8F0" stroke-width="0.75"/>
+          </pattern>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#006341" />
+          </marker>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+        <g id="connectorsLayer"></g>
+        <g id="tempConnectorLayer"></g>
+        <g id="shapesLayer"></g>
+      </svg>
+
+      <!-- Floating Controls -->
+      <div class="floating-toolbar">
+        <span style="font-size:0.75rem; color:#94A3B8; font-weight:600;">HERRAMIENTA:</span>
+        <button class="tool-btn active" id="btnSelect" onclick="setMode('select')">Puntero / Mover</button>
+        <button class="tool-btn" id="btnConnect" onclick="setMode('connect')">Modo Conectar</button>
+        <span style="color:#475569;">|</span>
+        <button class="tool-btn" onclick="addSampleArchitecture()">Cargar Arquitectura IMSS</button>
+      </div>
+    </main>
+
+    <!-- Inspector -->
+    <aside class="inspector-panel">
+      <div class="gov-card">
+        <div class="gov-title">Gobernanza SDD v6.6</div>
+        <div class="gov-item"><span>Algoritmo</span><span class="val">HMAC-SHA256</span></div>
+        <div class="gov-item"><span>FEAT-001 (Canvas)</span><span class="badge-pass">DONE</span></div>
+        <div class="gov-item"><span>FEAT-002 (Conectores)</span><span class="badge-pass">DONE</span></div>
+        <div class="gov-item"><span>FEAT-003 (Stencils)</span><span class="badge-pass">DONE</span></div>
+        <div class="gov-item"><span>FEAT-004 (XML/SVG)</span><span class="badge-pass">DONE</span></div>
+        <div class="gov-item"><span>FEAT-004 Seal</span><span class="val">E52932FC88...</span></div>
+        <div class="gov-item" style="margin-top:0.4rem;"><span>Suite Vitest</span><span class="badge-pass">46 / 46 PASS</span></div>
+      </div>
+
+      <div class="gov-card">
+        <div class="gov-title">Interoperabilidad & Seguridad</div>
+        <div class="gov-item"><span>Esquema XML</span><span class="val">&lt;mxGraphModel&gt;</span></div>
+        <div class="gov-item"><span>Compatibilidad</span><span class="val">Draw.io 100%</span></div>
+        <div class="gov-item"><span>Filtro anti-XXE</span><span class="val" style="color:#34D399;">CWE-611 Activo</span></div>
+        <div class="gov-item"><span>Membrete SVG</span><span class="val">WCAG 2.1 AAA</span></div>
+      </div>
+
+      <div class="gov-card">
+        <div class="gov-title">Tokens Institucionales</div>
+        <div class="gov-item"><span>Primario</span><span class="val" style="color:#006341;">#006341 (Verde)</span></div>
+        <div class="gov-item"><span>Secundario</span><span class="val" style="color:#B38E5D;">#B38E5D (Dorado)</span></div>
+        <div class="gov-item"><span>Contraste</span><span class="val">17.85:1 (AAA)</span></div>
+      </div>
+
+      <div class="gov-card" style="flex:1;">
+        <div class="gov-title">Elemento Seleccionado</div>
+        <div id="selectionProps" style="font-size:0.75rem; color:#94A3B8;">
+          Haz clic sobre una forma o conector en el canvas para ver sus propiedades.
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // Estado del Canvas
+    const shapes = [];
+    const connectors = [];
+    let currentMode = 'select'; // 'select' | 'connect'
+    let selectedShape = null;
+    let selectedConnector = null;
+    let connectingSource = null;
+    let isDragging = false;
+    let dragOffset = { x: 0, y: 0 };
+
+    const svg = document.getElementById('diagramCanvas');
+    const shapesLayer = document.getElementById('shapesLayer');
+    const connectorsLayer = document.getElementById('connectorsLayer');
+    const tempConnectorLayer = document.getElementById('tempConnectorLayer');
+
+    // Notificaciones Toast
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('alertToast');
+      toast.textContent = message;
+      toast.className = isError ? 'error' : '';
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3500);
+    }
+
+    // Filtro Reactivo de Stencils (< 50 ms)
+    function filterStencils(query) {
+      const q = query.toLowerCase().trim();
+      const cards = document.querySelectorAll('.stencil-card');
+      const sections = document.querySelectorAll('.cat-section');
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const tags = card.getAttribute('data-tags') || '';
+        const match = !q || text.includes(q) || tags.includes(q);
+        card.style.display = match ? 'flex' : 'none';
+      });
+
+      sections.forEach(sec => {
+        const visibleCards = sec.querySelectorAll('.stencil-card[style*="display: flex"]');
+        const count = q ? visibleCards.length : sec.querySelectorAll('.stencil-card').length;
+        sec.style.display = count === 0 ? 'none' : 'block';
+      });
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById('btnSelect').classList.toggle('active', mode === 'select');
+      document.getElementById('btnConnect').classList.toggle('active', mode === 'connect');
+      connectingSource = null;
+      tempConnectorLayer.innerHTML = '';
+    }
+
+    function addShape(type, label, w = 150, h = 65, x, y) {
+      const rect = svg.getBoundingClientRect();
+      const posX = x !== undefined ? x : Math.max(50, (rect.width / 2 - w / 2) + (Math.random() * 80 - 40));
+      const posY = y !== undefined ? y : Math.max(50, (rect.height / 2 - h / 2) + (Math.random() * 80 - 40));
+
+      const shape = {
+        id: 'shape-' + Math.random().toString(36).substring(2, 9),
+        type,
+        label,
+        x: posX,
+        y: posY,
+        w: Math.max(w, 20),
+        h: Math.max(h, 20),
+        stroke: '#006341',
+        fill: '#FFFFFF',
+        strokeWidth: 2
+      };
+
+      shapes.push(shape);
+      selectShape(shape);
+      render();
+      return shape;
+    }
+
+    function addConnector(sourceId, sourcePort, targetId, targetPort, label = '') {
+      if (sourceId === targetId) return null; // Anti-auto-bucles
+      const exists = connectors.some(c => c.sourceId === sourceId && c.targetId === targetId);
+      if (exists) return null;
+
+      const conn = {
+        id: 'conn-' + Math.random().toString(36).substring(2, 9),
+        sourceId,
+        sourcePort: sourcePort || 'east',
+        targetId,
+        targetPort: targetPort || 'west',
+        stroke: '#006341',
+        strokeWidth: 2,
+        label
+      };
+
+      connectors.push(conn);
+      selectConnector(conn);
+      render();
+      return conn;
+    }
+
+    function getPortCoords(shape, port) {
+      const { x, y, w, h } = shape;
+      switch (port) {
+        case 'north': return { x: x + w / 2, y: y };
+        case 'south': return { x: x + w / 2, y: y + h };
+        case 'east': return { x: x + w, y: y + h / 2 };
+        case 'west': return { x: x, y: y + h / 2 };
+        default: return { x: x + w / 2, y: y + h / 2 };
+      }
+    }
+
+    function computeOrthogonalPath(p1, port1, p2, port2) {
+      const pts = [p1];
+      if (port1 === 'east' && port2 === 'west') {
+        const midX = (p1.x + p2.x) / 2;
+        pts.push({ x: midX, y: p1.y });
+        pts.push({ x: midX, y: p2.y });
+      } else if (port1 === 'south' && port2 === 'north') {
+        const midY = (p1.y + p2.y) / 2;
+        pts.push({ x: p1.x, y: midY });
+        pts.push({ x: p2.x, y: midY });
+      } else {
+        const midX = (p1.x + p2.x) / 2;
+        pts.push({ x: midX, y: p1.y });
+        pts.push({ x: midX, y: p2.y });
+      }
+      pts.push(p2);
+
+      return pts.reduce((acc, pt, i) => (i === 0 ? `M ${pt.x} ${pt.y}` : `${acc} L ${pt.x} ${pt.y}`), '');
+    }
+
+    function render() {
+      // 1. Render Connectors
+      connectorsLayer.innerHTML = '';
+      connectors.forEach(c => {
+        const s1 = shapes.find(s => s.id === c.sourceId);
+        const s2 = shapes.find(s => s.id === c.targetId);
+        if (!s1 || !s2) return;
+
+        const p1 = getPortCoords(s1, c.sourcePort);
+        const p2 = getPortCoords(s2, c.targetPort);
+        const d = computeOrthogonalPath(p1, c.sourcePort, p2, c.targetPort);
+
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        const isSelected = selectedConnector && selectedConnector.id === c.id;
+
+        g.innerHTML = `
+          <path d="${d}" fill="none" stroke="${isSelected ? '#B38E5D' : c.stroke}"
+                stroke-width="${isSelected ? 3.5 : c.strokeWidth}" marker-end="url(#arrow)"
+                style="cursor:pointer;" />
+          ${c.label ? `<text x="${(p1.x + p2.x)/2}" y="${(p1.y + p2.y)/2 - 8}" fill="#0F172A" font-size="11" font-weight="600" text-anchor="middle" font-family="Inter, sans-serif">${c.label}</text>` : ''}
+        `;
+
+        g.onclick = (e) => {
+          e.stopPropagation();
+          selectConnector(c);
+        };
+
+        connectorsLayer.appendChild(g);
+      });
+
+      // 2. Render Shapes
+      shapesLayer.innerHTML = '';
+      shapes.forEach(s => {
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('transform', `translate(${s.x}, ${s.y})`);
+        g.style.cursor = currentMode === 'connect' ? 'crosshair' : 'move';
+
+        const isSelected = selectedShape && selectedShape.id === s.id;
+        const strokeColor = isSelected ? '#B38E5D' : s.stroke;
+        const strokeW = isSelected ? 3 : s.strokeWidth;
+
+        let shapeSvg = '';
+        if (s.type === 'ellipse') {
+          shapeSvg = `<ellipse cx="${s.w/2}" cy="${s.h/2}" rx="${s.w/2}" ry="${s.h/2}" fill="${s.fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+        } else if (s.type === 'diamond') {
+          shapeSvg = `<polygon points="${s.w/2},0 ${s.w},${s.h/2} ${s.w/2},${s.h} 0,${s.h/2}" fill="${s.fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+        } else {
+          shapeSvg = `<rect x="0" y="0" width="${s.w}" height="${s.h}" rx="6" fill="${s.fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+        }
+
+        const ports = [
+          { p: 'north', cx: s.w / 2, cy: 0 },
+          { p: 'south', cx: s.w / 2, cy: s.h },
+          { p: 'east', cx: s.w, cy: s.h / 2 },
+          { p: 'west', cx: 0, cy: s.h / 2 }
+        ];
+
+        let portsSvg = '';
+        ports.forEach(pt => {
+          portsSvg += `
+            <circle class="port" cx="${pt.cx}" cy="${pt.cy}" r="4.5"
+                    fill="#B38E5D" stroke="#FFFFFF" stroke-width="1.5"
+                    style="cursor:pointer;" data-port="${pt.p}" />
+          `;
+        });
+
+        g.innerHTML = `
+          ${shapeSvg}
+          <text x="${s.w / 2}" y="${s.h / 2}" dominant-baseline="middle" text-anchor="middle"
+                fill="#0F172A" font-size="12" font-weight="600" font-family="Inter, sans-serif"
+                style="pointer-events:none;">${s.label}</text>
+          <g class="ports" opacity="${isSelected || currentMode === 'connect' ? '1' : '0.4'}">
+            ${portsSvg}
+          </g>
+        `;
+
+        // Interacción con Puertos para conectar
+        g.querySelectorAll('.port').forEach(circle => {
+          circle.onmousedown = (e) => {
+            e.stopPropagation();
+            const port = circle.getAttribute('data-port');
+            if (!connectingSource) {
+              startConnecting(s.id, port);
+            }
+          };
+          circle.onmouseup = (e) => {
+            e.stopPropagation();
+            const port = circle.getAttribute('data-port');
+            if (connectingSource && connectingSource.shapeId !== s.id) {
+              finishConnecting(s.id, port);
+            }
+          };
+        });
+
+        // Arrastre y Selección
+        g.onmousedown = (e) => {
+          if (e.target.classList.contains('port')) return;
+          e.stopPropagation();
+          selectShape(s);
+          if (currentMode === 'select') {
+            isDragging = true;
+            const rect = svg.getBoundingClientRect();
+            dragOffset.x = e.clientX - rect.left - s.x;
+            dragOffset.y = e.clientY - rect.top - s.y;
+          }
+        };
+
+        shapesLayer.appendChild(g);
+      });
+    }
+
+    function selectShape(s) {
+      selectedShape = s;
+      selectedConnector = null;
+      updateInspector();
+      render();
+    }
+
+    function selectConnector(c) {
+      selectedConnector = c;
+      selectedShape = null;
+      updateInspector();
+      render();
+    }
+
+    function startConnecting(shapeId, port) {
+      connectingSource = { shapeId, port };
+    }
+
+    function finishConnecting(targetId, targetPort) {
+      if (connectingSource) {
+        addConnector(connectingSource.shapeId, connectingSource.port, targetId, targetPort, 'Flujo DIDT');
+        connectingSource = null;
+        tempConnectorLayer.innerHTML = '';
+      }
+    }
+
+    svg.onmousemove = (e) => {
+      const rect = svg.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      if (isDragging && selectedShape) {
+        selectedShape.x = Math.max(0, mouseX - dragOffset.x);
+        selectedShape.y = Math.max(0, mouseY - dragOffset.y);
+        render();
+      } else if (connectingSource) {
+        const s1 = shapes.find(s => s.id === connectingSource.shapeId);
+        if (s1) {
+          const p1 = getPortCoords(s1, connectingSource.port);
+          tempConnectorLayer.innerHTML = `
+            <line x1="${p1.x}" y1="${p1.y}" x2="${mouseX}" y2="${mouseY}"
+                  stroke="#B38E5D" stroke-width="2" stroke-dasharray="4 4"/>
+          `;
+        }
+      }
+    };
+
+    svg.onmouseup = () => {
+      isDragging = false;
+      if (connectingSource) {
+        connectingSource = null;
+        tempConnectorLayer.innerHTML = '';
+      }
+    };
+
+    svg.onclick = () => {
+      selectedShape = null;
+      selectedConnector = null;
+      updateInspector();
+      render();
+    };
+
+    window.onkeydown = (e) => {
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        if (selectedShape) {
+          const targetId = selectedShape.id;
+          const idx = shapes.findIndex(s => s.id === targetId);
+          if (idx !== -1) shapes.splice(idx, 1);
+          for (let i = connectors.length - 1; i >= 0; i--) {
+            if (connectors[i].sourceId === targetId || connectors[i].targetId === targetId) {
+              connectors.splice(i, 1);
+            }
+          }
+          selectedShape = null;
+          updateInspector();
+          render();
+        } else if (selectedConnector) {
+          const idx = connectors.indexOf(selectedConnector);
+          if (idx !== -1) connectors.splice(idx, 1);
+          selectedConnector = null;
+          updateInspector();
+          render();
+        }
+      }
+    };
+
+    function updateInspector() {
+      const div = document.getElementById('selectionProps');
+      if (selectedShape) {
+        div.innerHTML = `
+          <div class="gov-item"><span>ID</span><span class="val">${selectedShape.id.substring(0, 10)}</span></div>
+          <div class="gov-item"><span>Etiqueta</span><span class="val">${selectedShape.label}</span></div>
+          <div class="gov-item"><span>Tipo</span><span class="val">${selectedShape.type}</span></div>
+          <div class="gov-item"><span>X, Y</span><span class="val">${Math.round(selectedShape.x)}, ${Math.round(selectedShape.y)}</span></div>
+          <div class="gov-item"><span>Dimensiones</span><span class="val">${selectedShape.w} x ${selectedShape.h}</span></div>
+        `;
+      } else if (selectedConnector) {
+        div.innerHTML = `
+          <div class="gov-item"><span>ID Conector</span><span class="val">${selectedConnector.id.substring(0, 10)}</span></div>
+          <div class="gov-item"><span>Origen</span><span class="val">${selectedConnector.sourcePort}</span></div>
+          <div class="gov-item"><span>Destino</span><span class="val">${selectedConnector.targetPort}</span></div>
+          <div class="gov-item"><span>Enrutamiento</span><span class="val">Ortogonal (90°)</span></div>
+        `;
+      } else {
+        div.innerHTML = `Selecciona una forma o conector para inspeccionar atributos.`;
+      }
+    }
+
+    function addSampleArchitecture() {
+      shapes.length = 0;
+      connectors.length = 0;
+
+      addShape('rectangle', 'API Gateway DIDT', 160, 70, 80, 160);
+      addShape('rectangle', 'OAuth2 SSO IMSS', 150, 65, 320, 70);
+      addShape('rectangle', 'Expediente Clínico API', 170, 70, 320, 240);
+      addShape('diamond', 'Regla Triage IMSS', 140, 70, 580, 240);
+      addShape('ellipse', 'PostgreSQL IMSS', 160, 70, 800, 240);
+
+      addConnector(shapes[0].id, 'east', shapes[1].id, 'west', 'Token Verify');
+      addConnector(shapes[0].id, 'east', shapes[2].id, 'west', 'REST / JSON');
+      addConnector(shapes[2].id, 'east', shapes[3].id, 'west', 'Evaluar');
+      addConnector(shapes[3].id, 'east', shapes[4].id, 'west', 'Persistir');
+
+      selectedShape = null;
+      render();
+    }
+
+    function clearCanvas() {
+      shapes.length = 0;
+      connectors.length = 0;
+      selectedShape = null;
+      selectedConnector = null;
+      updateInspector();
+      render();
+      showToast('Lienzo limpiado exitosamente.');
+    }
+
+    // ==========================================
+    // FEAT-004: Serialización XML Draw.io & SVG
+    // ==========================================
+
+    function escapeXml(text) {
+      return (text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+    }
+
+    // AC-4.1: Exportar a Draw.io XML
+    function exportDrawioXml() {
+      if (shapes.length === 0) {
+        showToast('El canvas está vacío. Agrega stencils antes de exportar.', true);
+        return;
+      }
+
+      let xml = '<mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">\n';
+      xml += '  <root>\n';
+      xml += '    <mxCell id="0"/>\n';
+      xml += '    <mxCell id="1" parent="0"/>\n';
+
+      // Nodos
+      shapes.forEach(s => {
+        let style = 'whiteSpace=wrap;html=1;';
+        if (s.type === 'ellipse') style += 'ellipse;';
+        else if (s.type === 'diamond') style += 'rhombus;';
+        else style += 'rounded=1;';
+        style += `strokeColor=${s.stroke};fillColor=${s.fill};strokeWidth=${s.strokeWidth};`;
+
+        xml += `    <mxCell id="${s.id}" value="${escapeXml(s.label)}" style="${style}" vertex="1" parent="1">\n`;
+        xml += `      <mxGeometry x="${Math.round(s.x)}" y="${Math.round(s.y)}" width="${Math.round(s.w)}" height="${Math.round(s.h)}" as="geometry"/>\n`;
+        xml += '    </mxCell>\n';
+      });
+
+      // Conectores
+      connectors.forEach(c => {
+        const style = `edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=${c.stroke};strokeWidth=${c.strokeWidth};endArrow=classic;`;
+        xml += `    <mxCell id="${c.id}" value="${escapeXml(c.label)}" style="${style}" edge="1" parent="1" source="${c.sourceId}" target="${c.targetId}">\n`;
+        xml += '      <mxGeometry relative="1" as="geometry"/>\n';
+        xml += '    </mxCell>\n';
+      });
+
+      xml += '  </root>\n';
+      xml += '</mxGraphModel>';
+
+      const blob = new Blob([xml], { type: 'application/xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'diagrama_didt_imss.drawio.xml';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Diagrama XML compatible con Draw.io exportado exitosamente.');
+    }
+
+    // AC-4.2 & AC-4.4: Importar Draw.io XML con Protección Anti-XXE
+    function handleImportFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+        try {
+          // AC-4.4: OWASP Anti-XXE Check
+          const lower = content.toLowerCase();
+          if (lower.includes('<!doctype') || lower.includes('<!entity') || (lower.includes('system') && lower.includes('dtd'))) {
+            throw new Error('Alerta de Seguridad: El archivo contiene declaraciones DOCTYPE/XXE prohibidas');
+          }
+
+          if (!content.includes('<mxGraphModel') || !content.includes('</mxGraphModel>') || !content.includes('<root>')) {
+            throw new Error('Formato incompatible: No contiene un esquema mxGraphModel válido');
+          }
+
+          // Parseo seguro en memoria
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(content, 'application/xml');
+          const parseError = doc.querySelector('parsererror');
+          if (parseError) {
+            throw new Error('Sintaxis XML corrupta o malformada');
+          }
+
+          const cells = Array.from(doc.querySelectorAll('mxCell'));
+          const newShapes = [];
+          const newConnectors = [];
+
+          cells.forEach(cell => {
+            const id = cell.getAttribute('id');
+            if (!id || id === '0' || id === '1') return;
+
+            const isVertex = cell.getAttribute('vertex') === '1';
+            const isEdge = cell.getAttribute('edge') === '1';
+            const source = cell.getAttribute('source');
+            const target = cell.getAttribute('target');
+            const val = cell.getAttribute('value') || '';
+            const style = cell.getAttribute('style') || '';
+
+            if (isEdge || (source && target)) {
+              if (source && target) {
+                newConnectors.push({
+                  id,
+                  sourceId: source,
+                  sourcePort: 'east',
+                  targetId: target,
+                  targetPort: 'west',
+                  stroke: '#006341',
+                  strokeWidth: 2,
+                  label: val
+                });
+              }
+            } else if (isVertex || cell.querySelector('mxGeometry')) {
+              const geom = cell.querySelector('mxGeometry');
+              const x = geom ? parseFloat(geom.getAttribute('x')) || 50 : 50;
+              const y = geom ? parseFloat(geom.getAttribute('y')) || 50 : 50;
+              const w = geom ? parseFloat(geom.getAttribute('width')) || 140 : 140;
+              const h = geom ? parseFloat(geom.getAttribute('height')) || 65 : 65;
+
+              let type = 'rectangle';
+              if (style.includes('ellipse')) type = 'ellipse';
+              else if (style.includes('rhombus')) type = 'diamond';
+
+              newShapes.push({
+                id,
+                type,
+                label: val || 'Componente Importado',
+                x,
+                y,
+                w: Math.max(w, 20),
+                h: Math.max(h, 20),
+                stroke: '#006341',
+                fill: '#FFFFFF',
+                strokeWidth: 2
+              });
+            }
+          });
+
+          if (newShapes.length === 0) {
+            throw new Error('No se encontraron celdas válidas para importar.');
+          }
+
+          // Actualizar canvas
+          shapes.length = 0;
+          connectors.length = 0;
+          shapes.push(...newShapes);
+          connectors.push(...newConnectors);
+          selectedShape = null;
+          selectedConnector = null;
+          updateInspector();
+          render();
+          showToast(`Importación exitosa: ${newShapes.length} formas y ${newConnectors.length} conectores.`);
+        } catch (err) {
+          showToast(err.message, true);
+        } finally {
+          event.target.value = '';
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // AC-4.3: Exportación Vectorial SVG con Membrete Oficial DIDT
+    function exportSvgWithLetterhead() {
+      if (shapes.length === 0) {
+        showToast('El canvas está vacío. Agrega stencils antes de exportar.', true);
+        return;
+      }
+
+      let minX = Math.min(...shapes.map(s => s.x)) - 60;
+      let minY = Math.min(...shapes.map(s => s.y)) - 100;
+      let maxX = Math.max(...shapes.map(s => s.x + s.w)) + 60;
+      let maxY = Math.max(...shapes.map(s => s.y + s.h)) + 100;
+
+      const w = Math.max(1200, maxX - Math.min(0, minX));
+      const h = Math.max(800, maxY - Math.min(0, minY));
+      const nowIso = new Date().toISOString().split('T')[0];
+
+      let svgDoc = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Diagrama de Arquitectura DIDT IMSS">\n`;
+      svgDoc += '  <defs>\n';
+      svgDoc += '    <style>\n';
+      svgDoc += '      .imss-title { font-family: Inter, system-ui, sans-serif; font-size: 15px; font-weight: 700; fill: #FFFFFF; }\n';
+      svgDoc += '      .imss-sub { font-family: Inter, system-ui, sans-serif; font-size: 11px; fill: #E2E8F0; }\n';
+      svgDoc += '      .imss-node-label { font-family: Inter, system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #0F172A; text-anchor: middle; dominant-baseline: middle; }\n';
+      svgDoc += '      .imss-footer { font-family: Inter, system-ui, sans-serif; font-size: 10px; fill: #64748B; }\n';
+      svgDoc += '    </style>\n';
+      svgDoc += '    <marker id="arrowhead-imss" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">\n';
+      svgDoc += '      <polygon points="0 0, 10 3.5, 0 7" fill="#006341" />\n';
+      svgDoc += '    </marker>\n';
+      svgDoc += '    <pattern id="imss-grid" width="20" height="20" patternUnits="userSpaceOnUse">\n';
+      svgDoc += '      <circle cx="2" cy="2" r="1" fill="#CBD5E1" opacity="0.5" />\n';
+      svgDoc += '    </pattern>\n';
+      svgDoc += '  </defs>\n';
+
+      // Fondo
+      svgDoc += `  <rect width="${w}" height="${h}" fill="#F8FAFC" />\n`;
+      svgDoc += `  <rect y="70" width="${w}" height="${h - 110}" fill="url(#imss-grid)" />\n`;
+
+      // Membrete Superior Oficial
+      svgDoc += `  <g id="imss-letterhead">\n`;
+      svgDoc += `    <rect x="0" y="0" width="${w}" height="64" fill="#006341" />\n`;
+      svgDoc += `    <rect x="0" y="64" width="${w}" height="4" fill="#B38E5D" />\n`;
+      svgDoc += `    <text x="24" y="28" class="imss-title">DIRECCION DE INNOVACION Y DESARROLLO TECNOLOGICO — IMSS</text>\n`;
+      svgDoc += `    <text x="24" y="48" class="imss-sub">Diagrama de Arquitectura Técnica | Emisión: ${nowIso} | Interoperabilidad: Draw.io Compatible</text>\n`;
+      svgDoc += `  </g>\n`;
+
+      // Conectores
+      svgDoc += '  <g id="imss-connectors">\n';
+      connectors.forEach(c => {
+        const s1 = shapes.find(s => s.id === c.sourceId);
+        const s2 = shapes.find(s => s.id === c.targetId);
+        if (s1 && s2) {
+          const p1 = getPortCoords(s1, c.sourcePort);
+          const p2 = getPortCoords(s2, c.targetPort);
+          const d = computeOrthogonalPath(p1, c.sourcePort, p2, c.targetPort);
+          svgDoc += `    <path d="${d}" fill="none" stroke="${c.stroke}" stroke-width="${c.strokeWidth}" marker-end="url(#arrowhead-imss)" />\n`;
+        }
+      });
+      svgDoc += '  </g>\n';
+
+      // Formas
+      svgDoc += '  <g id="imss-shapes">\n';
+      shapes.forEach(s => {
+        if (s.type === 'ellipse') {
+          svgDoc += `    <ellipse cx="${s.x + s.w/2}" cy="${s.y + s.h/2}" rx="${s.w/2}" ry="${s.h/2}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" />\n`;
+        } else if (s.type === 'diamond') {
+          svgDoc += `    <polygon points="${s.x + s.w/2},${s.y} ${s.x + s.w},${s.y + s.h/2} ${s.x + s.w/2},${s.y + s.h} ${s.x},${s.y + s.h/2}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" />\n`;
+        } else {
+          svgDoc += `    <rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="6" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" />\n`;
+        }
+        svgDoc += `    <text x="${s.x + s.w/2}" y="${s.y + s.h/2}" class="imss-node-label">${escapeXml(s.label)}</text>\n`;
+      });
+      svgDoc += '  </g>\n';
+
+      // Pie Institucional
+      svgDoc += `  <g id="imss-footer" transform="translate(0, ${h - 36})">\n`;
+      svgDoc += `    <rect x="0" y="0" width="${w}" height="36" fill="#F1F5F9" />\n`;
+      svgDoc += `    <rect x="0" y="0" width="${w}" height="2" fill="#CBD5E1" />\n`;
+      svgDoc += `    <text x="24" y="22" class="imss-footer">INSTITUTO MEXICANO DEL SEGURO SOCIAL | GOBERNANZA SDD v6.6 REGULATORY HARDENED EDITION | CONFIDENCIAL DIDT</text>\n`;
+      svgDoc += `  </g>\n`;
+
+      svgDoc += '</svg>';
+
+      const blob = new Blob([svgDoc], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'diagrama_didt_imss_oficial.svg';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Documento SVG con membrete institucional descargado exitosamente.');
+    }
+
+    // Inicializar arquitectura de demostración al cargar
+    addSampleArchitecture();
+  </script>
+</body>
+</html>

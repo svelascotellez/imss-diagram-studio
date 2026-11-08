@@ -1,0 +1,31 @@
+{
+  "name": "diagram-studio",
+  "version": "1.0.0",
+  "description": "[![Version](https://img.shields.io/badge/version-6.6--hardened-blue.svg)](DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md) [![Status](https://img.shields.io/badge/status-production--ready-success.svg)](DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md) [![Security](https://img.shields.io/badge/governance-HMAC--SHA256-orange.svg)](GUIA_MAESTRA_SETUP_SDD_V66.md) [![Compliance](https://img.shields.io/badge/compliance-ISO_27001_|_21_CFR_11_|_SOC_2_|_HIPAA-brightgreen.svg)](DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md) [![Platform](https://img.shields.io/badge/platform-PowerShell_|_Python_|_Cross--Platform-lightgrey.svg)](setup-sdd-project-v66.ps1)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "python3 -m http.server 3000",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svelascotellez/ssd-projects.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/svelascotellez/ssd-projects/issues"
+  },
+  "homepage": "https://github.com/svelascotellez/ssd-projects#readme",
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}
