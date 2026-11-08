@@ -61,3 +61,4 @@ Nos comprometemos a:
 - Evaluar la severidad técnica en un plazo no mayor a 5 días hábiles.
 - Generar un hotfix verificado formalmente mediante la suite Pester 6 antes de su liberación pública.
 - Dar crédito público al investigador que descubrió la vulnerabilidad (salvo que solicite permanecer anónimo).
+

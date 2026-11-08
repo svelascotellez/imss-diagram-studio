@@ -35,3 +35,4 @@ echo "[OK] SDD Framework v6.6 installed successfully in ${DESTINATION}."
 echo "To initialize a new project, run:"
 echo "  python3 ${DESTINATION}/setup-sdd-project-v66.py --project-name 'MyProject' --stack 'python'"
 echo ""
+

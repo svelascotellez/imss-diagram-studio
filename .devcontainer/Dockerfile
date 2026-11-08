@@ -28,3 +28,4 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /workspace
 
 CMD ["pwsh"]
+

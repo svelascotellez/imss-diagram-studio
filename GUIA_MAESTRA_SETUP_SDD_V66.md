@@ -36,10 +36,32 @@ La versión **6.6 - Regulatory Hardened Edition** endurece la gobernanza criptog
 4. **k6 (Opcional en host local)**: Para ejecución en vivo de benchmarks de carga.
 5. **Pester 6 / PScriptAnalyzer (Opcional)**: Disponibles localmente en el directorio `tools/`.
 
-### Scripts de Inicialización Disponibles
+### Scripts e Instaladores Disponibles
 
-- `setup-sdd-project-v66.ps1`: Inicializador nativo en PowerShell.
-- `setup-sdd-project-v66.py`: Inicializador multiplataforma en Python.
+1. **Instaladores Web One-Liner (Recomendados):**
+   - **Windows (PowerShell):**
+     ```powershell
+     irm https://raw.githubusercontent.com/svelascotellez/ssd-projects/main/install.ps1 | iex
+     ```
+   - **Linux / macOS / Contenedores (Bash):**
+     ```bash
+     curl -fsSL https://raw.githubusercontent.com/svelascotellez/ssd-projects/main/install.sh | bash
+     ```
+
+2. **Entorno en Contenedor (DevContainer & Docker):**
+   - El proyecto incluye `.devcontainer/devcontainer.json` y `.devcontainer/Dockerfile`.
+   - Permite iniciar en 1 clic en VS Code o GitHub Codespaces con todas las dependencias preconfiguradas (pwsh, python3, chromium, k6 y Pester 6).
+
+3. **Scripts de Scaffolding Clásicos:**
+   - `setup-sdd-project-v66.ps1`: Inicializador nativo en PowerShell.
+   - `setup-sdd-project-v66.py`: Inicializador multiplataforma en Python.
+
+4. **Herramientas de Ecosistema (`tools/`):**
+   - `tools/sdd_cli.py`: CLI universal multiplataforma en Python.
+   - `tools/sdd.sh`: Runner nativo POSIX para Linux/macOS.
+   - `tools/sdd-status.ps1`: Radar de gobernanza y visualizador de estado para terminal de IDE.
+   - `tools/build_docs.py`: Compilador automatizado de documentación HTML5 y PDF.
+   - `tools/build_scaffolder.py`: Verificador de paridad entre generadores PS1 y PY.
 
 ---
 
@@ -181,14 +203,18 @@ Para auditar y verificar que los controles de gobernanza, el candado HMAC y las 
 powershell -ExecutionPolicy Bypass -Command "& { Import-Module '.\tools\Pester\6.2.0\Pester.psd1' -Force; Invoke-Pester -Path '.\tests\v66-governance.Tests.ps1' -Output Detailed }"
 ```
 
-Esta suite valida de forma automatizada:
+Esta suite valida de forma automatizada las 13 pruebas de gobernanza:
 
 1. Candado HMAC-SHA256 y persistencia de llave en `.specify\.sdd_key`.
 2. Detección instantánea de *Spec Tampering* al modificar `plan.md` o `spec.md`.
-3. Paridad BDD 1:1 en la plantilla de funcionalidades.
+3. Paridad BDD 1:1 en la plantilla de funcionalidades (`@AC-1.1` a `@AC-1.4`).
 4. Ausencia de falsos positivos en Gate 1 sobre `k6_benchmark.js`.
 5. Reporte verídico `SKIPPED_LOCAL` en Gate 9 cuando k6 está ausente.
 6. Configuración exitosa del stack Java (`java-maven`).
+7. Matriz políglota de perfiles y manifiestos para Node/TypeScript (`package.json`), .NET/C# (`*.csproj`), Go (`go.mod`) y Rust (`Cargo.toml`).
+8. Restauración segura del perfil Python para pruebas subsecuentes.
+9. Saneamiento automático de las 9 reglas de markdownlint (`MD003`, `MD009`, `MD022`, `MD029`, `MD031`, `MD032`, `MD040`, `MD047`, `MD058`).
+10. Generación válida del Cockpit Web Dashboard con JavaScript sintácticamente puro y auto-fit del grafo DAG SVG.
 
 ---
 

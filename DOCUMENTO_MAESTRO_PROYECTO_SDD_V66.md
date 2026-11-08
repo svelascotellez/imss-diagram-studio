@@ -1103,12 +1103,19 @@ Para garantizar que el propio arnés de gobernanza SDD v6.6 funcione con precisi
 | **3** | `Detecta alteración en plan.md (Spec Tampering) y bloquea Gate 0` | **P0.2** | Inyecta una ruta maliciosa (`- src/hacked.py`) en `specs/FEAT-100/plan.md` después de haber sellado la funcionalidad, invoca `spec-gate.ps1` y comprueba que falle con código de salida `!= 0` y mensaje `SPEC TAMPERING DETECTADO`. | **PASS** |
 | **4** | `No reporta k6_benchmark.js como archivo no autorizado en Gate 1` | **P0.4** | Restaura `plan.md`, re-sella la funcionalidad, ejecuta `spec-gate.ps1` y verifica que `tests/performance/k6_benchmark.js` no aparezca en la lista de violaciones de Spec Drift de la Aduana 1. | **PASS** |
 | **5** | `Reporta estado SKIPPED_LOCAL y advertencia clara cuando k6 no está en PATH local` | **P1.3** | Ejecuta `verify-performance.ps1 -FeatureId FEAT-100` con `PATH` restringido (sin `k6`), parsea `progress/performance_report.json` con `ConvertFrom-Json` y valida que `status == "SKIPPED_LOCAL"` y `sla_certified == $false`. | **PASS** |
-| **6** | `Configura exitosamente el stack java-maven` | **P1.2** | Ejecuta `sdd.ps1 -Action set-stack -Stack java-maven` y comprueba en `.specify/harness-config.json` que `stack == "java"`, `manifest_file == "pom.xml"`, `test_cmd == "mvn test"` y `src_dir == "src/main/java"`. | **PASS** |
+| **6** | `Configura exitosamente el stack java-maven` | **P1.2** | Ejecuta `sdd.ps1 -Action configure-stack -Stack java-maven` y comprueba en `.specify/harness-config.json` que `stack == "java"`, `dependency_manifest == "pom.xml"`, `test_cmd == "mvn test"` y `source_dir == "src/main/java"`. | **PASS** |
+| **7** | `Configura correctamente el stack node/typescript` | **P1.2** | Valida detección automática de `package.json`, comandos de test (`npx vitest run`) y perfiles de importación protegidos. | **PASS** |
+| **8** | `Configura correctamente el stack dotnet/csharp` | **P1.2** | Valida detección de `*.csproj`, comandos de compilación y prueba (`dotnet test`). | **PASS** |
+| **9** | `Configura correctamente el stack go` | **P1.2** | Valida manifiesto `go.mod` y comandos de verificación estricta (`go test ./...`). | **PASS** |
+| **10** | `Configura correctamente el stack rust` | **P1.2** | Valida detección de `Cargo.toml` y comandos nativos (`cargo test`). | **PASS** |
+| **11** | `Restaura el stack de prueba a python para subsecuentes pruebas` | **P1.2** | Comprueba la reversibilidad y persistencia del perfil estándar Python. | **PASS** |
+| **12** | `Sanea automáticamente violaciones de las 9 reglas con sdd.ps1 -Action fix-markdown` | **Higiene** | Inserta documento intencionalmente sucio y valida autocorrección de las 9 reglas de markdownlint. | **PASS** |
+| **13** | `Genera sdd_dashboard.html con sintaxis JavaScript 100% válida y auto-fit del DAG` | **Dashboard** | Genera dashboard web y ejecuta validación sintáctica de JavaScript mediante motor V8 (`node --check`). | **PASS** |
 
 ### 11.2. Comandos para Ejecutar la Suite de Verificación del Framework
 
 ```powershell
-# 1. Ejecutar las 6 pruebas de integración de gobernanza con Pester 6
+# 1. Ejecutar las 13 pruebas de integración de gobernanza con Pester 6
 powershell.exe -ExecutionPolicy Bypass -NoProfile -Command "Import-Module '.\tools\Pester\6.2.0\Pester.psd1'; Invoke-Pester -Path '.\tests\v66-governance.Tests.ps1' -Output Detailed"
 
 # 2. Auditar calidad estática AST de PowerShell con PSScriptAnalyzer (0 Errores)
@@ -1116,19 +1123,33 @@ powershell.exe -ExecutionPolicy Bypass -NoProfile -Command "Import-Module '.\too
 
 # 3. Validar compilación sintáctica del generador multiplataforma Python
 python -m py_compile .\setup-sdd-project-v66.py
+
+# 4. Validar paridad del generador y skills canónicas
+python tools/build_scaffolder.py
+
+# 5. Auditar higiene estricta de Markdown (0 Violaciones)
+python lint_md.py
+
+# 6. Validar pipeline y mapeo de entregables documentales
+python tools/build_docs.py
 ```
 
 ---
 
 ## 12. Manual de Operaciones y Referencia Exhaustiva de Comandos CLI
 
-### 12.1. Inicialización del Proyecto (`setup-sdd-project-v66.ps1` / `.py`)
+### 12.1. Métodos de Instalación e Inicialización del Proyecto
 
-| Plataforma | Comando de Ejecución | Parámetros Soportados |
+| Método / Plataforma | Comando de Ejecución | Descripción y Entorno |
 | :--- | :--- | :--- |
+| **Instalador Web Windows (PowerShell)** | `irm https://raw.githubusercontent.com/svelascotellez/ssd-projects/main/install.ps1 \| iex` | Descarga e instala SDD v6.6 en `~/.sdd` listo para invocar. |
+| **Instalador Web Linux / macOS / Contenedores** | `curl -fsSL https://raw.githubusercontent.com/svelascotellez/ssd-projects/main/install.sh \| bash` | Instalación desatendida en un paso con permisos de ejecución. |
+| **Entorno DevContainer (Docker / Codespaces)** | Abrir carpeta en VS Code con extensión Dev Containers | Inicia contenedor Ubuntu con `pwsh`, `python 3.11`, `k6`, `chromium` y `Pester 6` preinstalados. |
 | **Windows (PowerShell) — Interactivo** | `powershell -ExecutionPolicy Bypass -File .\setup-sdd-project-v66.ps1` | Solicita nombre de proyecto y ruta por consola; abre Antigravity IDE al finalizar. |
 | **Windows (PowerShell) — Desatendido / CI** | `.\setup-sdd-project-v66.ps1 -ProjectName "MiApp" -DestinationPath "D:\Proyectos" -NoAutoLaunch` | `-ProjectName <str>`: Nombre de carpeta.<br>`-DestinationPath <path>`: Directorio padre.<br>`-NoAutoLaunch`: Omite lanzar `agy.exe -i`. |
 | **Linux / macOS / Windows (Python 3)** | `python setup-sdd-project-v66.py --project-name "MiApp" --destination-path "/opt/proyectos" --no-auto-launch` | `--project-name <str>`<br>`--destination-path <path>`<br>`--no-auto-launch` |
+| **CLI Universal (Python)** | `python tools/sdd_cli.py -Action status` | Runner cross-platform para inspección y aprobación sin dependencias de PowerShell. |
+| **Radar de Estado en IDE** | `powershell tools/sdd-status.ps1` o tarea `Ctrl+Shift+B` | Muestra semáforo visual del candado HMAC y las 9 compuertas duras en la consola. |
 
 ### 12.2. Referencia Completa del CLI Unificado (`harness/sdd.ps1`)
 

@@ -22,3 +22,4 @@
   "remoteUser": "root",
   "postCreateCommand": "pwsh -Command 'Write-Host \"[SDD DevContainer]: Entorno listo con pwsh, python3, k6 y Pester 6.\"' "
 }
+

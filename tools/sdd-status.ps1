@@ -64,3 +64,4 @@ Write-Host "Acciones rapidas:" -ForegroundColor DarkGray
 Write-Host "  - Auditar:   .\harness\sdd.ps1 -Action gate -FeatureId <FEAT-ID>" -ForegroundColor Gray
 Write-Host "  - Cockpit:   .\harness\sdd.ps1 -Action dashboard" -ForegroundColor Gray
 Write-Host "  - Exportar:  .\harness\sdd.ps1 -Action export-compliance -FeatureId <FEAT-ID>`n" -ForegroundColor Gray
+

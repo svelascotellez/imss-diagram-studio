@@ -26,3 +26,4 @@ assignees: ''
 
 **Logs o Capturas de Pantalla**
 <!-- Adjunta los logs de consola o capturas relevantes. -->
+

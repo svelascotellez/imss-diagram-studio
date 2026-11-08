@@ -1,8 +1,8 @@
-# Diccionario Glosario de Términos: Framework SDD v5.4
+# Diccionario Glosario de Términos: Framework SDD v6.6
 
-## Specification-Driven Development para Ingeniería de Software con Agentes de IA
+## Specification-Driven Development (Enterprise Regulatory & Compliance Hardened Edition)
 
-Este glosario define los conceptos, acrónimos, metodologías y componentes técnicos empleados en la arquitectura y operación de **SDD v5.4**.
+Este glosario define los conceptos, acrónimos, metodologías y componentes técnicos empleados en la arquitectura y operación de **SDD v6.6**.
 
 ---
 
@@ -13,7 +13,8 @@ Este glosario define los conceptos, acrónimos, metodologías y componentes téc
 3. [Gobernanza Criptográfica y Control de Cambios](#3-gobernanza-criptográfica-y-control-de-cambios)
 4. [Arquitectura de Software y Código](#4-arquitectura-de-software-y-código)
 5. [UI/UX Pro Max y Diseño Accesible](#5-uiux-pro-max-y-diseño-accesible)
-6. [Ecosistema Antigravity IDE: Hooks, Skills y Arnés](#6-ecosistema-antigravity-ide-hooks-skills-y-arnés)
+6. [Ecosistema Agéntico: Hooks, Skills y Arnés](#6-ecosistema-agéntico-hooks-skills-y-arnés)
+7. [Infraestructura, Portabilidad, Herramientas y DevOps](#7-infraestructura-portabilidad-herramientas-y-devops)
 
 ---
 
@@ -21,7 +22,7 @@ Este glosario define los conceptos, acrónimos, metodologías y componentes téc
 
 ### **SDD (Specification-Driven Development)**
 
-*Desarrollo Guiado por Especificaciones*. Metodología que establece que ninguna línea de código de producción puede redactarse sin un documento de especificación formal previo (`spec.md`), aprobado por un humano y verificado algorítmicamente. Su principio rector es: *"La especificación manda"*.
+*Desarrollo Guiado por Especificaciones*. Metodología que establece que ninguna línea de código de producción puede redactarse sin un documento de especificación formal previo (`spec.md`), aprobado por un humano y sellado criptográficamente. Su principio rector es: *"La especificación manda, el código obedece y la criptografía gobierna"*.
 
 ### **BDD (Behavior-Driven Development)**
 
@@ -49,139 +50,110 @@ Sintaxis estandarizada de ingeniería de requisitos diseñada para eliminar ambi
 
 ### **Gherkin**
 
-Lenguaje formal legible por humanos y máquinas (utilizado por herramientas como Cucumber, Behave o SpecFlow) basado en palabras clave (`Feature`, `Scenario`, `Given`, `When`, `Then`, `And`). En SDD, cada escenario lleva la etiqueta correspondiente a su criterio EARS (ej. `@AC-1.1`).
-
-### **Spec Drift (Dispersión de la Especificación)**
-
-Fenómeno no deseado en el que el código fuente diverge de la especificación original debido a que el desarrollador o el agente de IA añade funciones no solicitadas, altera firmas o modifica archivos fuera del alcance estipulado.
-
-### **Allowed Files (Lista Blanca de Archivos)**
-
-Sección obligatoria (`## 5. Allowed Files`) dentro de `spec.md`. Declara la lista cerrada de rutas de archivo que el agente de IA tiene autorización explícita para crear o modificar durante una funcionalidad.
-
-### **Hard Gate (Compuerta Dura)**
-
-Mecanismo de validación física e infranqueable. A diferencia de una advertencia o *warning*, una compuerta dura detiene y aborta de inmediato la ejecución si no se satisface una condición matemática, criptográfica o estructural.
+Lenguaje formal estructurado en bloques `Given-When-Then` para describir el comportamiento esperado del software. En SDD v6.6 existe paridad estricta 1:1 entre cada criterio `AC-X.Y` y una etiqueta `@AC-X.Y` en `scenarios.feature`.
 
 ---
 
 ## 3. Gobernanza Criptográfica y Control de Cambios
 
-### **Candado Criptográfico SHA-256**
+### **Candado Criptográfico HMAC-SHA256 (Pilar 3 & Gate 0)**
 
-Firma digital calculada mediante el algoritmo hash seguro **SHA-256** sobre el contenido normalizado del archivo `spec.md`. Garantiza que el documento no ha sido alterado ni una sola coma desde el momento en que fue revisado y aprobado por el operador humano.
+Firma digital generada con una clave secreta de 256 bits generada aleatoriamente mediante CSPRNG y persistida en `.specify/.sdd_key`. Sella conjuntamente la tríada inmutable: `spec.md + scenarios.feature + plan.md`.
 
 ### **Human-in-the-Loop (HITL)**
 
-Principio de gobernanza que prohíbe que el agente de IA se autoapruebe planes o especificaciones. Requiere forzosamente la intervención y confirmación explícita de un ser humano para avanzar de fase.
+Aprobación humana formal y obligatoria. Ningún agente de IA puede auto-aprobar una especificación. Toda aprobación captura la identidad del usuario (`user.name <email>`), la marca de tiempo UTC y el algoritmo utilizado.
 
-### **DAG (Directed Acyclic Graph / Grafo Acíclico Dirigido)**
+### **Spec Tampering (Adulteración de Especificación o Plan)**
 
-Estructura matemática de dependencias donde las aristas tienen una dirección y no existen ciclos infinitos. En SDD, el backlog (`feature_list.json`) se modela como un DAG mediante `depends_on`: una funcionalidad (ej. `FEAT-002`) queda bloqueada por el arnés hasta que su prerrequisito (ej. `FEAT-001`) esté completamente finalizado y sellado.
+Cualquier modificación no autorizada realizada sobre los archivos protegidos tras la firma HITL. Rompe el sello criptográfico e invoca el bloqueo inmediato de Gate 0 y de los hooks fail-closed.
 
-### **Completion Hash**
+### **Allowed Files (Lista Blanca de Archivos Permitidos)**
 
-Hash criptográfico final generado durante el comando de cierre formal (`harness\sdd.ps1 -Action complete`). Sella el estado conjunto de especificación, código, pruebas y documentación en el historial inmutable `CHECKPOINTS.md`.
-
-### **Matriz de Trazabilidad Bidireccional**
-
-Documento auto-generado (`docs/traceability_<feature>.md`) que traza de ida y vuelta la correlación exacta entre:
-$$\text{Requisito EARS } (AC\text{-}x.x) \longleftrightarrow \text{Escenario Gherkin } (@AC\text{-}x.x) \longleftrightarrow \text{Función de Test } \longleftrightarrow \text{Código en } src/$$
+Sección de `plan.md` auditada por Gate 1 que declara exhaustivamente las únicas rutas relativas que el agente o desarrollador puede crear o editar durante la implementación.
 
 ---
 
 ## 4. Arquitectura de Software y Código
 
-### **Clean Architecture (Arquitectura Limpia)**
+### **Clean Architecture Concéntrica Políglota**
 
-Patrón arquitectónico propuesto por Robert C. Martin que organiza el software en capas concéntricas con la regla fundamental de dependencia: *las capas internas nunca conocen nada de las capas externas*.
+Modelo arquitectónico en 4 capas concéntricas:
 
-- **`domain/` (Capa de Dominio):** Entidades, reglas de negocio y Value Objects puros. Cero dependencias externas o de base de datos.
-- **`application/` (Capa de Aplicación):** Casos de uso, orquestación del negocio e interfaces (puertos).
-- **`infrastructure/` (Capa de Infraestructura):** Implementación técnica concreta: bases de datos, APIs de terceros, repositorios y sistemas de archivos.
-- **`presentation/` (Capa de Presentación):** Interfaz gráfica de usuario (UI), endpoints REST o interfaces de consola (CLI). Nunca importa infraestructura de forma directa.
+1. **Domain (Núcleo Puro):** Entidades y reglas de negocio, 100% independiente de librerías externas o frameworks.
+2. **Application (Casos de Uso):** Orquestación y contratos de interfaces (puertos).
+3. **Presentation (Adaptadores de Entrada):** Controladores REST, comandos CLI, interfaces gráficas.
+4. **Infrastructure (Adaptadores de Salida):** Bases de datos, clientes HTTP, integraciones con la nube.
 
-### **Inversión de Dependencias (Dependency Inversion Principle - DIP)**
+Regla de dependencia: las capas externas conocen a las internas, **nunca a la inversa**.
 
-Principio SOLID que exige que los módulos de alto nivel no dependan de módulos de bajo nivel; ambos deben depender de abstracciones (interfaces o protocolos).
+### **Anti-Fake Tests (Gate 5)**
 
-### **AST (Abstract Syntax Tree / Árbol de Sintaxis Abstracta)**
-
-Representación en árbol de la estructura sintáctica del código fuente producida por los compiladores e intérpretes. En SDD, el arnés inspecciona el AST de los archivos para auditar los `imports` y detectar violaciones arquitectónicas.
+Algoritmo de análisis estático dentro del arnés que detecta y bloquea técnicas de simulación complacientes producidas por agentes de IA: cuerpos de prueba con `pass`, aserciones triviales tipo `assert True == True` o decoradores `@skip` no autorizados.
 
 ---
 
 ## 5. UI/UX Pro Max y Diseño Accesible
 
-### **Design Tokens (Tokens de Diseño)**
+### **Design Tokens Semánticos (`design-tokens.json`)**
 
-Valores atómicos de diseño (colores, fuentes, sombras, espaciados, radios de borde) centralizados en formato de datos estructurado (`.specify/design-system/design-tokens.json`). Permite desacoplar el diseño de la tecnología concreta y reutilizarlo en web, móvil o desktop.
+Variables atómicas de diseño validadas para garantizar un contraste mínimo algorítmico de $\ge 4.5:1$ (WCAG 2.1 AA) en componentes y los 5 estados obligatorios (default, hover, active, focus, disabled).
 
-### **WCAG 2.1 AA (Web Content Accessibility Guidelines)**
+### **Frontend Design Skill**
 
-Estándar internacional de accesibilidad web nivel AA promovido por el W3C. Exige que el contraste entre el texto y su fondo cumpla con un ratio de luminancia relativa mínimo de **4.5:1** para texto normal y **3.0:1** para texto grande.
-
-### **Luminancia Relativa ($L$)**
-
-Brillo relativo de cualquier punto en un espacio de color, normalizado de 0 para el negro más oscuro a 1 para el blanco más claro, calculado matemáticamente según la fórmula de la W3C:
-$$\text{Ratio de Contraste} = \frac{L_1 + 0.05}{L_2 + 0.05} \ge 4.5:1$$
-
-### **Magic Hex Codes (Códigos Hexadecimales Mágicos)**
-
-Mala práctica consistente en escribir códigos de color hexadecimales arbitrarios (ej. `#3B82F6` o `#FA4512`) directamente en componentes de presentación. SDD v5.4 prohíbe los magic hex codes y obliga a consumir variables semánticas de diseño.
-
-### **Los 5 Estados UI Obligatorios**
-
-Regla de UX de SDD que exige diseñar y documentar formalmente el comportamiento de los componentes en sus cinco estados de interacción:
-
-1. **Default:** Estado base o de reposo.
-2. **Hover / Focus:** Interacción al pasar el cursor o navegar mediante teclado (accesibilidad).
-3. **Loading:** Retroalimentación visual mientras se procesan datos asíncronos.
-4. **Empty State:** Pantalla informativa amigable cuando no existen datos para mostrar, con llamada a la acción.
-5. **Error State:** Comunicación clara de fallos con opciones de reintento y remediación.
+Habilidad agéntica especializada para crear interfaces gráficas de alto impacto, evitando patrones genéricos y asegurando coherencia semántica en sistemas visuales modernos.
 
 ---
 
-## 6. Ecosistema Antigravity IDE: Hooks, Skills y Arnés
+## 6. Ecosistema Agéntico: Hooks, Skills y Arnés
 
-### **Scaffolding (Andamiaje)**
+### **Hooks Fail-Closed (`harness/hooks/`)**
 
-Generación automática de la estructura completa de carpetas, configuraciones, ganchos e interfaces de un proyecto para evitar el trabajo manual repetitivo.
+Ganchos de ciclo de vida del agente:
 
-### **Hooks (Ganchos de Ciclo de Vida)**
+- **`session-start.ps1`:** Inyecta en la memoria del agente el backlog, el grafo DAG y las reglas constitucionales.
+- **`pre-tool-enforce.ps1`:** Interceptor fail-closed que bloquea físicamente la ejecución de herramientas de edición en `src/` si no hay un sello HMAC válido o si el archivo no está en `Allowed Files`.
+- **`post-tool-check.ps1`:** Auditor silencioso post-edición que comprueba que las reglas de Clean Architecture se mantengan intactas.
 
-Scripts automáticos que se interceptan y disparan ante eventos del IDE:
+### **El Auditor Nónuplo Reforzado (`spec-gate.ps1`)**
 
-- **`SessionStart`:** Inicializa la sesión del agente, lee la memoria del proyecto y retoma el contexto de trabajo.
-- **`PreToolUse`:** Interceptor de seguridad que inspecciona llamadas a herramientas (`write_file`, `edit_file`) antes de que se ejecuten. Si el archivo destino no está en `Allowed Files`, aborta la operación físicamente.
-- **`PostToolUse`:** Revisa silenciosamente tras cada cambio que las reglas de Clean Architecture se mantengan intactas.
-- **`Git pre-commit`:** Impide confirmar cambios en el repositorio si los tests o el arnés de calidad fallan.
+Motor de auditoría algorítmica que evalúa 10 compuertas inflexibles antes de autorizar el cierre formal de una funcionalidad:
 
-### **Skills (Habilidades Agénticas Canónicas y de Extensión)**
+- **Gate 0:** Verificación del Candado HMAC-SHA256 tridocumental.
+- **Gate 1:** Contención de alcance (Allowed Files y cero Spec Drift).
+- **Gate 2:** Paridad BDD 1:1 en Gherkin.
+- **Gate 3:** Cobertura de pruebas unitarias TDD en dominio.
+- **Gate 4:** Integridad de Clean Architecture sin fugas de infraestructura.
+- **Gate 5:** Detección estricta de Fake Tests y mocks complacientes.
+- **Gate 6:** Escaneo defensivo de seguridad OWASP y secretos.
+- **Gate 7:** Análisis estático de código y linting.
+- **Gate 8:** Trazabilidad, bitácora HITL en `CHECKPOINTS.md` y guía de usuario.
+- **Gate 9:** Resiliencia SLA y benchmark de carga k6 (P95 < 200ms).
 
-Módulos de instrucciones especializadas ubicados en `.agents/skills/<nombre>/SKILL.md` que enseñan al agente de IA cómo ejecutar una fase concreta del desarrollo (ej. `sdd-onboard`, `sdd-specify`, `sdd-plan`, `sdd-implement`, etc.). Incluye skills especializadas del ecosistema como **`frontend-design`** (de Anthropic) para erradicar patrones genéricos de IA, definir tokens tipográficos intencionales y construir interfaces gráficas de alto impacto con accesibilidad WCAG 2.1 AA.
+---
 
-### **Harness (Arnés de Calidad)**
+## 7. Infraestructura, Portabilidad, Herramientas y DevOps
 
-Conjunto de herramientas de CLI y validación ubicadas en la carpeta `harness/` del proyecto:
+### **Universal CLI Runner (`tools/sdd_cli.py` & `tools/sdd.sh`)**
 
-- `init.ps1`: Ejecuta diagnósticos de entorno, tests automatizados y linters.
-- `sdd.ps1`: CLI central para gestionar el backlog, aprobar candados criptográficos y consultar el estado del DAG.
-- `spec-gate.ps1`: Motor de auditoría y ejecución de compuertas duras.
-- `preview-design.ps1`: Generador de visualizaciones interactivas HTML del sistema de diseño.
+CLI multiplataforma en Python y runner POSIX en Bash que permite ejecutar las operaciones centrales de gobernanza (status, approve, gate) de forma nativa en Linux, macOS y Docker sin requerir PowerShell.
 
-### **Auditor Séptuple**
+### **Instalador One-Liner (`install.ps1` / `install.sh`)**
 
-Suite de 7 verificaciones duras automáticas ejecutadas por `spec-gate.ps1` que deben aprobarse con 100% de éxito antes de poder cerrar una funcionalidad:
+Scripts de despliegue rápido que permiten instalar o actualizar el framework SDD en segundos mediante un solo comando web (`curl` o `irm`).
 
-1. **Spec Drift:** Cero modificaciones fuera de `Allowed Files`.
-2. **BDD 1:1:** Cobertura total de criterios EARS en escenarios Gherkin y tests.
-3. **Clean Architecture:** Cero acoplamientos impuros y dependencias declaradas.
-4. **Candado Criptográfico:** Coincidencia exacta del hash SHA-256 de `spec.md`.
-5. **Anti-Fake Tests:** Prohibición de tests simulados o triviales.
-6. **Guía de Usuario:** Manual obligatorio completo en 4 secciones sin texto de relleno.
-7. **UI/UX Pro Max:** Validación algorítmica de contrastes WCAG AA y uso exclusivo de tokens.
+### **DevContainer y Dockerfile (`.devcontainer/`)**
 
-### **Anti-Fake Tests (Detección Anti-Pruebas Falsas)**
+Configuración de contenedor reproducible para VS Code y GitHub Codespaces que preinstala PowerShell Core, Python 3.11, Chromium headless, k6 y la suite Pester 6, eliminando toda fricción de onboarding.
 
-Algoritmo dentro del arnés que inspecciona los archivos de prueba para detectar técnicas fraudulentas generadas por IA, como pruebas vacías, uso de `pass`, `skip` injustificado o aserciones triviales tipo `assert True == True`.
+### **Radar de Gobernanza en IDE (`tools/sdd-status.ps1` & `.vscode/tasks.json`)**
+
+Herramienta de inspección rápida integrada al editor que visualiza el estado del candado criptográfico y las compuertas duras en la consola mediante atajos de teclado del IDE.
+
+### **Scaffolder Parity Engine (`tools/build_scaffolder.py`)**
+
+Herramienta que verifica y garantiza la paridad estructural, de líneas y de habilidades entre el generador de PowerShell (`setup-sdd-project-v66.ps1`) y el generador de Python (`setup-sdd-project-v66.py`).
+
+### **Pipeline de Compilación Documental (`tools/build_docs.py`)**
+
+Mecanismo automatizado que compila y mapea la documentación fuente en Markdown hacia entregables en HTML5 interactivo y PDF vectorial mediante navegadores headless.

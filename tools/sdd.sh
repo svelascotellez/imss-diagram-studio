@@ -23,3 +23,4 @@ fi
 
 echo "[ERROR]: Se requiere PowerShell Core ('pwsh') o Python 3 ('python3') para ejecutar el arnés SDD." >&2
 exit 1
+

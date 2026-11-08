@@ -31,3 +31,4 @@ foreach ($file in $FilesToDownload) {
 Write-Host "`n[OK] SDD Framework v6.6 instalado exitosamente en $Destination." -ForegroundColor Green
 Write-Host "Para inicializar un nuevo proyecto, ejecuta:" -ForegroundColor Yellow
 Write-Host "  & `"$Destination\setup-sdd-project-v66.ps1`" -ProjectName `"MiProyecto`" -Stack `"python`"`n" -ForegroundColor White
+

@@ -18,3 +18,4 @@
 - [ ] El candado criptográfico HMAC-SHA256 y la política HITL no han sido debilitados ni omitidos.
 - [ ] No se incluyen secretos, tokens ni contraseñas en texto plano.
 - [ ] Se actualizó la documentación relevante (Libro Blanco, Guía de Setup o README) si aplica.
+

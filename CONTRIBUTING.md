@@ -49,3 +49,4 @@ Utilizamos el estándar [Conventional Commits](https://www.conventionalcommits.o
 ## 4. Código de Conducta
 
 Nos comprometemos a mantener un entorno inclusivo, respetuoso y profesional para todos los colaboradores, libre de acoso o discriminación de cualquier índole.
+

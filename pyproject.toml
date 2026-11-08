@@ -31,3 +31,4 @@ sdd = "tools.sdd_cli:main"
 "Homepage" = "https://github.com/svelascotellez/ssd-projects"
 "Bug Tracker" = "https://github.com/svelascotellez/ssd-projects/issues"
 "Documentation" = "https://github.com/svelascotellez/ssd-projects/blob/main/DOCUMENTO_MAESTRO_PROYECTO_SDD_V66.md"
+
