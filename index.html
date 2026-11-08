@@ -328,8 +328,6 @@
       </div>
     </div>
     <div class="topbar-actions">
-      <span class="pill pill-success">BACKLOG 100% COMPLETADO</span>
-      <span class="pill pill-success">46 / 46 TESTS PASS</span>
       <button class="btn-top btn-top-outline" onclick="document.getElementById('importXmlInput').click()">
         <span>📥</span> Importar Draw.io XML
       </button>
@@ -486,42 +484,6 @@
         <button class="tool-btn" onclick="addSampleArchitecture()">Cargar Arquitectura IMSS</button>
       </div>
     </main>
-
-    <!-- Inspector -->
-    <aside class="inspector-panel">
-      <div class="gov-card">
-        <div class="gov-title">Gobernanza SDD v6.6</div>
-        <div class="gov-item"><span>Algoritmo</span><span class="val">HMAC-SHA256</span></div>
-        <div class="gov-item"><span>FEAT-001 (Canvas)</span><span class="badge-pass">DONE</span></div>
-        <div class="gov-item"><span>FEAT-002 (Conectores)</span><span class="badge-pass">DONE</span></div>
-        <div class="gov-item"><span>FEAT-003 (Stencils)</span><span class="badge-pass">DONE</span></div>
-        <div class="gov-item"><span>FEAT-004 (XML/SVG)</span><span class="badge-pass">DONE</span></div>
-        <div class="gov-item"><span>FEAT-004 Seal</span><span class="val">E52932FC88...</span></div>
-        <div class="gov-item" style="margin-top:0.4rem;"><span>Suite Vitest</span><span class="badge-pass">46 / 46 PASS</span></div>
-      </div>
-
-      <div class="gov-card">
-        <div class="gov-title">Interoperabilidad & Seguridad</div>
-        <div class="gov-item"><span>Esquema XML</span><span class="val">&lt;mxGraphModel&gt;</span></div>
-        <div class="gov-item"><span>Compatibilidad</span><span class="val">Draw.io 100%</span></div>
-        <div class="gov-item"><span>Filtro anti-XXE</span><span class="val" style="color:#34D399;">CWE-611 Activo</span></div>
-        <div class="gov-item"><span>Membrete SVG</span><span class="val">WCAG 2.1 AAA</span></div>
-      </div>
-
-      <div class="gov-card">
-        <div class="gov-title">Tokens Institucionales</div>
-        <div class="gov-item"><span>Primario</span><span class="val" style="color:#006341;">#006341 (Verde)</span></div>
-        <div class="gov-item"><span>Secundario</span><span class="val" style="color:#B38E5D;">#B38E5D (Dorado)</span></div>
-        <div class="gov-item"><span>Contraste</span><span class="val">17.85:1 (AAA)</span></div>
-      </div>
-
-      <div class="gov-card" style="flex:1;">
-        <div class="gov-title">Elemento Seleccionado</div>
-        <div id="selectionProps" style="font-size:0.75rem; color:#94A3B8;">
-          Haz clic sobre una forma o conector en el canvas para ver sus propiedades.
-        </div>
-      </div>
-    </aside>
   </div>
 
   <script>
@@ -855,6 +817,7 @@
 
     function updateInspector() {
       const div = document.getElementById('selectionProps');
+      if (!div) return;
       if (selectedShape) {
         div.innerHTML = `
           <div class="gov-item"><span>ID</span><span class="val">${selectedShape.id.substring(0, 10)}</span></div>
