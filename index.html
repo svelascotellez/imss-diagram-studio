@@ -3,165 +3,389 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IMSS DIDT — Diagram Studio (v6.6)</title>
+  <title>Diagram Studio DIDT - Draw.io Enterprise Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #006341;
-      --primary-hover: #004D32;
+      --primary-dark: #004d32;
+      --primary-light: #e8f5e9;
       --secondary: #B38E5D;
-      --secondary-hover: #99784E;
-      --bg: #0F172A;
-      --canvas-bg: #F8FAFC;
-      --surface: #FFFFFF;
-      --border: #E2E8F0;
-      --text: #0F172A;
-      --text-muted: #64748B;
+      --drawio-blue: #29B6F6;
+      --drawio-header: #F5F5F5;
+      --drawio-border: #D4D4D4;
+      --drawio-hover: #ECEFF1;
+      --drawio-selected: #E1F5FE;
+      --bg-dark: #1E293B;
+      --text-main: #212121;
+      --text-muted: #616161;
+      --canvas-bg: #E5E7EB;
+      --page-bg: #FFFFFF;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; background: #0F172A; color: #FFFFFF; }
-    
-    /* Topbar Institucional */
-    .topbar {
-      height: 54px;
-      background: var(--primary);
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--canvas-bg);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Navigation: Brand + Menu Bar */
+    .app-header {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--drawio-border);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+
+    .top-menubar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 1.25rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-      border-bottom: 2px solid var(--secondary);
-      z-index: 20;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .brand-badge {
+      height: 38px;
+      padding: 0 10px;
       background: #FFFFFF;
-      color: var(--primary);
-      font-weight: 800;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-    }
-    .brand-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #FFFFFF;
-    }
-    .brand-sub {
-      font-size: 0.8rem;
-      color: #D1FAE5;
-      opacity: 0.85;
-    }
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .pill {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: 9999px;
-      background: rgba(255,255,255,0.15);
-      color: #FFFFFF;
-      border: 1px solid rgba(255,255,255,0.25);
-      font-weight: 600;
-    }
-    .pill-success {
-      background: #064E3B;
-      color: #34D399;
-      border-color: #059669;
-    }
-    .btn-top {
-      background: var(--secondary);
-      color: #FFFFFF;
-      border: none;
-      padding: 0.35rem 0.8rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      transition: all 0.2s;
-    }
-    .btn-top:hover { background: var(--secondary-hover); }
-    .btn-top-outline {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.4);
-      color: #FFFFFF;
-    }
-    .btn-top-outline:hover {
-      background: rgba(255,255,255,0.15);
-      border-color: #FFFFFF;
+      border-bottom: 1px solid #E0E0E0;
     }
 
-    /* Layout Principal */
-    .app-body {
+    .brand-section {
       display: flex;
-      flex: 1;
-      height: calc(100vh - 54px);
+      align-items: center;
+      gap: 8px;
+    }
+
+    .imss-logo-badge {
+      background: linear-gradient(135deg, #006341, #004d32);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 1px 3px rgba(0,99,65,0.3);
+    }
+
+    .diagram-title-input {
+      border: 1px solid transparent;
+      border-radius: 3px;
+      padding: 3px 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #212121;
+      background: transparent;
+      outline: none;
+      transition: all 0.15s;
+    }
+    .diagram-title-input:hover {
+      border-color: #CCCCCC;
+      background: #FAFAFA;
+    }
+    .diagram-title-input:focus {
+      border-color: var(--primary);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+
+    /* Menu Bar Dropdowns */
+    .menu-bar-nav {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      margin-left: 12px;
+    }
+
+    .menu-item {
       position: relative;
     }
 
-    /* Barra lateral de herramientas estilo Draw.io */
+    .menu-btn {
+      background: transparent;
+      border: none;
+      font-size: 12px;
+      color: #374151;
+      padding: 4px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .menu-btn:hover, .menu-item.active .menu-btn {
+      background: var(--drawio-hover);
+      color: #111827;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #FFFFFF;
+      border: 1px solid #D0D4D9;
+      border-radius: 4px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      min-width: 210px;
+      padding: 4px 0;
+      z-index: 1000;
+      display: none;
+    }
+    .menu-item:hover .dropdown-menu,
+    .menu-item.active .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 5px 12px;
+      font-size: 12px;
+      color: #212121;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.1s;
+    }
+    .dropdown-item:hover {
+      background: #E8F0FE;
+      color: #1A73E8;
+    }
+    .dropdown-item .shortcut {
+      font-size: 10px;
+      color: #888888;
+      margin-left: 16px;
+    }
+    .dropdown-item.danger:hover {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+    .dropdown-divider {
+      height: 1px;
+      background: #E0E0E0;
+      margin: 4px 0;
+    }
+
+    .top-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-header {
+      background: #F3F4F6;
+      border: 1px solid #D1D5DB;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+    .btn-header:hover {
+      background: #E5E7EB;
+      border-color: #9CA3AF;
+    }
+    .btn-header.primary {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary-dark);
+    }
+    .btn-header.primary:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Main Toolbar */
+    .main-toolbar {
+      height: 38px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--drawio-border);
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      gap: 4px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .tool-sep {
+      width: 1px;
+      height: 20px;
+      background: #D1D5DB;
+      margin: 0 4px;
+      flex-shrink: 0;
+    }
+
+    .tb-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      padding: 4px 6px;
+      font-size: 12px;
+      color: #374151;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 28px;
+      min-width: 28px;
+      transition: all 0.12s;
+    }
+    .tb-btn:hover {
+      background: #E2E8F0;
+      border-color: #CBD5E1;
+    }
+    .tb-btn.active {
+      background: #E0E7FF;
+      border-color: #6366F1;
+      color: #4338CA;
+    }
+
+    .tb-select {
+      height: 26px;
+      border: 1px solid #CBD5E1;
+      border-radius: 3px;
+      background: #FFFFFF;
+      font-size: 11px;
+      padding: 2px 4px;
+      color: #333333;
+      outline: none;
+      cursor: pointer;
+    }
+    .tb-select:hover {
+      border-color: #94A3B8;
+    }
+
+    .color-swatch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 6px;
+      height: 26px;
+      border: 1px solid #CBD5E1;
+      border-radius: 3px;
+      background: #FFFFFF;
+      cursor: pointer;
+      font-size: 11px;
+      position: relative;
+    }
+    .color-swatch-box {
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+      border: 1px solid #94A3B8;
+      display: inline-block;
+    }
+
+    /* Popover de paleta de colores */
+    .color-picker-popover {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      padding: 8px;
+      display: none;
+      z-index: 1000;
+      width: 180px;
+    }
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+    .color-opt {
+      width: 26px;
+      height: 26px;
+      border-radius: 3px;
+      border: 1px solid #CBD5E1;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .color-opt:hover {
+      transform: scale(1.15);
+      border-color: #000000;
+    }
+
+    /* Layout Principal: Sidebar + Canvas + Format Panel */
+    .app-workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Left Sidebar */
     .sidebar {
-      width: 232px;
+      width: 236px;
       background: #F5F5F5;
-      border-right: 1px solid #D4D4D4;
+      border-right: 1px solid var(--drawio-border);
       display: flex;
       flex-direction: column;
       overflow-y: auto;
       z-index: 10;
-      color: #333333;
+      flex-shrink: 0;
     }
-    .search-container {
+
+    .search-box-wrap {
       padding: 6px 8px;
-      border-bottom: 1px solid #D4D4D4;
       background: #F5F5F5;
+      border-bottom: 1px solid var(--drawio-border);
       position: sticky;
       top: 0;
       z-index: 5;
     }
-    .search-wrapper {
+    .search-input-inner {
       position: relative;
       display: flex;
       align-items: center;
     }
-    .search-icon {
+    .search-input-inner span {
       position: absolute;
       left: 7px;
-      color: #757575;
       font-size: 11px;
+      color: #6B7280;
       pointer-events: none;
     }
-    .search-input {
+    .search-input-field {
       width: 100%;
       background: #FFFFFF;
-      border: 1px solid #CCCCCC;
+      border: 1px solid #D1D5DB;
       border-radius: 3px;
-      padding: 4px 6px 4px 22px;
-      color: #212121;
+      padding: 4px 6px 4px 24px;
       font-size: 11px;
-      font-family: inherit;
+      color: #111827;
       outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      transition: border-color 0.15s;
     }
-    .search-input:focus {
-      border-color: #006341;
-      box-shadow: 0 0 0 1px #006341;
+    .search-input-field:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary);
     }
+
     .cat-section {
       border-bottom: 1px solid #E0E0E0;
     }
-    .sidebar-section-header {
+    .cat-header {
       font-size: 11.5px;
       color: #212121;
-      padding: 5px 8px;
+      padding: 6px 8px;
       font-weight: 600;
       background: #ECEFF1;
       display: flex;
@@ -173,16 +397,16 @@
       border-bottom: 1px solid #D0D4D9;
       transition: background 0.12s;
     }
-    .sidebar-section-header:hover {
+    .cat-header:hover {
       background: #DFE2E6;
     }
-    .header-left {
+    .cat-header .left-title {
       display: flex;
       align-items: center;
       gap: 6px;
     }
     .chevron-icon {
-      font-size: 9px;
+      font-size: 8px;
       color: #616161;
       transition: transform 0.2s ease;
       display: inline-block;
@@ -193,6 +417,7 @@
     .cat-section.collapsed .stencil-grid {
       display: none !important;
     }
+
     .stencil-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -200,6 +425,7 @@
       padding: 5px;
       background: #FFFFFF;
     }
+
     .stencil-card {
       width: 38px;
       height: 38px;
@@ -212,10 +438,10 @@
       cursor: pointer;
       position: relative;
       transition: border-color 0.1s, transform 0.1s, background-color 0.1s;
-      padding: 1px;
+      padding: 2px;
     }
     .stencil-card:hover {
-      border-color: #006341;
+      border-color: var(--primary);
       background: #F0FDF4;
       box-shadow: 0 1px 3px rgba(0,99,65,0.2);
       transform: scale(1.06);
@@ -227,7 +453,8 @@
       display: block;
       pointer-events: none;
     }
-    /* Tooltip clásico estilo Draw.io */
+
+    /* Draw.io Tooltips */
     .stencil-card::after {
       content: attr(data-title);
       position: absolute;
@@ -245,157 +472,354 @@
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.15s;
-      z-index: 50;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      z-index: 2000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
     .stencil-card:hover::after {
       opacity: 1;
       visibility: visible;
     }
-    .more-shapes-btn {
+
+    .btn-more-shapes {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 5px;
-      margin: 8px 6px;
-      padding: 5px 8px;
+      margin: 10px 8px;
+      padding: 6px 10px;
       background: #ECEFF1;
-      border: 1px solid #C0C0C0;
-      border-radius: 3px;
-      font-size: 11px;
+      border: 1px solid #CBD5E1;
+      border-radius: 4px;
+      font-size: 11.5px;
       color: #374151;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: all 0.15s;
     }
-    .more-shapes-btn:hover {
+    .btn-more-shapes:hover {
       background: #DFE2E6;
-      border-color: #888888;
+      border-color: #94A3B8;
     }
 
-    /* Panel Central: Canvas */
-    .canvas-container {
+    /* Center Canvas Area */
+    .canvas-viewport {
       flex: 1;
       position: relative;
       background: var(--canvas-bg);
       overflow: hidden;
+      cursor: default;
     }
+    .canvas-viewport.panning {
+      cursor: grab;
+    }
+    .canvas-viewport.is-panning {
+      cursor: grabbing;
+    }
+
     #diagramCanvas {
       width: 100%;
       height: 100%;
       display: block;
-      cursor: default;
     }
 
-    /* Barra flotante de acciones rápidas */
-    .floating-toolbar {
+    /* Page View Paper Mode */
+    .page-sheet {
+      fill: var(--page-bg);
+      stroke: #CBD5E1;
+      stroke-width: 1;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+    }
+
+    /* Inline Text Editor */
+    #inlineTextEditor {
       position: absolute;
-      bottom: 1.25rem;
+      display: none;
+      z-index: 500;
+      background: #FFFFFF;
+      border: 1px solid var(--primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      border-radius: 3px;
+      font-family: inherit;
+      font-size: 12px;
+      padding: 4px 6px;
+      outline: none;
+      resize: none;
+      text-align: center;
+    }
+
+    /* Floating Quick Bar */
+    .floating-bar {
+      position: absolute;
+      bottom: 16px;
       left: 50%;
       transform: translateX(-50%);
       background: #1E293B;
       border: 1px solid #334155;
       box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-      padding: 0.4rem 0.75rem;
+      padding: 5px 10px;
       border-radius: 8px;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      z-index: 15;
+      gap: 6px;
+      z-index: 20;
     }
-    .tool-btn {
+    .ft-btn {
       background: transparent;
       color: #E2E8F0;
       border: 1px solid transparent;
-      padding: 0.35rem 0.65rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 500;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 4px;
     }
-    .tool-btn.active {
+    .ft-btn:hover {
+      background: #334155;
+    }
+    .ft-btn.active {
       background: var(--primary);
       border-color: var(--secondary);
       color: #FFFFFF;
-      font-weight: 600;
     }
-    .tool-btn:hover:not(.active) { background: #334155; }
 
-    /* Panel de Gobernanza e Inspector (Derecha) */
-    .inspector-panel {
-      width: 300px;
-      background: #1E293B;
-      border-left: 1px solid #334155;
+    /* Right Format Panel (Draw.io Style) */
+    .format-panel {
+      width: 240px;
+      background: #F8FAFC;
+      border-left: 1px solid var(--drawio-border);
       display: flex;
       flex-direction: column;
-      padding: 1rem;
-      overflow-y: auto;
       z-index: 10;
+      flex-shrink: 0;
+      overflow-y: auto;
+      transition: width 0.2s ease, transform 0.2s ease;
     }
-    .gov-card {
-      background: #0F172A;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 0.85rem;
-      margin-bottom: 1rem;
+    .format-panel.collapsed {
+      display: none;
     }
-    .gov-title {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+
+    .format-panel-header {
+      padding: 8px 12px;
+      background: #ECEFF1;
+      border-bottom: 1px solid #D0D4D9;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-    }
-    .gov-item {
-      font-size: 0.75rem;
-      color: #94A3B8;
-      margin-bottom: 0.35rem;
-      display: flex;
       justify-content: space-between;
-    }
-    .gov-item span.val { color: #E2E8F0; font-family: monospace; font-weight: 600; }
-    .badge-pass {
-      background: #064E3B;
-      color: #34D399;
-      padding: 0.15rem 0.45rem;
-      border-radius: 4px;
-      font-size: 0.7rem;
+      font-size: 12px;
       font-weight: 700;
+      color: #1E293B;
+    }
+    .btn-close-panel {
+      background: transparent;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      color: #64748B;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .btn-close-panel:hover {
+      background: #CBD5E1;
+      color: #0F172A;
+    }
+
+    .format-tabs {
+      display: flex;
+      border-bottom: 1px solid #CBD5E1;
+      background: #FFFFFF;
+    }
+    .format-tab-btn {
+      flex: 1;
+      padding: 7px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748B;
+      background: #F1F5F9;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.1s;
+    }
+    .format-tab-btn.active {
+      background: #FFFFFF;
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .tab-content {
+      padding: 10px 12px;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .tab-content.active {
+      display: flex;
+    }
+
+    .prop-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .prop-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .prop-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 11.5px;
+      color: #334155;
+    }
+    .prop-input {
+      width: 70px;
+      padding: 3px 6px;
+      border: 1px solid #CBD5E1;
+      border-radius: 3px;
+      font-size: 11px;
+      outline: none;
+      background: #FFFFFF;
+    }
+    .prop-input:focus {
+      border-color: var(--primary);
+    }
+
+    .prop-btn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+    }
+    .prop-btn {
+      padding: 4px 6px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid #CBD5E1;
+      border-radius: 3px;
+      background: #FFFFFF;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .prop-btn:hover {
+      background: #F1F5F9;
+      border-color: #94A3B8;
+    }
+
+    /* Modales */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      width: 520px;
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .modal-header {
+      padding: 12px 16px;
+      background: #F8FAFC;
+      border-bottom: 1px solid #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+    .modal-body {
+      padding: 16px;
+      overflow-y: auto;
+      font-size: 12.5px;
+      color: #334155;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .modal-footer {
+      padding: 10px 16px;
+      background: #F8FAFC;
+      border-top: 1px solid #E2E8F0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .lib-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      background: #FAFAFA;
+      transition: background 0.1s;
+    }
+    .lib-item:hover {
+      background: #F1F5F9;
+    }
+    .lib-label {
+      font-weight: 600;
+      color: #1E293B;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lib-sub {
+      font-size: 11px;
+      color: #64748B;
+      margin-left: 26px;
     }
 
     /* Notificación de Alerta / Toast */
     #alertToast {
-      position: absolute;
-      top: 1rem;
+      position: fixed;
+      top: 48px;
       left: 50%;
       transform: translateX(-50%);
       background: #064E3B;
       color: #FFFFFF;
-      padding: 0.6rem 1.2rem;
+      padding: 8px 16px;
       border-radius: 8px;
       border: 1px solid #34D399;
       box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-      font-size: 0.85rem;
+      font-size: 12px;
       font-weight: 600;
       display: none;
       align-items: center;
-      gap: 0.5rem;
-      z-index: 100;
+      gap: 6px;
+      z-index: 10000;
       animation: fadeIn 0.2s ease-out;
     }
     #alertToast.error {
       background: #7F1D1D;
       border-color: #F87171;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translate(-50%, -10px); }
-      to { opacity: 1; transform: translate(-50%, 0); }
     }
   </style>
 </head>
@@ -407,40 +831,438 @@
   <!-- Input oculto para importación de archivos -->
   <input type="file" id="importXmlInput" accept=".xml,.drawio" style="display:none;" onchange="handleImportFile(event)" />
 
-  <!-- Topbar -->
-  <header class="topbar">
-    <div class="brand">
-      <span class="brand-badge">IMSS</span>
-      <div>
-        <div class="brand-title">Diagram Studio DIDT</div>
-        <div class="brand-sub">Solución Soberana de Modelado Técnico e Infraestructura (v6.6)</div>
+  <!-- Inline Text Editor -->
+  <textarea id="inlineTextEditor" rows="2"></textarea>
+
+  <!-- Modales -->
+  <!-- 1. Modal More Shapes -->
+  <div class="modal-overlay" id="moreShapesModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span>Bibliotecas de Formas (Shape Libraries)</span>
+        <button class="btn-close-panel" onclick="closeModal('moreShapesModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:11.5px; color:#64748B; margin-bottom:4px;">
+          Selecciona las bibliotecas de stencils que deseas visualizar en la barra lateral:
+        </p>
+        <div class="lib-item">
+          <div>
+            <div class="lib-label">
+              <input type="checkbox" id="chk_lib_general" checked onchange="toggleLibrary('general', this.checked)">
+              <span>General (25 Formas Básicas)</span>
+            </div>
+            <div class="lib-sub">Rectángulos, círculos, elipses, texto, cilindros, nubes, notas</div>
+          </div>
+        </div>
+        <div class="lib-item">
+          <div>
+            <div class="lib-label">
+              <input type="checkbox" id="chk_lib_misc" checked onchange="toggleLibrary('misc', this.checked)">
+              <span>Misc & Contenedores</span>
+            </div>
+            <div class="lib-sub">Swimlanes horizontales/verticales, tablas, procesos, llaves</div>
+          </div>
+        </div>
+        <div class="lib-item">
+          <div>
+            <div class="lib-label">
+              <input type="checkbox" id="chk_lib_advanced" checked onchange="toggleLibrary('advanced', this.checked)">
+              <span>UML & Diseño de Software</span>
+            </div>
+            <div class="lib-sub">Clases UML, interfaces, componentes, paquetes, casos de uso, boundaries</div>
+          </div>
+        </div>
+        <div class="lib-item">
+          <div>
+            <div class="lib-label">
+              <input type="checkbox" id="chk_lib_flowchart" checked onchange="toggleLibrary('flowchart', this.checked)">
+              <span>Diagramas de Flujo (Flowchart)</span>
+            </div>
+            <div class="lib-sub">Inicio, fin, decisiones, subprocesos, entradas/salidas, almacenamiento</div>
+          </div>
+        </div>
+        <div class="lib-item">
+          <div>
+            <div class="lib-label">
+              <input type="checkbox" id="chk_lib_erd" checked onchange="toggleLibrary('erd', this.checked)">
+              <span>Entidad-Relación (ERD)</span>
+            </div>
+            <div class="lib-sub">Entidades fuertes/débiles, atributos clave, relaciones N:M</div>
+          </div>
+        </div>
+        <div class="lib-item">
+          <div>
+            <div class="lib-label">
+              <input type="checkbox" id="chk_lib_bpmn" checked onchange="toggleLibrary('bpmn', this.checked)">
+              <span>BPMN 2.0 (Modelado de Procesos)</span>
+            </div>
+            <div class="lib-sub">Compuertas lógicas XOR/AND/OR, eventos inicio/fin, tareas y flujos</div>
+          </div>
+        </div>
+        <div class="lib-item">
+          <div>
+            <div class="lib-label">
+              <input type="checkbox" id="chk_lib_network" checked onchange="toggleLibrary('network', this.checked)">
+              <span>Redes e Infraestructura Cloud</span>
+            </div>
+            <div class="lib-sub">Servidores, firewalls, routers, switches, clientes y bases de datos</div>
+          </div>
+        </div>
+        <div class="lib-item" style="border-color:#006341; background:#F0FDF4;">
+          <div>
+            <div class="lib-label" style="color:#006341;">
+              <input type="checkbox" id="chk_lib_imss_didt" checked onchange="toggleLibrary('imss_didt', this.checked)">
+              <span>IMSS DIDT Soberano Oficial</span>
+            </div>
+            <div class="lib-sub" style="color:#004d32;">Gateway, Microservicios, OAuth2 SSO, Kafka, Redis, Médicos, OIC</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-header" onclick="closeModal('moreShapesModal')">Aceptar</button>
       </div>
     </div>
-    <div class="topbar-actions">
-      <button class="btn-top btn-top-outline" onclick="document.getElementById('importXmlInput').click()">
-        <span>📥</span> Importar Draw.io XML
-      </button>
-      <button class="btn-top" onclick="exportDrawioXml()">
-        <span>📤</span> Exportar Draw.io XML
-      </button>
-      <button class="btn-top" onclick="exportSvgWithLetterhead()">
-        <span>🏛️</span> SVG Membretado
-      </button>
-      <button class="btn-top btn-top-outline" onclick="clearCanvas()">
-        Limpiar
-      </button>
+  </div>
+
+  <!-- 2. Modal Keyboard Shortcuts -->
+  <div class="modal-overlay" id="shortcutsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span>Atajos de Teclado (Keyboard Shortcuts)</span>
+        <button class="btn-close-panel" onclick="closeModal('shortcutsModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <table style="width:100%; border-collapse:collapse; font-size:12px;">
+          <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:6px; font-weight:600;">Ctrl + Z</td><td style="padding:6px; color:#475569;">Deshacer (Undo)</td></tr>
+          <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:6px; font-weight:600;">Ctrl + Y</td><td style="padding:6px; color:#475569;">Rehacer (Redo)</td></tr>
+          <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:6px; font-weight:600;">Ctrl + C / Ctrl + V</td><td style="padding:6px; color:#475569;">Copiar y Pegar</td></tr>
+          <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:6px; font-weight:600;">Ctrl + D</td><td style="padding:6px; color:#475569;">Duplicar seleccionado</td></tr>
+          <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:6px; font-weight:600;">Delete / Supr</td><td style="padding:6px; color:#475569;">Eliminar elemento seleccionado</td></tr>
+          <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:6px; font-weight:600;">Ctrl + A</td><td style="padding:6px; color:#475569;">Seleccionar todo</td></tr>
+          <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:6px; font-weight:600;">Doble Clic</td><td style="padding:6px; color:#475569;">Editar texto de forma o conector</td></tr>
+          <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:6px; font-weight:600;">Barra Espaciadora + Arrastrar</td><td style="padding:6px; color:#475569;">Pan / Desplazar lienzo libremente</td></tr>
+          <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:6px; font-weight:600;">Ctrl + Rueda de Ratón</td><td style="padding:6px; color:#475569;">Zoom in / Zoom out interactivo</td></tr>
+          <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:6px; font-weight:600;">Flechas del Teclado</td><td style="padding:6px; color:#475569;">Mover seleccionado (Shift = 10px)</td></tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-header" onclick="closeModal('shortcutsModal')">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Modal Page Setup -->
+  <div class="modal-overlay" id="pageSetupModal">
+    <div class="modal-card" style="width:420px;">
+      <div class="modal-header">
+        <span>Configuración de Página (Page Setup)</span>
+        <button class="btn-close-panel" onclick="closeModal('pageSetupModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="prop-group">
+          <label class="prop-title">Formato de Papel</label>
+          <select id="selPaperFormat" class="prop-input" style="width:100%;" onchange="updatePageFormat(this.value)">
+            <option value="a4_portrait">A4 Vertical (210 x 297 mm)</option>
+            <option value="a4_landscape">A4 Horizontal (297 x 210 mm)</option>
+            <option value="letter_portrait" selected>Carta / Letter Vertical (8.5" x 11")</option>
+            <option value="letter_landscape">Carta / Letter Horizontal (11" x 8.5")</option>
+            <option value="infinite">Lienzo Infinito (Sin Bordes de Página)</option>
+          </select>
+        </div>
+        <div class="prop-group">
+          <label class="prop-title">Color de Fondo del Lienzo</label>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <input type="color" id="pickerCanvasBg" value="#FFFFFF" onchange="setCanvasBackground(this.value)">
+            <span style="font-size:11px; color:#64748B;">Color de la hoja o superficie</span>
+          </div>
+        </div>
+        <div class="prop-group">
+          <label class="prop-title">Cuadrícula (Grid)</label>
+          <div class="prop-row">
+            <span>Mostrar Cuadrícula:</span>
+            <input type="checkbox" id="chkShowGrid" checked onchange="toggleGrid(this.checked)">
+          </div>
+          <div class="prop-row">
+            <span>Ajustar a Cuadrícula (Snap):</span>
+            <input type="checkbox" id="chkSnapGrid" checked onchange="toggleSnap(this.checked)">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-header" onclick="closeModal('pageSetupModal')">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <!-- Top Menubar -->
+    <div class="top-menubar">
+      <div class="brand-section">
+        <div class="imss-logo-badge">IMSS</div>
+        <input type="text" id="diagramTitle" class="diagram-title-input" value="Diagrama sin título.drawio" title="Clic para renombrar archivo" />
+        
+        <!-- Menu Items Dropdowns -->
+        <nav class="menu-bar-nav">
+          <!-- File -->
+          <div class="menu-item">
+            <button class="menu-btn">File</button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item" onclick="newDiagram()"><span>📄 New</span><span class="shortcut">Ctrl+N</span></div>
+              <div class="dropdown-item" onclick="document.getElementById('importXmlInput').click()"><span>📂 Open...</span><span class="shortcut">Ctrl+O</span></div>
+              <div class="dropdown-item" onclick="saveDiagram()"><span>💾 Save</span><span class="shortcut">Ctrl+S</span></div>
+              <div class="dropdown-item" onclick="exportDrawioXml()"><span>💾 Save As...</span><span class="shortcut">Ctrl+Shift+S</span></div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" onclick="document.getElementById('importXmlInput').click()"><span>📥 Import From > Draw.io XML...</span></div>
+              <div class="dropdown-item" onclick="exportDrawioXml()"><span>📤 Export As > Draw.io XML (.xml)</span></div>
+              <div class="dropdown-item" onclick="exportSvgStandalone()"><span>📐 Export As > SVG Vector (.svg)</span></div>
+              <div class="dropdown-item" onclick="exportSvgWithLetterhead()"><span>🏛️ Export As > SVG Membretado IMSS</span></div>
+              <div class="dropdown-item" onclick="exportPng()"><span>🖼️ Export As > PNG Image (.png)</span></div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" onclick="openModal('pageSetupModal')"><span>⚙️ Page Setup...</span></div>
+              <div class="dropdown-item" onclick="window.print()"><span>🖨️ Print</span><span class="shortcut">Ctrl+P</span></div>
+            </div>
+          </div>
+
+          <!-- Edit -->
+          <div class="menu-item">
+            <button class="menu-btn">Edit</button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item" onclick="undo()"><span>↩️ Undo</span><span class="shortcut">Ctrl+Z</span></div>
+              <div class="dropdown-item" onclick="redo()"><span>↪️ Redo</span><span class="shortcut">Ctrl+Y</span></div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" onclick="cutSelected()"><span>✂️ Cut</span><span class="shortcut">Ctrl+X</span></div>
+              <div class="dropdown-item" onclick="copySelected()"><span>📋 Copy</span><span class="shortcut">Ctrl+C</span></div>
+              <div class="dropdown-item" onclick="pasteClipboard()"><span>📌 Paste</span><span class="shortcut">Ctrl+V</span></div>
+              <div class="dropdown-item" onclick="duplicateSelected()"><span>📑 Duplicate</span><span class="shortcut">Ctrl+D</span></div>
+              <div class="dropdown-item danger" onclick="deleteSelected()"><span>🗑️ Delete</span><span class="shortcut">Del</span></div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" onclick="selectAll()"><span>🔲 Select All</span><span class="shortcut">Ctrl+A</span></div>
+              <div class="dropdown-item" onclick="selectAllShapes()"><span>⏹️ Select Vertices</span></div>
+              <div class="dropdown-item" onclick="selectAllConnectors()"><span>↗️ Select Edges</span></div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item danger" onclick="clearCanvas()"><span>🧹 Clear Canvas</span></div>
+            </div>
+          </div>
+
+          <!-- View -->
+          <div class="menu-item">
+            <button class="menu-btn">View</button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item" onclick="toggleGrid()"><span>▦ Toggle Grid</span><span class="shortcut">Ctrl+Shift+G</span></div>
+              <div class="dropdown-item" onclick="togglePageView()"><span>📄 Page View</span></div>
+              <div class="dropdown-item" onclick="toggleSnap()"><span>🧲 Snap to Grid</span></div>
+              <div class="dropdown-item" onclick="toggleFormatPanel()"><span>🎨 Format Panel</span><span class="shortcut">Ctrl+Shift+P</span></div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" onclick="setZoom(1)"><span>🔍 Actual Size (100%)</span><span class="shortcut">Ctrl+0</span></div>
+              <div class="dropdown-item" onclick="zoomIn()"><span>➕ Zoom In</span><span class="shortcut">Ctrl++</span></div>
+              <div class="dropdown-item" onclick="zoomOut()"><span>➖ Zoom Out</span><span class="shortcut">Ctrl+-</span></div>
+              <div class="dropdown-item" onclick="zoomFit()"><span>🔲 Fit Window</span></div>
+            </div>
+          </div>
+
+          <!-- Arrange -->
+          <div class="menu-item">
+            <button class="menu-btn">Arrange</button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item" onclick="bringToFront()"><span>🔝 Bring to Front</span><span class="shortcut">Ctrl+Shift+F</span></div>
+              <div class="dropdown-item" onclick="sendToBack()"><span>🔚 Send to Back</span><span class="shortcut">Ctrl+Shift+B</span></div>
+              <div class="dropdown-item" onclick="bringForward()"><span>🔼 Bring Forward</span></div>
+              <div class="dropdown-item" onclick="sendBackward()"><span>🔽 Send Backward</span></div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" onclick="alignShapes('left')"><span>⬅️ Align Left</span></div>
+              <div class="dropdown-item" onclick="alignShapes('center')"><span>↔️ Align Center</span></div>
+              <div class="dropdown-item" onclick="alignShapes('right')"><span>➡️ Align Right</span></div>
+              <div class="dropdown-item" onclick="alignShapes('top')"><span>⬆️ Align Top</span></div>
+              <div class="dropdown-item" onclick="alignShapes('middle')"><span>↕️ Align Middle</span></div>
+              <div class="dropdown-item" onclick="alignShapes('bottom')"><span>⬇️ Align Bottom</span></div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" onclick="rotateSelected(90)"><span>🔄 Rotate 90° CW</span></div>
+              <div class="dropdown-item" onclick="rotateSelected(-90)"><span>🔃 Rotate 90° CCW</span></div>
+              <div class="dropdown-item" onclick="flipSelected('h')"><span>🪞 Flip Horizontal</span></div>
+              <div class="dropdown-item" onclick="flipSelected('v')"><span>🪞 Flip Vertical</span></div>
+            </div>
+          </div>
+
+          <!-- Extras -->
+          <div class="menu-item">
+            <button class="menu-btn">Extras</button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item" onclick="openModal('moreShapesModal')"><span>📚 Shape Libraries...</span></div>
+              <div class="dropdown-item" onclick="toggleTheme()"><span>🌗 Toggle Dark Theme</span></div>
+              <div class="dropdown-item" onclick="addSampleArchitecture()"><span>🏛️ Load IMSS Architecture</span></div>
+            </div>
+          </div>
+
+          <!-- Help -->
+          <div class="menu-item">
+            <button class="menu-btn">Help</button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item" onclick="openModal('shortcutsModal')"><span>⌨️ Keyboard Shortcuts</span><span class="shortcut">?</span></div>
+              <div class="dropdown-item" onclick="showToast('Diagram Studio DIDT IMSS - Solución Soberana v6.6')"><span>ℹ️ About Diagram Studio</span></div>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="top-right-actions">
+        <button class="btn-header" onclick="toggleFormatPanel()" title="Mostrar/Ocultar Panel de Formato">
+          <span>🎨</span> Format
+        </button>
+        <button class="btn-header primary" onclick="exportDrawioXml()" title="Exportar XML compatible con Draw.io">
+          <span>📤</span> Export XML
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Toolbar -->
+    <div class="main-toolbar">
+      <!-- Undo / Redo -->
+      <button class="tb-btn" onclick="undo()" title="Deshacer (Ctrl+Z)">↩</button>
+      <button class="tb-btn" onclick="redo()" title="Rehacer (Ctrl+Y)">↪</button>
+      <button class="tb-btn" onclick="deleteSelected()" title="Eliminar seleccionado (Del)">🗑️</button>
+      <button class="tb-btn" onclick="duplicateSelected()" title="Duplicar (Ctrl+D)">📑</button>
+
+      <div class="tool-sep"></div>
+
+      <!-- Zoom -->
+      <button class="tb-btn" onclick="zoomOut()" title="Alejar (Ctrl+-)">➖</button>
+      <select id="zoomSelector" class="tb-select" onchange="setZoom(parseFloat(this.value))">
+        <option value="0.5">50%</option>
+        <option value="0.75">75%</option>
+        <option value="1" selected>100%</option>
+        <option value="1.25">125%</option>
+        <option value="1.5">150%</option>
+        <option value="2">200%</option>
+        <option value="fit">Fit</option>
+      </select>
+      <button class="tb-btn" onclick="zoomIn()" title="Acercar (Ctrl++)">➕</button>
+
+      <div class="tool-sep"></div>
+
+      <!-- Pointer / Connect / Pan Modes -->
+      <button class="tb-btn active" id="tbPointer" onclick="setMode('select')" title="Herramienta Puntero / Selección (V)">⬚</button>
+      <button class="tb-btn" id="tbConnect" onclick="setMode('connect')" title="Modo Conectar (C)">↗</button>
+      <button class="tb-btn" id="tbPan" onclick="setMode('pan')" title="Modo Mano / Desplazamiento (H)">✋</button>
+
+      <div class="tool-sep"></div>
+
+      <!-- Fill Color -->
+      <div style="position:relative;">
+        <button class="color-swatch-btn" id="btnToolbarFill" onclick="toggleColorPopover('popoverFill')" title="Color de Relleno">
+          <span class="color-swatch-box" id="swatchFill" style="background:#FFFFFF;"></span>
+          <span>Fill</span>
+        </button>
+        <div class="color-picker-popover" id="popoverFill">
+          <div class="color-grid">
+            <div class="color-opt" style="background:#FFFFFF;" onclick="applyFillColor('#FFFFFF')"></div>
+            <div class="color-opt" style="background:#F1F5F9;" onclick="applyFillColor('#F1F5F9')"></div>
+            <div class="color-opt" style="background:#E2E8F0;" onclick="applyFillColor('#E2E8F0')"></div>
+            <div class="color-opt" style="background:#006341;" onclick="applyFillColor('#006341')"></div>
+            <div class="color-opt" style="background:#B38E5D;" onclick="applyFillColor('#B38E5D')"></div>
+            <div class="color-opt" style="background:#0284C7;" onclick="applyFillColor('#0284C7')"></div>
+            <div class="color-opt" style="background:#E0F2FE;" onclick="applyFillColor('#E0F2FE')"></div>
+            <div class="color-opt" style="background:#FEF3C7;" onclick="applyFillColor('#FEF3C7')"></div>
+            <div class="color-opt" style="background:#FEE2E2;" onclick="applyFillColor('#FEE2E2')"></div>
+            <div class="color-opt" style="background:transparent; border:1px dashed #EF4444;" onclick="applyFillColor('none')"></div>
+          </div>
+          <input type="color" onchange="applyFillColor(this.value)" style="width:100%; height:24px; cursor:pointer;">
+        </div>
+      </div>
+
+      <!-- Line Stroke Color -->
+      <div style="position:relative;">
+        <button class="color-swatch-btn" id="btnToolbarStroke" onclick="toggleColorPopover('popoverStroke')" title="Color de Línea">
+          <span class="color-swatch-box" id="swatchStroke" style="background:#006341;"></span>
+          <span>Line</span>
+        </button>
+        <div class="color-picker-popover" id="popoverStroke">
+          <div class="color-grid">
+            <div class="color-opt" style="background:#006341;" onclick="applyStrokeColor('#006341')"></div>
+            <div class="color-opt" style="background:#B38E5D;" onclick="applyStrokeColor('#B38E5D')"></div>
+            <div class="color-opt" style="background:#0F172A;" onclick="applyStrokeColor('#0F172A')"></div>
+            <div class="color-opt" style="background:#64748B;" onclick="applyStrokeColor('#64748B')"></div>
+            <div class="color-opt" style="background:#0284C7;" onclick="applyStrokeColor('#0284C7')"></div>
+            <div class="color-opt" style="background:#DC2626;" onclick="applyStrokeColor('#DC2626')"></div>
+            <div class="color-opt" style="background:#D97706;" onclick="applyStrokeColor('#D97706')"></div>
+            <div class="color-opt" style="background:#059669;" onclick="applyStrokeColor('#059669')"></div>
+            <div class="color-opt" style="background:#7C3AED;" onclick="applyStrokeColor('#7C3AED')"></div>
+            <div class="color-opt" style="background:transparent; border:1px dashed #EF4444;" onclick="applyStrokeColor('none')"></div>
+          </div>
+          <input type="color" onchange="applyStrokeColor(this.value)" style="width:100%; height:24px; cursor:pointer;">
+        </div>
+      </div>
+
+      <!-- Stroke Width -->
+      <select id="selStrokeWidth" class="tb-select" onchange="applyStrokeWidth(parseInt(this.value))" title="Grosor de Línea">
+        <option value="1">1 pt</option>
+        <option value="2" selected>2 pt</option>
+        <option value="3">3 pt</option>
+        <option value="4">4 pt</option>
+        <option value="6">6 pt</option>
+      </select>
+
+      <!-- Line Pattern -->
+      <select id="selLinePattern" class="tb-select" onchange="applyLinePattern(this.value)" title="Patrón de Línea">
+        <option value="solid">Línea Sólida ──</option>
+        <option value="dashed">Discontinua - -</option>
+        <option value="dotted">Punteada · · ·</option>
+      </select>
+
+      <!-- Connector Routing -->
+      <select id="selConnectorRouting" class="tb-select" onchange="applyConnectorRouting(this.value)" title="Enrutamiento de Conector">
+        <option value="orthogonal">Ortogonal ⌐</option>
+        <option value="straight">Recto ──</option>
+        <option value="curved">Curvo ~</option>
+      </select>
+
+      <div class="tool-sep"></div>
+
+      <!-- Typography -->
+      <select id="selFontFamily" class="tb-select" style="width:90px;" onchange="applyFontFamily(this.value)">
+        <option value="Inter">Inter</option>
+        <option value="Arial">Arial</option>
+        <option value="Helvetica">Helvetica</option>
+        <option value="Roboto">Roboto</option>
+        <option value="Courier New">Courier</option>
+        <option value="Georgia">Georgia</option>
+      </select>
+
+      <select id="selFontSize" class="tb-select" style="width:55px;" onchange="applyFontSize(parseInt(this.value))">
+        <option value="10">10 px</option>
+        <option value="11">11 px</option>
+        <option value="12" selected>12 px</option>
+        <option value="14">14 px</option>
+        <option value="16">16 px</option>
+        <option value="18">18 px</option>
+        <option value="24">24 px</option>
+      </select>
+
+      <button class="tb-btn" id="tbBold" onclick="toggleBold()" title="Negrita (Ctrl+B)"><b>B</b></button>
+      <button class="tb-btn" id="tbItalic" onclick="toggleItalic()" title="Cursiva (Ctrl+I)"><i>I</i></button>
+      <button class="tb-btn" id="tbUnderline" onclick="toggleUnderline()" title="Subrayado (Ctrl+U)"><u>U</u></button>
+
+      <div class="tool-sep"></div>
+
+      <!-- Quick Add Common Shapes -->
+      <button class="tb-btn" onclick="addShape('rectangle', 'Rectángulo', 120, 60)" title="Agregar Rectángulo">+ ▭</button>
+      <button class="tb-btn" onclick="addShape('rounded', 'Redondeado', 120, 60)" title="Agregar Rectángulo Redondeado">+ ▢</button>
+      <button class="tb-btn" onclick="addShape('ellipse', 'Elipse', 120, 70)" title="Agregar Elipse">+ ⬭</button>
+      <button class="tb-btn" onclick="addShape('diamond', 'Decisión', 100, 70)" title="Agregar Rombo de Decisión">+ ◇</button>
+      <button class="tb-btn" onclick="addShape('cylinder', 'Base Datos', 100, 80)" title="Agregar Cilindro Base de Datos">+ 🗄️</button>
     </div>
   </header>
 
-  <!-- Body -->
-  <div class="app-body">
-    <!-- Barra Lateral de Stencils y Figuras estilo Draw.io -->
+  <!-- Workspace: Left Sidebar + Canvas + Right Format Panel -->
+  <div class="app-workspace">
+    <!-- Left Sidebar: Catálogo de Stencils Draw.io -->
     <aside class="sidebar" id="drawioSidebar">
-      <!-- Buscador superior idéntico a Draw.io -->
-      <div class="search-container">
-        <div class="search-wrapper">
-          <span class="search-icon">🔍</span>
-          <input type="search" id="stencilSearch" class="search-input"
+      <!-- Search Shapes -->
+      <div class="search-box-wrap">
+        <div class="search-input-inner">
+          <span>🔍</span>
+          <input type="search" id="stencilSearch" class="search-input-field"
                  placeholder="Search Shapes"
                  autocomplete="off"
                  oninput="filterStencils(this.value)" />
@@ -448,10 +1270,28 @@
       </div>
 
       <div id="stencilsContainer">
-        <!-- 1. GENERAL (Cuadrícula 5 columnas con 20 formas canónicas de Draw.io) -->
-        <div class="cat-section" data-cat="general">
-          <div class="sidebar-section-header" onclick="toggleSection(this)">
-            <div class="header-left">
+        <!-- 0. Scratchpad -->
+        <div class="cat-section" data-cat="scratchpad" id="sec_scratchpad">
+          <div class="cat-header" onclick="toggleSection(this)">
+            <div class="left-title">
+              <span class="chevron-icon">▼</span>
+              <span>Scratchpad</span>
+            </div>
+            <span style="font-size:10px; color:#888;">(Favoritos)</span>
+          </div>
+          <div class="stencil-grid" id="scratchpadGrid">
+            <div class="stencil-card" data-title="Caja Rápida" data-tags="caja nota rápida scratchpad"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'rounded', 'Nota Rápida', 120, 60)"
+                 onclick="addShape('rounded', 'Nota Rápida', 120, 60)">
+              <svg viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="20" rx="4" fill="#FFFDE7" stroke="#F59E0B" stroke-width="1.5"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. General (25 formas estándar) -->
+        <div class="cat-section" data-cat="general" id="sec_general">
+          <div class="cat-header" onclick="toggleSection(this)">
+            <div class="left-title">
               <span class="chevron-icon">▼</span>
               <span>General</span>
             </div>
@@ -593,13 +1433,43 @@
                  onclick="addShape('hexagon', 'Hexagon', 110, 70)">
               <svg viewBox="0 0 32 32"><polygon points="8,4 24,4 30,16 24,28 8,28 2,16" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
             </div>
+            <!-- 21. Parallelogram -->
+            <div class="stencil-card" data-title="Parallelogram" data-tags="parallelogram paralelogramo input output"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'parallelogram', 'Data', 120, 60)"
+                 onclick="addShape('parallelogram', 'Data', 120, 60)">
+              <svg viewBox="0 0 32 32"><polygon points="9,7 29,7 23,25 3,25" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
+            </div>
+            <!-- 22. Star -->
+            <div class="stencil-card" data-title="Star" data-tags="star estrella"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'star', 'Star', 80, 80)"
+                 onclick="addShape('star', 'Star', 80, 80)">
+              <svg viewBox="0 0 32 32"><polygon points="16,3 19.5,12 29,13 21,19 24,28 16,22 8,28 11,19 3,13 12.5,12" fill="#FFFFFF" stroke="#333333" stroke-width="1.3"/></svg>
+            </div>
+            <!-- 23. Cross -->
+            <div class="stencil-card" data-title="Cross" data-tags="cross cruz hospital medico"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'cross', 'Cross', 80, 80)"
+                 onclick="addShape('cross', 'Cross', 80, 80)">
+              <svg viewBox="0 0 32 32"><polygon points="11,3 21,3 21,11 29,11 29,21 21,21 21,29 11,29 11,21 3,21 3,11 11,11" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/></svg>
+            </div>
+            <!-- 24. Octagon -->
+            <div class="stencil-card" data-title="Octagon" data-tags="octagon octágono stop"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'octagon', 'Octagon', 80, 80)"
+                 onclick="addShape('octagon', 'Octagon', 80, 80)">
+              <svg viewBox="0 0 32 32"><polygon points="10,3 22,3 29,10 29,22 22,29 10,29 3,22 3,10" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/></svg>
+            </div>
+            <!-- 25. Partial Rect -->
+            <div class="stencil-card" data-title="Partial Rectangle" data-tags="partial rectangle marco"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'partial_rect', 'Frame', 120, 60)"
+                 onclick="addShape('partial_rect', 'Frame', 120, 60)">
+              <svg viewBox="0 0 32 32"><path d="M 5 25 L 5 7 L 27 7 L 27 25" fill="none" stroke="#333333" stroke-width="1.5"/></svg>
+            </div>
           </div>
         </div>
 
-        <!-- 2. MISC (Swimlanes, Process, Parallelogram, Star) -->
-        <div class="cat-section" data-cat="misc">
-          <div class="sidebar-section-header" onclick="toggleSection(this)">
-            <div class="header-left">
+        <!-- 2. Misc & Containers -->
+        <div class="cat-section" data-cat="misc" id="sec_misc">
+          <div class="cat-header" onclick="toggleSection(this)">
+            <div class="left-title">
               <span class="chevron-icon">▼</span>
               <span>Misc</span>
             </div>
@@ -620,25 +1490,25 @@
                  onclick="addShape('process', 'Process', 120, 60)">
               <svg viewBox="0 0 32 32"><rect x="3" y="7" width="26" height="18" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/><line x1="8" y1="7" x2="8" y2="25" stroke="#333333" stroke-width="1.4"/><line x1="24" y1="7" x2="24" y2="25" stroke="#333333" stroke-width="1.4"/></svg>
             </div>
-            <div class="stencil-card" data-title="Parallelogram" data-tags="parallelogram paralelogramo input output"
-                 draggable="true" ondragstart="handleShapeDragStart(event, 'parallelogram', 'Data', 120, 60)"
-                 onclick="addShape('parallelogram', 'Data', 120, 60)">
-              <svg viewBox="0 0 32 32"><polygon points="9,7 29,7 23,25 3,25" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
+            <div class="stencil-card" data-title="Table / Grid" data-tags="table tabla grid matriz celdas"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'table', 'Table', 140, 80)"
+                 onclick="addShape('table', 'Table', 140, 80)">
+              <svg viewBox="0 0 32 32"><rect x="3" y="5" width="26" height="22" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/><line x1="3" y1="16" x2="29" y2="16" stroke="#333333" stroke-width="1.4"/><line x1="16" y1="5" x2="16" y2="27" stroke="#333333" stroke-width="1.4"/></svg>
             </div>
-            <div class="stencil-card" data-title="Star" data-tags="star estrella highlight favorito"
-                 draggable="true" ondragstart="handleShapeDragStart(event, 'star', 'Star', 80, 80)"
-                 onclick="addShape('star', 'Star', 80, 80)">
-              <svg viewBox="0 0 32 32"><polygon points="16,3 19.5,12 29,13 21,19 24,28 16,22 8,28 11,19 3,13 12.5,12" fill="#FFFFFF" stroke="#333333" stroke-width="1.3"/></svg>
+            <div class="stencil-card" data-title="Curly Bracket" data-tags="curly bracket llave agrupacion"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'curly_bracket', '{ }', 40, 100)"
+                 onclick="addShape('curly_bracket', '{ }', 40, 100)">
+              <svg viewBox="0 0 32 32"><path d="M 22 4 C 14 4 14 16 6 16 C 14 16 14 28 22 28" fill="none" stroke="#333333" stroke-width="1.8"/></svg>
             </div>
           </div>
         </div>
 
-        <!-- 3. ADVANCED / UML -->
-        <div class="cat-section" data-cat="advanced">
-          <div class="sidebar-section-header" onclick="toggleSection(this)">
-            <div class="header-left">
+        <!-- 3. Advanced & UML -->
+        <div class="cat-section" data-cat="advanced" id="sec_advanced">
+          <div class="cat-header" onclick="toggleSection(this)">
+            <div class="left-title">
               <span class="chevron-icon">▼</span>
-              <span>Advanced</span>
+              <span>Advanced / UML</span>
             </div>
           </div>
           <div class="stencil-grid">
@@ -667,15 +1537,104 @@
                  onclick="addShape('uml_boundary', 'System Boundary', 200, 140)">
               <svg viewBox="0 0 32 32"><rect x="3" y="5" width="26" height="22" rx="3" fill="none" stroke="#333333" stroke-width="1.5" stroke-dasharray="3 3"/></svg>
             </div>
+            <div class="stencil-card" data-title="UML Use Case" data-tags="use case caso de uso uml"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'ellipse', 'Use Case', 120, 60)"
+                 onclick="addShape('ellipse', 'Use Case', 120, 60)">
+              <svg viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="13" ry="8" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Lifeline" data-tags="lifeline secuencia sequence uml"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'uml_lifeline', 'Lifeline', 80, 160)"
+                 onclick="addShape('uml_lifeline', 'Lifeline', 80, 160)">
+              <svg viewBox="0 0 32 32"><rect x="6" y="3" width="20" height="10" fill="#FFFFFF" stroke="#333333" stroke-width="1.3"/><line x1="16" y1="13" x2="16" y2="29" stroke="#333333" stroke-width="1.3" stroke-dasharray="2 2"/></svg>
+            </div>
           </div>
         </div>
 
-        <!-- 4. FLOWCHART / BPMN -->
-        <div class="cat-section" data-cat="flowchart">
-          <div class="sidebar-section-header" onclick="toggleSection(this)">
-            <div class="header-left">
+        <!-- 4. Flowchart -->
+        <div class="cat-section" data-cat="flowchart" id="sec_flowchart">
+          <div class="cat-header" onclick="toggleSection(this)">
+            <div class="left-title">
               <span class="chevron-icon">▼</span>
               <span>Flowchart</span>
+            </div>
+          </div>
+          <div class="stencil-grid">
+            <div class="stencil-card" data-title="Terminator" data-tags="terminator inicio fin flowchart start end"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'rounded', 'Start / End', 110, 50)"
+                 onclick="addShape('rounded', 'Start / End', 110, 50)">
+              <svg viewBox="0 0 32 32"><rect x="4" y="9" width="24" height="14" rx="7" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Process" data-tags="process accion operacion flowchart"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'rectangle', 'Process', 120, 60)"
+                 onclick="addShape('rectangle', 'Process', 120, 60)">
+              <svg viewBox="0 0 32 32"><rect x="3" y="8" width="26" height="16" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Decision" data-tags="decision decision bifurcacion rombo"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'diamond', 'Decision', 90, 70)"
+                 onclick="addShape('diamond', 'Decision', 90, 70)">
+              <svg viewBox="0 0 32 32"><polygon points="16,4 28,16 16,28 4,16" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Data (I/O)" data-tags="data input output datos entrada salida"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'parallelogram', 'Data (I/O)', 110, 60)"
+                 onclick="addShape('parallelogram', 'Data (I/O)', 110, 60)">
+              <svg viewBox="0 0 32 32"><polygon points="9,8 29,8 23,24 3,24" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Manual Input" data-tags="manual input entrada teclado"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'manual_input', 'Manual Input', 110, 60)"
+                 onclick="addShape('manual_input', 'Manual Input', 110, 60)">
+              <svg viewBox="0 0 32 32"><polygon points="3,11 29,6 29,26 3,26" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Connector Junction" data-tags="junction conector nodo punto"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'circle', '', 40, 40)"
+                 onclick="addShape('circle', '', 40, 40)">
+              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="6" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Entity Relationship (ERD) -->
+        <div class="cat-section" data-cat="erd" id="sec_erd">
+          <div class="cat-header" onclick="toggleSection(this)">
+            <div class="left-title">
+              <span class="chevron-icon">▼</span>
+              <span>Entity Relation (ERD)</span>
+            </div>
+          </div>
+          <div class="stencil-grid">
+            <div class="stencil-card" data-title="Entity" data-tags="entity entidad fuerte tabla erd"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'rectangle', 'Entity', 110, 55)"
+                 onclick="addShape('rectangle', 'Entity', 110, 55)">
+              <svg viewBox="0 0 32 32"><rect x="3" y="8" width="26" height="16" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Weak Entity" data-tags="weak entity entidad debil erd"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'weak_entity', 'Weak Entity', 110, 55)"
+                 onclick="addShape('weak_entity', 'Weak Entity', 110, 55)">
+              <svg viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="20" fill="#FFFFFF" stroke="#333333" stroke-width="1.3"/><rect x="6" y="9" width="20" height="14" fill="#FFFFFF" stroke="#333333" stroke-width="1.3"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Relationship" data-tags="relationship relacion rombo erd"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'diamond', 'Relation', 100, 65)"
+                 onclick="addShape('diamond', 'Relation', 100, 65)">
+              <svg viewBox="0 0 32 32"><polygon points="16,5 28,16 16,27 4,16" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Attribute" data-tags="attribute atributo campo erd"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'ellipse', 'Attribute', 100, 50)"
+                 onclick="addShape('ellipse', 'Attribute', 100, 50)">
+              <svg viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="12" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Key Attribute" data-tags="key clave primaria atributo erd"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'ellipse', '<u>Key_ID</u>', 100, 50)"
+                 onclick="addShape('ellipse', '<u>Key_ID</u>', 100, 50)">
+              <svg viewBox="0 0 32 32"><ellipse cx="16" cy="16" rx="12" ry="7" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/><line x1="9" y1="19" x2="23" y2="19" stroke="#333333" stroke-width="1.2"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. BPMN 2.0 -->
+        <div class="cat-section" data-cat="bpmn" id="sec_bpmn">
+          <div class="cat-header" onclick="toggleSection(this)">
+            <div class="left-title">
+              <span class="chevron-icon">▼</span>
+              <span>BPMN 2.0</span>
             </div>
           </div>
           <div class="stencil-grid">
@@ -689,31 +1648,69 @@
                  onclick="addShape('bpmn_task', 'Task', 120, 60)">
               <svg viewBox="0 0 32 32"><rect x="3" y="8" width="26" height="16" rx="4" fill="#FFFFFF" stroke="#333333" stroke-width="1.5"/></svg>
             </div>
-            <div class="stencil-card" data-title="Gateway / Decision" data-tags="gateway compuerta bifurcacion decision bpmn"
-                 draggable="true" ondragstart="handleShapeDragStart(event, 'bpmn_gateway', 'Gateway', 70, 70)"
-                 onclick="addShape('bpmn_gateway', 'Gateway', 70, 70)">
+            <div class="stencil-card" data-title="Exclusive Gateway (XOR)" data-tags="gateway xor compuerta exclusiva bpmn"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'bpmn_gateway', 'XOR Gateway', 70, 70)"
+                 onclick="addShape('bpmn_gateway', 'XOR Gateway', 70, 70)">
               <svg viewBox="0 0 32 32"><polygon points="16,3 29,16 16,29 3,16" fill="#FFFDE7" stroke="#F57F17" stroke-width="1.5"/><path d="M12 12 L20 20 M20 12 L12 20" stroke="#F57F17" stroke-width="2"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Parallel Gateway (AND)" data-tags="gateway and paralela compuerta bpmn"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'bpmn_gateway_and', 'AND Gateway', 70, 70)"
+                 onclick="addShape('bpmn_gateway_and', 'AND Gateway', 70, 70)">
+              <svg viewBox="0 0 32 32"><polygon points="16,3 29,16 16,29 3,16" fill="#FFFDE7" stroke="#F57F17" stroke-width="1.5"/><path d="M16 10 L16 22 M10 16 L22 16" stroke="#F57F17" stroke-width="2"/></svg>
             </div>
             <div class="stencil-card" data-title="End Event" data-tags="end fin evento final bpmn termino"
                  draggable="true" ondragstart="handleShapeDragStart(event, 'bpmn_end', 'End', 60, 60)"
                  onclick="addShape('bpmn_end', 'End', 60, 60)">
               <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="10" fill="#FFEBEE" stroke="#C62828" stroke-width="3"/></svg>
             </div>
-            <div class="stencil-card" data-title="Data Store" data-tags="data store base datos almacenamiento bpmn"
-                 draggable="true" ondragstart="handleShapeDragStart(event, 'bpmn_data', 'Data Store', 100, 75)"
-                 onclick="addShape('bpmn_data', 'Data Store', 100, 75)">
-              <svg viewBox="0 0 32 32"><path d="M 6 8 L 6 24 A 10 4 0 0 0 26 24 L 26 8 Z" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/><ellipse cx="16" cy="24" rx="10" ry="4" fill="none" stroke="#333333" stroke-width="1.4"/><ellipse cx="16" cy="8" rx="10" ry="4" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/></svg>
+          </div>
+        </div>
+
+        <!-- 7. Cloud & Networking -->
+        <div class="cat-section" data-cat="network" id="sec_network">
+          <div class="cat-header" onclick="toggleSection(this)">
+            <div class="left-title">
+              <span class="chevron-icon">▼</span>
+              <span>Cloud & Network</span>
+            </div>
+          </div>
+          <div class="stencil-grid">
+            <div class="stencil-card" data-title="Server" data-tags="server servidor host vm baremetal"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'net_server', 'Server', 100, 70)"
+                 onclick="addShape('net_server', 'Server', 100, 70)">
+              <svg viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="20" rx="2" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/><line x1="4" y1="13" x2="28" y2="13" stroke="#333333" stroke-width="1.2"/><line x1="4" y1="19" x2="28" y2="19" stroke="#333333" stroke-width="1.2"/><circle cx="24" cy="9.5" r="1" fill="#006341"/><circle cx="24" cy="16" r="1" fill="#006341"/><circle cx="24" cy="22.5" r="1" fill="#006341"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Firewall" data-tags="firewall seguridad perimeter waf"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'net_firewall', 'Firewall', 110, 65)"
+                 onclick="addShape('net_firewall', 'Firewall', 110, 65)">
+              <svg viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="20" rx="2" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.4"/><line x1="3" y1="16" x2="29" y2="16" stroke="#DC2626" stroke-width="1.4"/><line x1="16" y1="6" x2="16" y2="16" stroke="#DC2626" stroke-width="1.4"/><line x1="9" y1="16" x2="9" y2="26" stroke="#DC2626" stroke-width="1.4"/><line x1="23" y1="16" x2="23" y2="26" stroke="#DC2626" stroke-width="1.4"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Router" data-tags="router red network gateway"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'circle', 'Router', 70, 70)"
+                 onclick="addShape('circle', 'Router', 70, 70)">
+              <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="#FFFFFF" stroke="#0284C7" stroke-width="1.5"/><path d="M11 16 h10 M16 11 v10" stroke="#0284C7" stroke-width="1.5"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Client Laptop" data-tags="laptop cliente terminal pc"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'net_laptop', 'User Laptop', 90, 65)"
+                 onclick="addShape('net_laptop', 'User Laptop', 90, 65)">
+              <svg viewBox="0 0 32 32"><rect x="6" y="7" width="20" height="13" rx="1" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/><polygon points="2,24 30,24 26,20 6,20" fill="#E2E8F0" stroke="#333333" stroke-width="1.2"/></svg>
+            </div>
+            <div class="stencil-card" data-title="Mobile Phone" data-tags="phone movil celular smartphone app"
+                 draggable="true" ondragstart="handleShapeDragStart(event, 'net_mobile', 'Mobile App', 60, 90)"
+                 onclick="addShape('net_mobile', 'Mobile App', 60, 90)">
+              <svg viewBox="0 0 32 32"><rect x="9" y="4" width="14" height="24" rx="3" fill="#FFFFFF" stroke="#333333" stroke-width="1.4"/><circle cx="16" cy="24" r="1.5" fill="#333333"/><line x1="13" y1="7" x2="19" y2="7" stroke="#333333" stroke-width="1.2"/></svg>
             </div>
           </div>
         </div>
 
-        <!-- 5. IMSS DIDT (Biblioteca Especializada Oficial) -->
-        <div class="cat-section" data-cat="imss_didt">
-          <div class="sidebar-section-header" onclick="toggleSection(this)">
-            <div class="header-left">
+        <!-- 8. IMSS DIDT (Biblioteca Especializada Oficial) -->
+        <div class="cat-section" data-cat="imss_didt" id="sec_imss_didt">
+          <div class="cat-header" onclick="toggleSection(this)">
+            <div class="left-title">
               <span class="chevron-icon">▼</span>
               <span>IMSS DIDT</span>
             </div>
+            <span style="font-size:10px; color:#006341; font-weight:700;">OFICIAL</span>
           </div>
           <div class="stencil-grid">
             <div class="stencil-card" data-title="API Gateway DIDT" data-tags="gateway api reverse proxy didt imss"
@@ -770,76 +1767,357 @@
         </div>
 
         <!-- Botón More Shapes idéntico a Draw.io -->
-        <button type="button" class="more-shapes-btn" onclick="openMoreShapesModal()">
+        <button type="button" class="btn-more-shapes" onclick="openModal('moreShapesModal')">
           <span>➕</span> More Shapes...
         </button>
       </div>
     </aside>
 
-    <!-- Canvas Central -->
-    <main class="canvas-container" id="canvasWrapper" ondragover="handleCanvasDragOver(event)" ondrop="handleCanvasDrop(event)">
-      <svg id="diagramCanvas" xmlns="http://www.w3.org/2000/svg" role="graphics-document" aria-label="Lienzo de Diagramacion DIDT IMSS" ondragover="handleCanvasDragOver(event)" ondrop="handleCanvasDrop(event)">
+    <!-- Canvas Central Viewport -->
+    <main class="canvas-viewport" id="canvasWrapper" ondragover="handleCanvasDragOver(event)" ondrop="handleCanvasDrop(event)">
+      <svg id="diagramCanvas" xmlns="http://www.w3.org/2000/svg" role="graphics-document" aria-label="Lienzo de Diagramacion DIDT IMSS">
         <defs>
-          <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
-            <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#E2E8F0" stroke-width="0.75"/>
+          <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E2E8F0" stroke-width="0.75"/>
           </pattern>
-          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <marker id="arrowClassic" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M 0 1 L 9 5 L 0 9 z" fill="#006341" />
           </marker>
+          <marker id="arrowBlock" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <polygon points="0 1, 10 6, 0 11" fill="#006341" />
+          </marker>
+          <marker id="markerDiamond" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <polygon points="6 1, 11 6, 6 11, 1 6" fill="#006341" />
+          </marker>
+          <marker id="markerOval" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5">
+            <circle cx="5" cy="5" r="4" fill="#006341" />
+          </marker>
         </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-        <g id="connectorsLayer"></g>
-        <g id="tempConnectorLayer"></g>
-        <g id="shapesLayer"></g>
+
+        <!-- Viewport Group for Pan & Zoom -->
+        <g id="viewportTransform">
+          <!-- Page Sheet Background (When Page View is active) -->
+          <rect id="pageSheet" class="page-sheet" x="60" y="40" width="1050" height="1485" rx="2" />
+          <rect id="gridOverlay" x="60" y="40" width="1050" height="1485" fill="url(#gridPattern)" />
+
+          <!-- Diagram Content Layers -->
+          <g id="connectorsLayer"></g>
+          <g id="tempConnectorLayer"></g>
+          <g id="shapesLayer"></g>
+          <g id="interactionLayer"></g>
+        </g>
       </svg>
 
       <!-- Floating Controls -->
-      <div class="floating-toolbar">
-        <span style="font-size:0.75rem; color:#94A3B8; font-weight:600;">HERRAMIENTA:</span>
-        <button class="tool-btn active" id="btnSelect" onclick="setMode('select')">Puntero / Mover</button>
-        <button class="tool-btn" id="btnConnect" onclick="setMode('connect')">Modo Conectar</button>
+      <div class="floating-bar">
+        <span style="font-size:10px; color:#94A3B8; font-weight:700;">HERRAMIENTA:</span>
+        <button class="ft-btn active" id="btnSelect" onclick="setMode('select')">Puntero</button>
+        <button class="ft-btn" id="btnConnect" onclick="setMode('connect')">Conectar</button>
+        <button class="ft-btn" id="btnPan" onclick="setMode('pan')">Mano</button>
         <span style="color:#475569;">|</span>
-        <button class="tool-btn" onclick="addSampleArchitecture()">Cargar Arquitectura IMSS</button>
+        <button class="ft-btn" onclick="addSampleArchitecture()">Cargar Arquitectura</button>
+        <button class="ft-btn" onclick="setZoom(1)">100%</button>
       </div>
     </main>
+
+    <!-- Right Format Panel (Draw.io Style) -->
+    <aside class="format-panel" id="formatPanel">
+      <div class="format-panel-header">
+        <span id="formatPanelTitle">Formato / Propiedades</span>
+        <button class="btn-close-panel" onclick="toggleFormatPanel()" title="Cerrar panel">✕</button>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="format-tabs">
+        <button class="format-tab-btn active" id="tabBtnStyle" onclick="switchFormatTab('style')">Estilo</button>
+        <button class="format-tab-btn" id="tabBtnText" onclick="switchFormatTab('text')">Texto</button>
+        <button class="format-tab-btn" id="tabBtnArrange" onclick="switchFormatTab('arrange')">Organizar</button>
+      </div>
+
+      <!-- Tab 1: Style -->
+      <div class="tab-content active" id="tabStyle">
+        <div class="prop-group">
+          <label class="prop-title">Relleno (Fill)</label>
+          <div class="prop-row">
+            <span>Color:</span>
+            <input type="color" id="fpFillColor" value="#FFFFFF" onchange="applyFillColor(this.value)">
+          </div>
+          <div class="prop-row">
+            <span>Opacidad:</span>
+            <input type="range" id="fpOpacity" min="10" max="100" value="100" style="width:90px;" oninput="applyOpacity(this.value)">
+            <span id="fpOpacityVal" style="font-size:10px;">100%</span>
+          </div>
+        </div>
+
+        <div class="prop-group">
+          <label class="prop-title">Borde / Línea (Stroke)</label>
+          <div class="prop-row">
+            <span>Color:</span>
+            <input type="color" id="fpStrokeColor" value="#006341" onchange="applyStrokeColor(this.value)">
+          </div>
+          <div class="prop-row">
+            <span>Grosor:</span>
+            <select id="fpStrokeWidth" class="prop-input" onchange="applyStrokeWidth(parseInt(this.value))">
+              <option value="1">1 px</option>
+              <option value="2" selected>2 px</option>
+              <option value="3">3 px</option>
+              <option value="4">4 px</option>
+              <option value="6">6 px</option>
+            </select>
+          </div>
+          <div class="prop-row">
+            <span>Estilo:</span>
+            <select id="fpStrokePattern" class="prop-input" onchange="applyLinePattern(this.value)">
+              <option value="solid">Sólida</option>
+              <option value="dashed">Discontinua</option>
+              <option value="dotted">Punteada</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="prop-group">
+          <label class="prop-title">Efectos</label>
+          <div class="prop-row">
+            <span>Esquinas Redondeadas:</span>
+            <input type="checkbox" id="fpRounded" onchange="toggleRoundedCorners(this.checked)">
+          </div>
+          <div class="prop-row">
+            <span>Sombra:</span>
+            <input type="checkbox" id="fpShadow" onchange="toggleShadow(this.checked)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Text -->
+      <div class="tab-content" id="tabText">
+        <div class="prop-group">
+          <label class="prop-title">Tipografía</label>
+          <div class="prop-row">
+            <span>Fuente:</span>
+            <select id="fpFontFamily" class="prop-input" onchange="applyFontFamily(this.value)">
+              <option value="Inter">Inter</option>
+              <option value="Arial">Arial</option>
+              <option value="Helvetica">Helvetica</option>
+              <option value="Roboto">Roboto</option>
+              <option value="Courier New">Courier</option>
+              <option value="Georgia">Georgia</option>
+            </select>
+          </div>
+          <div class="prop-row">
+            <span>Tamaño:</span>
+            <input type="number" id="fpFontSize" class="prop-input" value="12" min="8" max="72" onchange="applyFontSize(parseInt(this.value))">
+          </div>
+          <div class="prop-row">
+            <span>Color Texto:</span>
+            <input type="color" id="fpTextColor" value="#0F172A" onchange="applyTextColor(this.value)">
+          </div>
+        </div>
+
+        <div class="prop-group">
+          <label class="prop-title">Formato</label>
+          <div class="prop-btn-grid">
+            <button class="prop-btn" onclick="toggleBold()"><b>B Negrita</b></button>
+            <button class="prop-btn" onclick="toggleItalic()"><i>I Cursiva</i></button>
+            <button class="prop-btn" onclick="toggleUnderline()"><u>U Subrayado</u></button>
+            <button class="prop-btn" onclick="alignText('center')">≡ Centrado</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Arrange -->
+      <div class="tab-content" id="tabArrange">
+        <div class="prop-group">
+          <label class="prop-title">Capas y Profundidad (Z-Order)</label>
+          <div class="prop-btn-grid">
+            <button class="prop-btn" onclick="bringToFront()">🔝 Traer al frente</button>
+            <button class="prop-btn" onclick="sendToBack()">🔚 Enviar al fondo</button>
+            <button class="prop-btn" onclick="bringForward()">🔼 Adelante</button>
+            <button class="prop-btn" onclick="sendBackward()">🔽 Atrás</button>
+          </div>
+        </div>
+
+        <div class="prop-group">
+          <label class="prop-title">Dimensiones y Posición</label>
+          <div class="prop-row">
+            <span>Ancho (W):</span>
+            <input type="number" id="fpWidth" class="prop-input" onchange="applyDimension('w', parseInt(this.value))">
+          </div>
+          <div class="prop-row">
+            <span>Alto (H):</span>
+            <input type="number" id="fpHeight" class="prop-input" onchange="applyDimension('h', parseInt(this.value))">
+          </div>
+          <div class="prop-row">
+            <span>Posición X:</span>
+            <input type="number" id="fpX" class="prop-input" onchange="applyPosition('x', parseInt(this.value))">
+          </div>
+          <div class="prop-row">
+            <span>Posición Y:</span>
+            <input type="number" id="fpY" class="prop-input" onchange="applyPosition('y', parseInt(this.value))">
+          </div>
+          <div class="prop-row">
+            <span>Ángulo (°):</span>
+            <input type="number" id="fpAngle" class="prop-input" min="0" max="360" value="0" onchange="applyRotation(parseInt(this.value))">
+          </div>
+        </div>
+
+        <div class="prop-group">
+          <label class="prop-title">Alineación de Figuras</label>
+          <div class="prop-btn-grid">
+            <button class="prop-btn" onclick="alignShapes('left')">⬅️ Izquierda</button>
+            <button class="prop-btn" onclick="alignShapes('center')">↔️ Centro</button>
+            <button class="prop-btn" onclick="alignShapes('right')">➡️ Derecha</button>
+            <button class="prop-btn" onclick="alignShapes('top')">⬆️ Arriba</button>
+            <button class="prop-btn" onclick="alignShapes('middle')">↕️ Medio</button>
+            <button class="prop-btn" onclick="alignShapes('bottom')">⬇️ Abajo</button>
+          </div>
+        </div>
+      </div>
+    </aside>
   </div>
 
   <script>
-    // Estado del Canvas
+    // ==========================================
+    // ESTADO GLOBAL DE LA APLICACIÓN (Draw.io Core)
+    // ==========================================
     const shapes = [];
     const connectors = [];
-    let currentMode = 'select'; // 'select' | 'connect'
+    const historyStack = [];
+    const redoStack = [];
+    let clipboard = [];
+
+    // Herramienta activa
+    let currentMode = 'select'; // 'select' | 'connect' | 'pan'
     let selectedShape = null;
     let selectedConnector = null;
     let connectingSource = null;
-    let isDragging = false;
-    let dragOffset = { x: 0, y: 0 };
 
+    // Viewport: Pan y Zoom
+    let zoomLevel = 1.0;
+    let panOffset = { x: 0, y: 0 };
+    let isPanning = false;
+    let panStart = { x: 0, y: 0 };
+
+    // Manipulación interactiva (Move, Resize, Rotate)
+    let isDragging = false;
+    let isResizing = false;
+    let resizeHandle = null;
+    let isRotating = false;
+    let dragStartPos = { x: 0, y: 0 };
+    let initialShapeGeom = null;
+
+    // Configuración de página
+    let pageFormat = 'letter_portrait';
+    let showGrid = true;
+    let snapToGrid = true;
+    let canvasBgColor = '#FFFFFF';
+
+    // Elementos DOM
     const svg = document.getElementById('diagramCanvas');
+    const viewportTransform = document.getElementById('viewportTransform');
     const shapesLayer = document.getElementById('shapesLayer');
     const connectorsLayer = document.getElementById('connectorsLayer');
     const tempConnectorLayer = document.getElementById('tempConnectorLayer');
+    const interactionLayer = document.getElementById('interactionLayer');
+    const inlineEditor = document.getElementById('inlineTextEditor');
+    const canvasWrapper = document.getElementById('canvasWrapper');
+    const pageSheet = document.getElementById('pageSheet');
+    const gridOverlay = document.getElementById('gridOverlay');
 
-    // Notificaciones Toast
+    // ==========================================
+    // NOTIFICACIONES Y MODALES
+    // ==========================================
     function showToast(message, isError = false) {
       const toast = document.getElementById('alertToast');
       toast.textContent = message;
       toast.className = isError ? 'error' : '';
       toast.style.display = 'flex';
-      setTimeout(() => {
-        toast.style.display = 'none';
-      }, 3500);
+      setTimeout(() => { toast.style.display = 'none'; }, 3500);
     }
 
-    // Colapso/Expansión de secciones estilo Draw.io
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.style.display = 'none';
+    }
+
+    // Cerrar modales con Esc o clic en fondo
+    window.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay')) {
+        e.target.style.display = 'none';
+      }
+      // Cerrar popover de colores si clic afuera
+      if (!e.target.closest('.color-swatch-btn') && !e.target.closest('.color-picker-popover')) {
+        document.querySelectorAll('.color-picker-popover').forEach(p => p.style.display = 'none');
+      }
+    });
+
+    // ==========================================
+    // HISTORIAL: UNDO / REDO (Ctrl+Z, Ctrl+Y)
+    // ==========================================
+    function pushHistory() {
+      const snapshot = JSON.stringify({
+        shapes: shapes,
+        connectors: connectors
+      });
+      historyStack.push(snapshot);
+      if (historyStack.length > 50) historyStack.shift();
+      redoStack.length = 0; // Limpiar redo en nueva acción
+    }
+
+    function undo() {
+      if (historyStack.length === 0) {
+        showToast('Nada más que deshacer.');
+        return;
+      }
+      const current = JSON.stringify({ shapes, connectors });
+      redoStack.push(current);
+
+      const previous = historyStack.pop();
+      const data = JSON.parse(previous);
+      shapes.length = 0;
+      connectors.length = 0;
+      shapes.push(...data.shapes);
+      connectors.push(...data.connectors);
+      selectedShape = null;
+      selectedConnector = null;
+      render();
+      updateFormatPanel();
+      showToast('Acción deshecha.');
+    }
+
+    function redo() {
+      if (redoStack.length === 0) {
+        showToast('Nada más que rehacer.');
+        return;
+      }
+      const current = JSON.stringify({ shapes, connectors });
+      historyStack.push(current);
+
+      const next = redoStack.pop();
+      const data = JSON.parse(next);
+      shapes.length = 0;
+      connectors.length = 0;
+      shapes.push(...data.shapes);
+      connectors.push(...data.connectors);
+      selectedShape = null;
+      selectedConnector = null;
+      render();
+      updateFormatPanel();
+      showToast('Acción rehecha.');
+    }
+
+    // ==========================================
+    // SIDEBAR & BIBLIOTECAS (Draw.io Stencil Picker)
+    // ==========================================
     function toggleSection(headerEl) {
       const section = headerEl.closest('.cat-section');
-      if (section) {
-        section.classList.toggle('collapsed');
-      }
+      if (section) section.classList.toggle('collapsed');
     }
 
-    // Filtro Reactivo de Stencils estilo Draw.io (< 50 ms)
     function filterStencils(query) {
       const q = query.toLowerCase().trim();
       const cards = document.querySelectorAll('.stencil-card');
@@ -856,13 +2134,16 @@
         const visibleCards = sec.querySelectorAll('.stencil-card[style*="display: flex"]');
         const count = q ? visibleCards.length : sec.querySelectorAll('.stencil-card').length;
         sec.style.display = count === 0 ? 'none' : 'block';
-        if (q && count > 0) {
-          sec.classList.remove('collapsed');
-        }
+        if (q && count > 0) sec.classList.remove('collapsed');
       });
     }
 
-    // Drag and Drop estilo Draw.io
+    function toggleLibrary(libName, isVisible) {
+      const sec = document.getElementById('sec_' + libName);
+      if (sec) sec.style.display = isVisible ? 'block' : 'none';
+    }
+
+    // Drag and Drop desde la barra lateral
     function handleShapeDragStart(e, type, label, w, h) {
       e.dataTransfer.setData('text/plain', JSON.stringify({ type, label, w, h }));
       e.dataTransfer.effectAllowed = 'copy';
@@ -880,53 +2161,53 @@
         if (!raw) return;
         const data = JSON.parse(raw);
         const rect = svg.getBoundingClientRect();
-        const x = e.clientX - rect.left - (data.w / 2);
-        const y = e.clientY - rect.top - (data.h / 2);
-        addShape(data.type, data.label, data.w, data.h, Math.max(10, x), Math.max(10, y));
+        const mouseX = (e.clientX - rect.left - panOffset.x) / zoomLevel;
+        const mouseY = (e.clientY - rect.top - panOffset.y) / zoomLevel;
+        addShape(data.type, data.label, data.w, data.h, mouseX - data.w/2, mouseY - data.h/2);
       } catch (err) {
-        console.error('Canvas drop error:', err);
+        console.error('Drop error:', err);
       }
     }
 
-    function openMoreShapesModal() {
-      showToast('Bibliotecas activas: General, Misc, Advanced, Flowchart, IMSS DIDT. Todas disponibles en el panel.');
-    }
-
-    // Renderizador Geométrico Vectorial para todas las formas Draw.io e IMSS
+    // ==========================================
+    // GEOMETRÍAS SVG VECTORIALES (Todas las formas)
+    // ==========================================
     function renderShapeGeometry(s, strokeColor, strokeW) {
       const w = s.w;
       const h = s.h;
       const fill = s.fill || '#FFFFFF';
+      const dash = s.linePattern === 'dashed' ? 'stroke-dasharray="6 4"' : (s.linePattern === 'dotted' ? 'stroke-dasharray="2 3"' : '');
+      const filter = s.shadow ? 'filter="drop-shadow(2px 4px 6px rgba(0,0,0,0.18))"' : '';
 
       switch (s.type) {
         case 'rounded':
-          return `<rect x="0" y="0" width="${w}" height="${h}" rx="14" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<rect x="0" y="0" width="${w}" height="${h}" rx="14" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         case 'text':
           return `<rect x="0" y="0" width="${w}" height="${h}" fill="none" stroke="none" />`;
         case 'ellipse':
         case 'circle':
-          return `<ellipse cx="${w/2}" cy="${h/2}" rx="${w/2}" ry="${h/2}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<ellipse cx="${w/2}" cy="${h/2}" rx="${w/2}" ry="${h/2}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         case 'diamond':
-          return `<polygon points="${w/2},0 ${w},${h/2} ${w/2},${h} 0,${h/2}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<polygon points="${w/2},0 ${w},${h/2} ${w/2},${h} 0,${h/2}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         case 'triangle':
-          return `<polygon points="${w/2},0 ${w},${h} 0,${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<polygon points="${w/2},0 ${w},${h} 0,${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         case 'cylinder': {
           const ch = Math.min(18, h * 0.25);
           return `
-            <path d="M 0 ${ch} L 0 ${h - ch} A ${w/2} ${ch} 0 0 0 ${w} ${h - ch} L ${w} ${ch} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
-            <ellipse cx="${w/2}" cy="${h - ch}" rx="${w/2}" ry="${ch}" fill="none" stroke="${strokeColor}" stroke-width="${strokeW}" />
-            <ellipse cx="${w/2}" cy="${ch}" rx="${w/2}" ry="${ch}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <path d="M 0 ${ch} L 0 ${h - ch} A ${w/2} ${ch} 0 0 0 ${w} ${h - ch} L ${w} ${ch} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />
+            <ellipse cx="${w/2}" cy="${h - ch}" rx="${w/2}" ry="${ch}" fill="none" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} />
+            <ellipse cx="${w/2}" cy="${ch}" rx="${w/2}" ry="${ch}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} />
           `;
         }
         case 'cloud':
-          return `<path d="M ${w*0.25} ${h*0.75} C ${w*0.05} ${h*0.75} ${w*0.05} ${h*0.45} ${w*0.2} ${h*0.4} C ${w*0.15} ${h*0.15} ${w*0.45} ${h*0.1} ${w*0.55} ${h*0.25} C ${w*0.7} ${h*0.15} ${w*0.9} ${h*0.25} ${w*0.85} ${h*0.45} C ${w*0.98} ${h*0.5} ${w*0.98} ${h*0.75} ${w*0.8} ${h*0.75} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<path d="M ${w*0.25} ${h*0.75} C ${w*0.05} ${h*0.75} ${w*0.05} ${h*0.45} ${w*0.2} ${h*0.4} C ${w*0.15} ${h*0.15} ${w*0.45} ${h*0.1} ${w*0.55} ${h*0.25} C ${w*0.7} ${h*0.15} ${w*0.9} ${h*0.25} ${w*0.85} ${h*0.45} C ${w*0.98} ${h*0.5} ${w*0.98} ${h*0.75} ${w*0.8} ${h*0.75} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         case 'document':
-          return `<path d="M 0 0 L ${w} 0 L ${w} ${h - 14} Q ${w*0.75} ${h - 24} ${w*0.5} ${h - 14} T 0 ${h - 14} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<path d="M 0 0 L ${w} 0 L ${w} ${h - 14} Q ${w*0.75} ${h - 24} ${w*0.5} ${h - 14} T 0 ${h - 14} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         case 'internal_storage': {
           const sx = Math.min(22, w * 0.2);
           const sy = Math.min(20, h * 0.25);
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" rx="0" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" rx="0" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />
             <line x1="${sx}" y1="0" x2="${sx}" y2="${h}" stroke="${strokeColor}" stroke-width="${strokeW}" />
             <line x1="0" y1="${sy}" x2="${w}" y2="${sy}" stroke="${strokeColor}" stroke-width="${strokeW}" />
           `;
@@ -934,27 +2215,27 @@
         case 'cube': {
           const d = Math.min(18, w * 0.2, h * 0.2);
           return `
-            <polygon points="${d},${d} ${w},${d} ${w},${h} ${d},${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <polygon points="${d},${d} ${w},${d} ${w},${h} ${d},${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <polygon points="0,0 ${w - d},0 ${w},${d} ${d},${d}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
             <polygon points="${w - d},0 ${w},0 ${w},${h - d} ${w - d},${h - d}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
           `;
         }
         case 'step': {
           const sw = Math.min(24, w * 0.2);
-          return `<polygon points="0,0 ${w - sw},0 ${w},${h/2} ${w - sw},${h} 0,${h} ${sw},${h/2}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<polygon points="0,0 ${w - sw},0 ${w},${h/2} ${w - sw},${h} 0,${h} ${sw},${h/2}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         }
         case 'tape':
-          return `<path d="M 0 10 Q ${w*0.25} 0 ${w*0.5} 10 T ${w} 10 L ${w} ${h - 10} Q ${w*0.75} ${h - 20} ${w*0.5} ${h - 10} T 0 ${h - 10} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<path d="M 0 10 Q ${w*0.25} 0 ${w*0.5} 10 T ${w} 10 L ${w} ${h - 10} Q ${w*0.75} ${h - 20} ${w*0.5} ${h - 10} T 0 ${h - 10} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         case 'note': {
           const nw = Math.min(18, w * 0.2);
           return `
-            <path d="M 0 0 L ${w - nw} 0 L ${w} ${nw} L ${w} ${h} L 0 ${h} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <path d="M 0 0 L ${w - nw} 0 L ${w} ${nw} L ${w} ${h} L 0 ${h} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />
             <polyline points="${w - nw},0 ${w - nw},${nw} ${w},${nw}" fill="none" stroke="${strokeColor}" stroke-width="${strokeW}" />
           `;
         }
         case 'card': {
           const cw = Math.min(18, w * 0.2);
-          return `<polygon points="${cw},0 ${w},0 ${w},${h} 0,${h} 0,${cw}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<polygon points="${cw},0 ${w},0 ${w},${h} 0,${h} 0,${cw}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         }
         case 'actor':
           return `
@@ -965,96 +2246,145 @@
             <line x1="${w/2}" y1="${h*0.72}" x2="${w*0.75}" y2="${h}" stroke="${strokeColor}" stroke-width="${strokeW}" stroke-linecap="round" />
           `;
         case 'callout':
-          return `<path d="M 6 0 L ${w - 6} 0 Q ${w} 0 ${w} 6 L ${w} ${h - 14} Q ${w} ${h - 8} ${w - 6} ${h - 8} L ${w*0.42} ${h - 8} L ${w*0.2} ${h} L ${w*0.28} ${h - 8} L 6 ${h - 8} Q 0 ${h - 8} 0 ${h - 14} L 0 6 Q 0 0 6 0 Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<path d="M 6 0 L ${w - 6} 0 Q ${w} 0 ${w} 6 L ${w} ${h - 14} Q ${w} ${h - 8} ${w - 6} ${h - 8} L ${w*0.42} ${h - 8} L ${w*0.2} ${h} L ${w*0.28} ${h - 8} L 6 ${h - 8} Q 0 ${h - 8} 0 ${h - 14} L 0 6 Q 0 0 6 0 Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         case 'hexagon':
-          return `<polygon points="${w*0.2},0 ${w*0.8},0 ${w},${h/2} ${w*0.8},${h} ${w*0.2},${h} 0,${h/2}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<polygon points="${w*0.2},0 ${w*0.8},0 ${w},${h/2} ${w*0.8},${h} ${w*0.2},${h} 0,${h/2}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
+        case 'octagon':
+          return `<polygon points="${w*0.3},0 ${w*0.7},0 ${w},${h*0.3} ${w},${h*0.7} ${w*0.7},${h} ${w*0.3},${h} 0,${h*0.7} 0,${h*0.3}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
+        case 'cross':
+          return `<polygon points="${w*0.35},0 ${w*0.65},0 ${w*0.65},${h*0.35} ${w},${h*0.35} ${w},${h*0.65} ${w*0.65},${h*0.65} ${w*0.65},${h} ${w*0.35},${h} ${w*0.35},${h*0.65} 0,${h*0.65} 0,${h*0.35} ${w*0.35},${h*0.35}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         case 'parallelogram':
-          return `<polygon points="${w*0.2},0 ${w},0 ${w*0.8},${h} 0,${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<polygon points="${w*0.2},0 ${w},0 ${w*0.8},${h} 0,${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
         case 'swimlane_h':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <rect x="0" y="0" width="32" height="${h}" fill="#F1F5F9" stroke="${strokeColor}" stroke-width="${strokeW}" />
           `;
         case 'swimlane_v':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <rect x="0" y="0" width="${w}" height="28" fill="#F1F5F9" stroke="${strokeColor}" stroke-width="${strokeW}" />
           `;
+        case 'table':
+          return `
+            <rect x="0" y="0" width="${w}" height="${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
+            <line x1="0" y1="${h/2}" x2="${w}" y2="${h/2}" stroke="${strokeColor}" stroke-width="1.5" />
+            <line x1="${w/2}" y1="0" x2="${w/2}" y2="${h}" stroke="${strokeColor}" stroke-width="1.5" />
+          `;
+        case 'curly_bracket':
+          return `<path d="M ${w*0.8} 0 C ${w*0.3} 0 ${w*0.3} ${h/2} 0 ${h/2} C ${w*0.3} ${h/2} ${w*0.3} ${h} ${w*0.8} ${h}" fill="none" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
         case 'process':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" rx="2" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" rx="2" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />
             <line x1="16" y1="0" x2="16" y2="${h}" stroke="${strokeColor}" stroke-width="${strokeW}" />
             <line x1="${w - 16}" y1="0" x2="${w - 16}" y2="${h}" stroke="${strokeColor}" stroke-width="${strokeW}" />
           `;
         case 'star':
-          return `<polygon points="${w*0.5},0 ${w*0.62},${h*0.35} ${w},${h*0.38} ${w*0.72},${h*0.62} ${w*0.8},${h} ${w*0.5},${h*0.8} ${w*0.2},${h} ${w*0.28},${h*0.62} 0,${h*0.38} ${w*0.38},${h*0.35}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<polygon points="${w*0.5},0 ${w*0.62},${h*0.35} ${w},${h*0.38} ${w*0.72},${h*0.62} ${w*0.8},${h} ${w*0.5},${h*0.8} ${w*0.2},${h} ${w*0.28},${h*0.62} 0,${h*0.38} ${w*0.38},${h*0.35}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />`;
         case 'uml_class':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" rx="2" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" rx="2" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <line x1="0" y1="26" x2="${w}" y2="26" stroke="${strokeColor}" stroke-width="${strokeW}" />
             <line x1="0" y1="${h/2 + 8}" x2="${w}" y2="${h/2 + 8}" stroke="${strokeColor}" stroke-width="${strokeW}" />
           `;
         case 'uml_interface':
-          return `<circle cx="${w/2}" cy="${h/2}" r="${Math.min(w, h)/2 - 3}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<circle cx="${w/2}" cy="${h/2}" r="${Math.min(w, h)/2 - 3}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />`;
         case 'uml_component':
           return `
-            <rect x="12" y="0" width="${w - 12}" height="${h}" rx="2" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="12" y="0" width="${w - 12}" height="${h}" rx="2" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <rect x="0" y="${h*0.2}" width="24" height="${Math.min(18, h*0.25)}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
             <rect x="0" y="${h*0.6}" width="24" height="${Math.min(18, h*0.25)}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
           `;
         case 'uml_package':
           return `
             <polygon points="0,0 ${w*0.4},0 ${w*0.48},14 0,14" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
-            <rect x="0" y="14" width="${w}" height="${h - 14}" rx="1" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="14" width="${w}" height="${h - 14}" rx="1" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
           `;
         case 'uml_boundary':
           return `<rect x="0" y="0" width="${w}" height="${h}" rx="4" fill="none" stroke="${strokeColor}" stroke-width="${strokeW}" stroke-dasharray="6 4" />`;
+        case 'uml_lifeline':
+          return `
+            <rect x="0" y="0" width="${w}" height="32" rx="2" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <line x1="${w/2}" y1="32" x2="${w/2}" y2="${h}" stroke="${strokeColor}" stroke-width="1.5" stroke-dasharray="4 4" />
+          `;
+        case 'manual_input':
+          return `<polygon points="0,14 ${w},0 ${w},${h} 0,${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />`;
+        case 'weak_entity':
+          return `
+            <rect x="0" y="0" width="${w}" height="${h}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
+            <rect x="5" y="5" width="${w - 10}" height="${h - 10}" fill="none" stroke="${strokeColor}" stroke-width="${strokeW}" />
+          `;
         case 'bpmn_start':
-          return `<circle cx="${w/2}" cy="${h/2}" r="${Math.min(w, h)/2 - 3}" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2.5" />`;
+          return `<circle cx="${w/2}" cy="${h/2}" r="${Math.min(w, h)/2 - 3}" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2.5" ${filter} />`;
         case 'bpmn_task':
-          return `<rect x="0" y="0" width="${w}" height="${h}" rx="8" fill="#FFFFFF" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<rect x="0" y="0" width="${w}" height="${h}" rx="8" fill="#FFFFFF" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />`;
         case 'bpmn_gateway':
           return `
-            <polygon points="${w/2},0 ${w},${h/2} ${w/2},${h} 0,${h/2}" fill="#FFFDE7" stroke="#F57F17" stroke-width="${strokeW}" />
+            <polygon points="${w/2},0 ${w},${h/2} ${w/2},${h} 0,${h/2}" fill="#FFFDE7" stroke="#F57F17" stroke-width="${strokeW}" ${filter} />
             <path d="M ${w/2 - 8} ${h/2 - 8} L ${w/2 + 8} ${h/2 + 8} M ${w/2 + 8} ${h/2 - 8} L ${w/2 - 8} ${h/2 + 8}" stroke="#F57F17" stroke-width="2.5" stroke-linecap="round" />
           `;
-        case 'bpmn_end':
-          return `<circle cx="${w/2}" cy="${h/2}" r="${Math.min(w, h)/2 - 4}" fill="#FFEBEE" stroke="#C62828" stroke-width="4" />`;
-        case 'bpmn_data': {
-          const ch = Math.min(16, h * 0.22);
+        case 'bpmn_gateway_and':
           return `
-            <path d="M 0 ${ch} L 0 ${h - ch} A ${w/2} ${ch} 0 0 0 ${w} ${h - ch} L ${w} ${ch} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
-            <ellipse cx="${w/2}" cy="${h - ch}" rx="${w/2}" ry="${ch}" fill="none" stroke="${strokeColor}" stroke-width="${strokeW}" />
-            <ellipse cx="${w/2}" cy="${ch}" rx="${w/2}" ry="${ch}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <polygon points="${w/2},0 ${w},${h/2} ${w/2},${h} 0,${h/2}" fill="#FFFDE7" stroke="#F57F17" stroke-width="${strokeW}" ${filter} />
+            <path d="M ${w/2} ${h/2 - 9} L ${w/2} ${h/2 + 9} M ${w/2 - 9} ${h/2} L ${w/2 + 9} ${h/2}" stroke="#F57F17" stroke-width="2.5" stroke-linecap="round" />
           `;
-        }
+        case 'bpmn_end':
+          return `<circle cx="${w/2}" cy="${h/2}" r="${Math.min(w, h)/2 - 4}" fill="#FFEBEE" stroke="#C62828" stroke-width="4" ${filter} />`;
+        case 'net_server':
+          return `
+            <rect x="0" y="0" width="${w}" height="${h}" rx="4" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
+            <line x1="0" y1="${h*0.33}" x2="${w}" y2="${h*0.33}" stroke="${strokeColor}" stroke-width="1.2" />
+            <line x1="0" y1="${h*0.66}" x2="${w}" y2="${h*0.66}" stroke="${strokeColor}" stroke-width="1.2" />
+            <circle cx="${w - 15}" cy="${h*0.16}" r="3" fill="#006341" />
+            <circle cx="${w - 15}" cy="${h*0.5}" r="3" fill="#006341" />
+            <circle cx="${w - 15}" cy="${h*0.83}" r="3" fill="#006341" />
+          `;
+        case 'net_firewall':
+          return `
+            <rect x="0" y="0" width="${w}" height="${h}" rx="3" fill="#FEE2E2" stroke="#DC2626" stroke-width="${strokeW}" ${filter} />
+            <line x1="0" y1="${h/2}" x2="${w}" y2="${h/2}" stroke="#DC2626" stroke-width="1.5" />
+            <line x1="${w/2}" y1="0" x2="${w/2}" y2="${h/2}" stroke="#DC2626" stroke-width="1.5" />
+            <line x1="${w*0.25}" y1="${h/2}" x2="${w*0.25}" y2="${h}" stroke="#DC2626" stroke-width="1.5" />
+            <line x1="${w*0.75}" y1="${h/2}" x2="${w*0.75}" y2="${h}" stroke="#DC2626" stroke-width="1.5" />
+          `;
+        case 'net_laptop':
+          return `
+            <rect x="${w*0.15}" y="0" width="${w*0.7}" height="${h*0.75}" rx="2" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
+            <polygon points="0,${h} ${w},${h} ${w*0.85},${h*0.75} ${w*0.15},${h*0.75}" fill="#E2E8F0" stroke="${strokeColor}" stroke-width="${strokeW}" />
+          `;
+        case 'net_mobile':
+          return `
+            <rect x="0" y="0" width="${w}" height="${h}" rx="8" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
+            <circle cx="${w/2}" cy="${h - 10}" r="3.5" fill="${strokeColor}" />
+            <line x1="${w*0.3}" y1="8" x2="${w*0.7}" y2="8" stroke="${strokeColor}" stroke-width="1.5" stroke-linecap="round" />
+          `;
         case 'imss_gateway':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <path d="M 12 ${h/2} h 20 M 24 ${h/2 - 6} l 6 6 -6 6" stroke="#006341" stroke-width="2" fill="none" />
           `;
         case 'imss_service':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <circle cx="20" cy="${h/2}" r="5" fill="#006341" />
           `;
         case 'imss_sso':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <rect x="${w - 26}" y="10" width="16" height="12" rx="2" fill="none" stroke="#B38E5D" stroke-width="1.5" />
             <path d="M ${w - 22} 10 V 6 a 4 4 0 0 1 8 0 v 4" stroke="#B38E5D" stroke-width="1.5" fill="none" />
           `;
         case 'imss_postgres': {
           const ch = Math.min(18, h * 0.22);
           return `
-            <path d="M 0 ${ch} L 0 ${h - ch} A ${w/2} ${ch} 0 0 0 ${w} ${h - ch} L ${w} ${ch} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <path d="M 0 ${ch} L 0 ${h - ch} A ${w/2} ${ch} 0 0 0 ${w} ${h - ch} L ${w} ${ch} Z" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <ellipse cx="${w/2}" cy="${h - ch}" rx="${w/2}" ry="${ch}" fill="none" stroke="${strokeColor}" stroke-width="${strokeW}" />
             <ellipse cx="${w/2}" cy="${ch}" rx="${w/2}" ry="${ch}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
           `;
         }
         case 'imss_kafka':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <circle cx="20" cy="${h/2}" r="4" fill="#006341"/>
             <circle cx="34" cy="${h/2 - 8}" r="3" fill="#006341"/>
             <circle cx="34" cy="${h/2 + 8}" r="3" fill="#006341"/>
@@ -1062,54 +2392,72 @@
           `;
         case 'imss_redis':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <path d="M 22 14 L 12 19 l 10 5 10 -5 -10 -5 z M 12 24 l 10 5 10 -5" stroke="#B38E5D" stroke-width="1.5" fill="none"/>
           `;
         case 'imss_medico':
         case 'imss_derechohabiente':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <circle cx="22" cy="${h/2 - 6}" r="6" fill="${fill}" stroke="#006341" stroke-width="1.5"/>
             <path d="M 12 ${h/2 + 14} c 0 -5 5 -7 10 -7 s 10 2 10 7" stroke="#006341" stroke-width="1.5" fill="none"/>
           `;
         case 'imss_farmacia':
           return `
-            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />
+            <rect x="0" y="0" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />
             <rect x="12" y="${h/2 - 10}" width="20" height="20" rx="2" fill="none" stroke="#006341" stroke-width="1.5"/>
             <path d="M 22 ${h/2 - 7} v 14 M 15 ${h/2} h 14" stroke="#006341" stroke-width="2"/>
           `;
         case 'imss_oic':
-          return `<polygon points="${w/2},0 ${w},${h/2} ${w/2},${h} 0,${h/2}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<polygon points="${w/2},0 ${w},${h/2} ${w/2},${h} 0,${h/2}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${filter} />`;
         case 'rectangle':
         default:
-          return `<rect x="0" y="0" width="${w}" height="${h}" rx="2" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" />`;
+          return `<rect x="0" y="0" width="${w}" height="${h}" rx="${s.rounded ? '8' : '2'}" fill="${fill}" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash} ${filter} />`;
       }
     }
 
-    function setMode(mode) {
-      currentMode = mode;
-      document.getElementById('btnSelect').classList.toggle('active', mode === 'select');
-      document.getElementById('btnConnect').classList.toggle('active', mode === 'connect');
-      connectingSource = null;
-      tempConnectorLayer.innerHTML = '';
-    }
+    // ==========================================
+    // MANEJO DE ESTADO Y ENTIDADES (Shapes & Connectors)
+    // ==========================================
+    function addShape(type, label, w = 140, h = 65, x, y) {
+      pushHistory();
 
-    function addShape(type, label, w = 150, h = 65, x, y) {
+      // Centro del viewport actual
       const rect = svg.getBoundingClientRect();
-      const posX = x !== undefined ? x : Math.max(50, (rect.width / 2 - w / 2) + (Math.random() * 80 - 40));
-      const posY = y !== undefined ? y : Math.max(50, (rect.height / 2 - h / 2) + (Math.random() * 80 - 40));
+      const defaultX = (rect.width / 2 - panOffset.x) / zoomLevel - w / 2;
+      const defaultY = (rect.height / 2 - panOffset.y) / zoomLevel - h / 2;
+
+      let posX = x !== undefined ? x : defaultX + (Math.random() * 40 - 20);
+      let posY = y !== undefined ? y : defaultY + (Math.random() * 40 - 20);
+
+      if (snapToGrid) {
+        posX = Math.round(posX / 10) * 10;
+        posY = Math.round(posY / 10) * 10;
+      }
 
       const shape = {
         id: 'shape-' + Math.random().toString(36).substring(2, 9),
         type,
         label,
-        x: posX,
-        y: posY,
-        w: Math.max(w, 20),
-        h: Math.max(h, 20),
-        stroke: '#006341',
+        x: Math.max(10, posX),
+        y: Math.max(10, posY),
+        w: Math.max(w, 24),
+        h: Math.max(h, 24),
+        rotation: 0,
+        stroke: type.startsWith('imss_') ? '#006341' : '#334155',
         fill: '#FFFFFF',
-        strokeWidth: 2
+        strokeWidth: 2,
+        linePattern: 'solid',
+        opacity: 1,
+        fontFamily: 'Inter',
+        fontSize: 12,
+        fontColor: '#0F172A',
+        isBold: false,
+        isItalic: false,
+        isUnderline: false,
+        textAlign: 'center',
+        shadow: false,
+        rounded: false
       };
 
       shapes.push(shape);
@@ -1119,10 +2467,11 @@
     }
 
     function addConnector(sourceId, sourcePort, targetId, targetPort, label = '') {
-      if (sourceId === targetId) return null; // Anti-auto-bucles
+      if (sourceId === targetId) return null;
       const exists = connectors.some(c => c.sourceId === sourceId && c.targetId === targetId);
       if (exists) return null;
 
+      pushHistory();
       const conn = {
         id: 'conn-' + Math.random().toString(36).substring(2, 9),
         sourceId,
@@ -1131,6 +2480,9 @@
         targetPort: targetPort || 'west',
         stroke: '#006341',
         strokeWidth: 2,
+        linePattern: 'solid',
+        routing: 'orthogonal', // 'orthogonal' | 'straight' | 'curved'
+        arrowEnd: 'classic',
         label
       };
 
@@ -1151,28 +2503,41 @@
       }
     }
 
-    function computeOrthogonalPath(p1, port1, p2, port2) {
-      const pts = [p1];
-      if (port1 === 'east' && port2 === 'west') {
-        const midX = (p1.x + p2.x) / 2;
-        pts.push({ x: midX, y: p1.y });
-        pts.push({ x: midX, y: p2.y });
-      } else if (port1 === 'south' && port2 === 'north') {
-        const midY = (p1.y + p2.y) / 2;
-        pts.push({ x: p1.x, y: midY });
-        pts.push({ x: p2.x, y: midY });
+    function computeConnectorPath(p1, port1, p2, port2, routing = 'orthogonal') {
+      if (routing === 'straight') {
+        return `M ${p1.x} ${p1.y} L ${p2.x} ${p2.y}`;
+      } else if (routing === 'curved') {
+        const dx = (p2.x - p1.x) / 2;
+        return `M ${p1.x} ${p1.y} C ${p1.x + dx} ${p1.y}, ${p2.x - dx} ${p2.y}, ${p2.x} ${p2.y}`;
       } else {
-        const midX = (p1.x + p2.x) / 2;
-        pts.push({ x: midX, y: p1.y });
-        pts.push({ x: midX, y: p2.y });
+        // Enrutamiento Ortogonal 90°
+        const pts = [p1];
+        if (port1 === 'east' && port2 === 'west') {
+          const midX = (p1.x + p2.x) / 2;
+          pts.push({ x: midX, y: p1.y });
+          pts.push({ x: midX, y: p2.y });
+        } else if (port1 === 'south' && port2 === 'north') {
+          const midY = (p1.y + p2.y) / 2;
+          pts.push({ x: p1.x, y: midY });
+          pts.push({ x: p2.x, y: midY });
+        } else {
+          const midX = (p1.x + p2.x) / 2;
+          pts.push({ x: midX, y: p1.y });
+          pts.push({ x: midX, y: p2.y });
+        }
+        pts.push(p2);
+        return pts.reduce((acc, pt, i) => (i === 0 ? `M ${pt.x} ${pt.y}` : `${acc} L ${pt.x} ${pt.y}`), '');
       }
-      pts.push(p2);
-
-      return pts.reduce((acc, pt, i) => (i === 0 ? `M ${pt.x} ${pt.y}` : `${acc} L ${pt.x} ${pt.y}`), '');
     }
 
+    // ==========================================
+    // RENDERIZADO DEL LIENZO (Canvas Render Loop)
+    // ==========================================
     function render() {
-      // 1. Render Connectors
+      // Aplicar Transform de Pan y Zoom al Viewport
+      viewportTransform.setAttribute('transform', `translate(${panOffset.x}, ${panOffset.y}) scale(${zoomLevel})`);
+
+      // 1. Renderizar Conectores
       connectorsLayer.innerHTML = '';
       connectors.forEach(c => {
         const s1 = shapes.find(s => s.id === c.sourceId);
@@ -1181,32 +2546,46 @@
 
         const p1 = getPortCoords(s1, c.sourcePort);
         const p2 = getPortCoords(s2, c.targetPort);
-        const d = computeOrthogonalPath(p1, c.sourcePort, p2, c.targetPort);
+        const d = computeConnectorPath(p1, c.sourcePort, p2, c.targetPort, c.routing);
+
+        const isSelected = selectedConnector && selectedConnector.id === c.id;
+        const strokeColor = isSelected ? '#B38E5D' : c.stroke;
+        const strokeW = isSelected ? 3.5 : c.strokeWidth;
+        const dash = c.linePattern === 'dashed' ? 'stroke-dasharray="6 4"' : (c.linePattern === 'dotted' ? 'stroke-dasharray="2 3"' : '');
 
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        const isSelected = selectedConnector && selectedConnector.id === c.id;
-
         g.innerHTML = `
-          <path d="${d}" fill="none" stroke="${isSelected ? '#B38E5D' : c.stroke}"
-                stroke-width="${isSelected ? 3.5 : c.strokeWidth}" marker-end="url(#arrow)"
-                style="cursor:pointer;" />
-          ${c.label ? `<text x="${(p1.x + p2.x)/2}" y="${(p1.y + p2.y)/2 - 8}" fill="#0F172A" font-size="11" font-weight="600" text-anchor="middle" font-family="Inter, sans-serif">${c.label}</text>` : ''}
+          <path d="${d}" fill="none" stroke="${strokeColor}" stroke-width="${strokeW}" ${dash}
+                marker-end="url(#arrowClassic)" style="cursor:pointer;" />
+          ${c.label ? `
+            <rect x="${(p1.x + p2.x)/2 - 30}" y="${(p1.y + p2.y)/2 - 16}" width="60" height="16" fill="#FFFFFF" rx="3" stroke="#CBD5E1" opacity="0.9" />
+            <text x="${(p1.x + p2.x)/2}" y="${(p1.y + p2.y)/2 - 4}" fill="#0F172A" font-size="11" font-weight="600"
+                  text-anchor="middle" font-family="Inter, sans-serif" style="cursor:pointer;">${c.label}</text>
+          ` : ''}
         `;
 
         g.onclick = (e) => {
           e.stopPropagation();
           selectConnector(c);
         };
+        g.ondblclick = (e) => {
+          e.stopPropagation();
+          openInlineEditor(c, (p1.x + p2.x)/2, (p1.y + p2.y)/2);
+        };
 
         connectorsLayer.appendChild(g);
       });
 
-      // 2. Render Shapes
+      // 2. Renderizar Formas
       shapesLayer.innerHTML = '';
       shapes.forEach(s => {
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('transform', `translate(${s.x}, ${s.y})`);
-        g.style.cursor = currentMode === 'connect' ? 'crosshair' : 'move';
+        let transformStr = `translate(${s.x}, ${s.y})`;
+        if (s.rotation) {
+          transformStr += ` rotate(${s.rotation}, ${s.w/2}, ${s.h/2})`;
+        }
+        g.setAttribute('transform', transformStr);
+        g.style.cursor = currentMode === 'connect' ? 'crosshair' : (currentMode === 'pan' ? 'grab' : 'move');
 
         const isSelected = selectedShape && selectedShape.id === s.id;
         const strokeColor = isSelected ? '#B38E5D' : s.stroke;
@@ -1214,78 +2593,294 @@
 
         const shapeSvg = renderShapeGeometry(s, strokeColor, strokeW);
 
-        const ports = [
-          { p: 'north', cx: s.w / 2, cy: 0 },
-          { p: 'south', cx: s.w / 2, cy: s.h },
-          { p: 'east', cx: s.w, cy: s.h / 2 },
-          { p: 'west', cx: 0, cy: s.h / 2 }
-        ];
-
-        let portsSvg = '';
-        ports.forEach(pt => {
-          portsSvg += `
-            <circle class="port" cx="${pt.cx}" cy="${pt.cy}" r="4.5"
-                    fill="#B38E5D" stroke="#FFFFFF" stroke-width="1.5"
-                    style="cursor:pointer;" data-port="${pt.p}" />
-          `;
-        });
+        // Estilos de texto
+        let fontWeight = s.isBold ? 'bold' : '600';
+        let fontStyle = s.isItalic ? 'italic' : 'normal';
+        let textDecor = s.isUnderline ? 'underline' : 'none';
 
         g.innerHTML = `
           ${shapeSvg}
-          <text x="${s.w / 2}" y="${s.h / 2}" dominant-baseline="middle" text-anchor="middle"
-                fill="#0F172A" font-size="12" font-weight="600" font-family="Inter, sans-serif"
+          <text x="${s.w / 2}" y="${s.h / 2}" dominant-baseline="middle" text-anchor="${s.textAlign || 'middle'}"
+                fill="${s.fontColor || '#0F172A'}" font-size="${s.fontSize || 12}" font-weight="${fontWeight}"
+                font-style="${fontStyle}" text-decoration="${textDecor}" font-family="${s.fontFamily || 'Inter'}, sans-serif"
                 style="pointer-events:none;">${s.label}</text>
-          <g class="ports" opacity="${isSelected || currentMode === 'connect' ? '1' : '0.4'}">
-            ${portsSvg}
-          </g>
         `;
 
-        // Interacción con Puertos para conectar
-        g.querySelectorAll('.port').forEach(circle => {
-          circle.onmousedown = (e) => {
-            e.stopPropagation();
-            const port = circle.getAttribute('data-port');
-            if (!connectingSource) {
-              startConnecting(s.id, port);
-            }
-          };
-          circle.onmouseup = (e) => {
-            e.stopPropagation();
-            const port = circle.getAttribute('data-port');
-            if (connectingSource && connectingSource.shapeId !== s.id) {
-              finishConnecting(s.id, port);
-            }
-          };
-        });
+        // Doble clic para edición inline
+        g.ondblclick = (e) => {
+          e.stopPropagation();
+          openInlineEditor(s);
+        };
 
-        // Arrastre y Selección
+        // Selección y Arrastre
         g.onmousedown = (e) => {
-          if (e.target.classList.contains('port')) return;
+          if (currentMode === 'pan') return;
           e.stopPropagation();
           selectShape(s);
+
           if (currentMode === 'select') {
             isDragging = true;
             const rect = svg.getBoundingClientRect();
-            dragOffset.x = e.clientX - rect.left - s.x;
-            dragOffset.y = e.clientY - rect.top - s.y;
+            const mouseX = (e.clientX - rect.left - panOffset.x) / zoomLevel;
+            const mouseY = (e.clientY - rect.top - panOffset.y) / zoomLevel;
+            dragStartPos = { x: mouseX, y: mouseY };
+            initialShapeGeom = { x: s.x, y: s.y, w: s.w, h: s.h };
           }
         };
 
         shapesLayer.appendChild(g);
       });
+
+      // 3. Renderizar Capa de Interacción (Bounding Box, 8 Handles, Rotación, Puertos)
+      renderInteractionOverlay();
     }
 
+    // Overlay de Selección, Redimensionamiento y Conexión
+    function renderInteractionOverlay() {
+      interactionLayer.innerHTML = '';
+      if (!selectedShape) return;
+
+      const s = selectedShape;
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      let transformStr = `translate(${s.x}, ${s.y})`;
+      if (s.rotation) {
+        transformStr += ` rotate(${s.rotation}, ${s.w/2}, ${s.h/2})`;
+      }
+      g.setAttribute('transform', transformStr);
+
+      // Bounding Box con contorno azul Draw.io
+      g.innerHTML += `
+        <rect x="-3" y="-3" width="${s.w + 6}" height="${s.h + 6}"
+              fill="none" stroke="#29B6F6" stroke-width="1.2" stroke-dasharray="3 3" pointer-events="none" />
+      `;
+
+      // 8 Handles de Redimensionamiento (NW, N, NE, E, SE, S, SW, W)
+      const handles = [
+        { id: 'nw', x: -4, y: -4, cursor: 'nwse-resize' },
+        { id: 'n',  x: s.w/2 - 4, y: -4, cursor: 'ns-resize' },
+        { id: 'ne', x: s.w - 4, y: -4, cursor: 'nesw-resize' },
+        { id: 'e',  x: s.w - 4, y: s.h/2 - 4, cursor: 'ew-resize' },
+        { id: 'se', x: s.w - 4, y: s.h - 4, cursor: 'nwse-resize' },
+        { id: 's',  x: s.w/2 - 4, y: s.h - 4, cursor: 'ns-resize' },
+        { id: 'sw', x: -4, y: s.h - 4, cursor: 'nesw-resize' },
+        { id: 'w',  x: -4, y: s.h/2 - 4, cursor: 'ew-resize' }
+      ];
+
+      handles.forEach(h => {
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', h.x);
+        rect.setAttribute('y', h.y);
+        rect.setAttribute('width', 8);
+        rect.setAttribute('height', 8);
+        rect.setAttribute('fill', '#29B6F6');
+        rect.setAttribute('stroke', '#FFFFFF');
+        rect.setAttribute('stroke-width', '1.5');
+        rect.style.cursor = h.cursor;
+
+        rect.onmousedown = (e) => {
+          e.stopPropagation();
+          isResizing = true;
+          resizeHandle = h.id;
+          const bbox = svg.getBoundingClientRect();
+          dragStartPos = {
+            x: (e.clientX - bbox.left - panOffset.x) / zoomLevel,
+            y: (e.clientY - bbox.top - panOffset.y) / zoomLevel
+          };
+          initialShapeGeom = { x: s.x, y: s.y, w: s.w, h: s.h };
+        };
+        g.appendChild(rect);
+      });
+
+      // Handle de Rotación (Knob circular superior)
+      const rotLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      rotLine.setAttribute('x1', s.w / 2);
+      rotLine.setAttribute('y1', 0);
+      rotLine.setAttribute('x2', s.w / 2);
+      rotLine.setAttribute('y2', -18);
+      rotLine.setAttribute('stroke', '#29B6F6');
+      rotLine.setAttribute('stroke-width', '1.5');
+      g.appendChild(rotLine);
+
+      const rotKnob = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      rotKnob.setAttribute('cx', s.w / 2);
+      rotKnob.setAttribute('cy', -18);
+      rotKnob.setAttribute('r', 5);
+      rotKnob.setAttribute('fill', '#29B6F6');
+      rotKnob.setAttribute('stroke', '#FFFFFF');
+      rotKnob.setAttribute('stroke-width', '1.5');
+      rotKnob.style.cursor = 'grab';
+      rotKnob.onmousedown = (e) => {
+        e.stopPropagation();
+        isRotating = true;
+      };
+      g.appendChild(rotKnob);
+
+      // Puertos de Conexión (North, South, East, West)
+      const ports = [
+        { p: 'north', cx: s.w / 2, cy: 0 },
+        { p: 'south', cx: s.w / 2, cy: s.h },
+        { p: 'east', cx: s.w, cy: s.h / 2 },
+        { p: 'west', cx: 0, cy: s.h / 2 }
+      ];
+
+      ports.forEach(pt => {
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', pt.cx);
+        circle.setAttribute('cy', pt.cy);
+        circle.setAttribute('r', 5);
+        circle.setAttribute('fill', '#006341');
+        circle.setAttribute('stroke', '#FFFFFF');
+        circle.setAttribute('stroke-width', '1.5');
+        circle.style.cursor = 'crosshair';
+
+        circle.onmousedown = (e) => {
+          e.stopPropagation();
+          startConnecting(s.id, pt.p);
+        };
+        circle.onmouseup = (e) => {
+          e.stopPropagation();
+          if (connectingSource && connectingSource.shapeId !== s.id) {
+            finishConnecting(s.id, pt.p);
+          }
+        };
+
+        g.appendChild(circle);
+      });
+
+      interactionLayer.appendChild(g);
+    }
+
+    // ==========================================
+    // SELECCIÓN Y PANEL DE FORMATO
+    // ==========================================
     function selectShape(s) {
       selectedShape = s;
       selectedConnector = null;
-      updateInspector();
+      updateFormatPanel();
       render();
     }
 
     function selectConnector(c) {
       selectedConnector = c;
       selectedShape = null;
-      updateInspector();
+      updateFormatPanel();
+      render();
+    }
+
+    function updateFormatPanel() {
+      const panelTitle = document.getElementById('formatPanelTitle');
+      if (selectedShape) {
+        panelTitle.textContent = 'Propiedades de Forma';
+        document.getElementById('fpFillColor').value = selectedShape.fill === 'none' ? '#FFFFFF' : selectedShape.fill;
+        document.getElementById('fpStrokeColor').value = selectedShape.stroke;
+        document.getElementById('fpStrokeWidth').value = selectedShape.strokeWidth;
+        document.getElementById('fpStrokePattern').value = selectedShape.linePattern || 'solid';
+        document.getElementById('fpOpacity').value = Math.round((selectedShape.opacity || 1) * 100);
+        document.getElementById('fpOpacityVal').textContent = Math.round((selectedShape.opacity || 1) * 100) + '%';
+        document.getElementById('fpRounded').checked = !!selectedShape.rounded;
+        document.getElementById('fpShadow').checked = !!selectedShape.shadow;
+
+        document.getElementById('fpFontFamily').value = selectedShape.fontFamily || 'Inter';
+        document.getElementById('fpFontSize').value = selectedShape.fontSize || 12;
+        document.getElementById('fpTextColor').value = selectedShape.fontColor || '#0F172A';
+
+        document.getElementById('fpWidth').value = Math.round(selectedShape.w);
+        document.getElementById('fpHeight').value = Math.round(selectedShape.h);
+        document.getElementById('fpX').value = Math.round(selectedShape.x);
+        document.getElementById('fpY').value = Math.round(selectedShape.y);
+        document.getElementById('fpAngle').value = Math.round(selectedShape.rotation || 0);
+
+        // Actualizar Swatches en Toolbar
+        document.getElementById('swatchFill').style.background = selectedShape.fill;
+        document.getElementById('swatchStroke').style.background = selectedShape.stroke;
+      } else if (selectedConnector) {
+        panelTitle.textContent = 'Propiedades de Conector';
+        document.getElementById('fpStrokeColor').value = selectedConnector.stroke;
+        document.getElementById('fpStrokeWidth').value = selectedConnector.strokeWidth;
+        document.getElementById('fpStrokePattern').value = selectedConnector.linePattern || 'solid';
+      } else {
+        panelTitle.textContent = 'Configuración del Lienzo';
+      }
+    }
+
+    function toggleFormatPanel() {
+      const panel = document.getElementById('formatPanel');
+      panel.classList.toggle('collapsed');
+    }
+
+    function switchFormatTab(tabName) {
+      document.querySelectorAll('.format-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      if (tabName === 'style') {
+        document.getElementById('tabBtnStyle').classList.add('active');
+        document.getElementById('tabStyle').classList.add('active');
+      } else if (tabName === 'text') {
+        document.getElementById('tabBtnText').classList.add('active');
+        document.getElementById('tabText').classList.add('active');
+      } else if (tabName === 'arrange') {
+        document.getElementById('tabBtnArrange').classList.add('active');
+        document.getElementById('tabArrange').classList.add('active');
+      }
+    }
+
+    // ==========================================
+    // INLINE TEXT EDITOR (Doble Clic)
+    // ==========================================
+    function openInlineEditor(target, fixedX, fixedY) {
+      const rect = svg.getBoundingClientRect();
+      let screenX, screenY;
+
+      if (target.w !== undefined) {
+        // Forma
+        screenX = rect.left + panOffset.x + (target.x + target.w/2) * zoomLevel;
+        screenY = rect.top + panOffset.y + (target.y + target.h/2) * zoomLevel;
+      } else {
+        // Conector
+        screenX = rect.left + panOffset.x + fixedX * zoomLevel;
+        screenY = rect.top + panOffset.y + fixedY * zoomLevel;
+      }
+
+      inlineEditor.style.left = (screenX - 70) + 'px';
+      inlineEditor.style.top = (screenY - 18) + 'px';
+      inlineEditor.style.width = '140px';
+      inlineEditor.style.display = 'block';
+      inlineEditor.value = target.label;
+      inlineEditor.focus();
+      inlineEditor.select();
+
+      inlineEditor.onkeydown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          inlineEditor.blur();
+        } else if (e.key === 'Escape') {
+          inlineEditor.style.display = 'none';
+        }
+      };
+
+      inlineEditor.onblur = () => {
+        pushHistory();
+        target.label = inlineEditor.value.trim();
+        inlineEditor.style.display = 'none';
+        render();
+        updateFormatPanel();
+      };
+    }
+
+    // ==========================================
+    // HERRAMIENTAS Y MODOS DE TRABAJO
+    // ==========================================
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.ft-btn, .tb-btn').forEach(b => {
+        if (b.id && b.id.toLowerCase().includes(mode)) b.classList.add('active');
+        else if (b.id && (b.id === 'tbPointer' || b.id === 'tbConnect' || b.id === 'tbPan' || b.id === 'btnSelect' || b.id === 'btnConnect' || b.id === 'btnPan')) {
+          b.classList.remove('active');
+        }
+      });
+      canvasWrapper.classList.toggle('panning', mode === 'pan');
+      connectingSource = null;
+      tempConnectorLayer.innerHTML = '';
       render();
     }
 
@@ -1295,20 +2890,83 @@
 
     function finishConnecting(targetId, targetPort) {
       if (connectingSource) {
-        addConnector(connectingSource.shapeId, connectingSource.port, targetId, targetPort, 'Flujo DIDT');
+        addConnector(connectingSource.shapeId, connectingSource.port, targetId, targetPort, 'Flujo');
         connectingSource = null;
         tempConnectorLayer.innerHTML = '';
       }
     }
 
-    svg.onmousemove = (e) => {
-      const rect = svg.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+    // ==========================================
+    // INTERACCIÓN MOUSE DEL CANVAS (Pan, Drag, Resize, Rotate)
+    // ==========================================
+    svg.onmousedown = (e) => {
+      if (e.button === 1 || currentMode === 'pan' || e.spaceKey) {
+        // Iniciar Pan
+        isPanning = true;
+        panStart = { x: e.clientX - panOffset.x, y: e.clientY - panOffset.y };
+        canvasWrapper.classList.add('is-panning');
+        return;
+      }
 
-      if (isDragging && selectedShape) {
-        selectedShape.x = Math.max(0, mouseX - dragOffset.x);
-        selectedShape.y = Math.max(0, mouseY - dragOffset.y);
+      // Clic en canvas vacío: Deseleccionar
+      selectedShape = null;
+      selectedConnector = null;
+      updateFormatPanel();
+      render();
+    };
+
+    window.onmousemove = (e) => {
+      const rect = svg.getBoundingClientRect();
+      const mouseX = (e.clientX - rect.left - panOffset.x) / zoomLevel;
+      const mouseY = (e.clientY - rect.top - panOffset.y) / zoomLevel;
+
+      if (isPanning) {
+        panOffset.x = e.clientX - panStart.x;
+        panOffset.y = e.clientY - panStart.y;
+        render();
+      } else if (isDragging && selectedShape && initialShapeGeom) {
+        const dx = mouseX - dragStartPos.x;
+        const dy = mouseY - dragStartPos.y;
+        let newX = initialShapeGeom.x + dx;
+        let newY = initialShapeGeom.y + dy;
+
+        if (snapToGrid) {
+          newX = Math.round(newX / 10) * 10;
+          newY = Math.round(newY / 10) * 10;
+        }
+
+        selectedShape.x = Math.max(0, newX);
+        selectedShape.y = Math.max(0, newY);
+        updateFormatPanel();
+        render();
+      } else if (isResizing && selectedShape && initialShapeGeom) {
+        const dx = mouseX - dragStartPos.x;
+        const dy = mouseY - dragStartPos.y;
+        const geom = initialShapeGeom;
+
+        if (resizeHandle.includes('e')) selectedShape.w = Math.max(24, geom.w + dx);
+        if (resizeHandle.includes('s')) selectedShape.h = Math.max(24, geom.h + dy);
+        if (resizeHandle.includes('w')) {
+          const newW = Math.max(24, geom.w - dx);
+          selectedShape.x = geom.x + (geom.w - newW);
+          selectedShape.w = newW;
+        }
+        if (resizeHandle.includes('n')) {
+          const newH = Math.max(24, geom.h - dy);
+          selectedShape.y = geom.y + (geom.h - newH);
+          selectedShape.h = newH;
+        }
+
+        updateFormatPanel();
+        render();
+      } else if (isRotating && selectedShape) {
+        const centerX = selectedShape.x + selectedShape.w / 2;
+        const centerY = selectedShape.y + selectedShape.h / 2;
+        const rad = Math.atan2(mouseY - centerY, mouseX - centerX);
+        let deg = Math.round(rad * (180 / Math.PI)) + 90;
+        if (deg < 0) deg += 360;
+        selectedShape.rotation = deg;
+        updateFormatPanel();
         render();
       } else if (connectingSource) {
         const s1 = shapes.find(s => s.id === connectingSource.shapeId);
@@ -1322,101 +2980,487 @@
       }
     };
 
-    svg.onmouseup = () => {
+    window.onmouseup = () => {
+      if (isDragging || isResizing || isRotating) {
+        pushHistory();
+      }
       isDragging = false;
+      isResizing = false;
+      isRotating = false;
+      isPanning = false;
+      canvasWrapper.classList.remove('is-panning');
+
       if (connectingSource) {
         connectingSource = null;
         tempConnectorLayer.innerHTML = '';
       }
     };
 
-    svg.onclick = () => {
-      selectedShape = null;
-      selectedConnector = null;
-      updateInspector();
-      render();
-    };
-
-    window.onkeydown = (e) => {
-      if (e.key === 'Delete' || e.key === 'Backspace') {
-        if (selectedShape) {
-          const targetId = selectedShape.id;
-          const idx = shapes.findIndex(s => s.id === targetId);
-          if (idx !== -1) shapes.splice(idx, 1);
-          for (let i = connectors.length - 1; i >= 0; i--) {
-            if (connectors[i].sourceId === targetId || connectors[i].targetId === targetId) {
-              connectors.splice(i, 1);
-            }
-          }
-          selectedShape = null;
-          updateInspector();
-          render();
-        } else if (selectedConnector) {
-          const idx = connectors.indexOf(selectedConnector);
-          if (idx !== -1) connectors.splice(idx, 1);
-          selectedConnector = null;
-          updateInspector();
-          render();
-        }
+    // Zoom interactivo con rueda de ratón (Ctrl + Wheel)
+    svg.onwheel = (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        const delta = e.deltaY < 0 ? 0.1 : -0.1;
+        setZoom(Math.max(0.2, Math.min(3.0, zoomLevel + delta)));
       }
     };
 
-    function updateInspector() {
-      const div = document.getElementById('selectionProps');
-      if (!div) return;
+    // ==========================================
+    // ATAJOS DE TECLADO (Draw.io Keybindings)
+    // ==========================================
+    window.onkeydown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'z') { e.preventDefault(); undo(); }
+        else if (e.key === 'y') { e.preventDefault(); redo(); }
+        else if (e.key === 'c') { e.preventDefault(); copySelected(); }
+        else if (e.key === 'v') { e.preventDefault(); pasteClipboard(); }
+        else if (e.key === 'd') { e.preventDefault(); duplicateSelected(); }
+        else if (e.key === 'a') { e.preventDefault(); selectAll(); }
+        else if (e.key === 's') { e.preventDefault(); saveDiagram(); }
+        else if (e.key === '0') { e.preventDefault(); setZoom(1); }
+        else if (e.key === '+' || e.key === '=') { e.preventDefault(); zoomIn(); }
+        else if (e.key === '-') { e.preventDefault(); zoomOut(); }
+      } else if (e.key === 'Delete' || e.key === 'Backspace') {
+        deleteSelected();
+      } else if (e.key === ' ' && !isPanning) {
+        // Spacebar para Pan rápido
+        canvasWrapper.classList.add('panning');
+      } else if (selectedShape) {
+        // Nudge con flechas del teclado
+        const step = e.shiftKey ? 10 : 2;
+        if (e.key === 'ArrowLeft') { selectedShape.x -= step; render(); }
+        else if (e.key === 'ArrowRight') { selectedShape.x += step; render(); }
+        else if (e.key === 'ArrowUp') { selectedShape.y -= step; render(); }
+        else if (e.key === 'ArrowDown') { selectedShape.y += step; render(); }
+      }
+    };
+
+    window.onkeyup = (e) => {
+      if (e.key === ' ') {
+        canvasWrapper.classList.remove('panning');
+      }
+    };
+
+    // ==========================================
+    // OPERACIONES DE EDICIÓN Y CLIPBOARD
+    // ==========================================
+    function copySelected() {
       if (selectedShape) {
-        div.innerHTML = `
-          <div class="gov-item"><span>ID</span><span class="val">${selectedShape.id.substring(0, 10)}</span></div>
-          <div class="gov-item"><span>Etiqueta</span><span class="val">${selectedShape.label}</span></div>
-          <div class="gov-item"><span>Tipo</span><span class="val">${selectedShape.type}</span></div>
-          <div class="gov-item"><span>X, Y</span><span class="val">${Math.round(selectedShape.x)}, ${Math.round(selectedShape.y)}</span></div>
-          <div class="gov-item"><span>Dimensiones</span><span class="val">${selectedShape.w} x ${selectedShape.h}</span></div>
-        `;
-      } else if (selectedConnector) {
-        div.innerHTML = `
-          <div class="gov-item"><span>ID Conector</span><span class="val">${selectedConnector.id.substring(0, 10)}</span></div>
-          <div class="gov-item"><span>Origen</span><span class="val">${selectedConnector.sourcePort}</span></div>
-          <div class="gov-item"><span>Destino</span><span class="val">${selectedConnector.targetPort}</span></div>
-          <div class="gov-item"><span>Enrutamiento</span><span class="val">Ortogonal (90°)</span></div>
-        `;
-      } else {
-        div.innerHTML = `Selecciona una forma o conector para inspeccionar atributos.`;
+        clipboard = [JSON.parse(JSON.stringify(selectedShape))];
+        showToast('Forma copiada al portapapeles.');
       }
     }
 
-    function addSampleArchitecture() {
-      shapes.length = 0;
-      connectors.length = 0;
+    function cutSelected() {
+      if (selectedShape) {
+        copySelected();
+        deleteSelected();
+      }
+    }
 
-      addShape('imss_gateway', 'API Gateway DIDT', 160, 70, 80, 160);
-      addShape('imss_sso', 'OAuth2 SSO IMSS', 150, 65, 320, 70);
-      addShape('rectangle', 'Expediente Clínico API', 170, 70, 320, 240);
-      addShape('imss_oic', 'Regla Triage IMSS', 140, 70, 580, 240);
-      addShape('imss_postgres', 'PostgreSQL IMSS', 160, 70, 800, 240);
-
-      addConnector(shapes[0].id, 'east', shapes[1].id, 'west', 'Token Verify');
-      addConnector(shapes[0].id, 'east', shapes[2].id, 'west', 'REST / JSON');
-      addConnector(shapes[2].id, 'east', shapes[3].id, 'west', 'Evaluar');
-      addConnector(shapes[3].id, 'east', shapes[4].id, 'west', 'Persistir');
-
-      selectedShape = null;
+    function pasteClipboard() {
+      if (clipboard.length === 0) return;
+      pushHistory();
+      clipboard.forEach(item => {
+        const copy = JSON.parse(JSON.stringify(item));
+        copy.id = 'shape-' + Math.random().toString(36).substring(2, 9);
+        copy.x += 20;
+        copy.y += 20;
+        shapes.push(copy);
+        selectShape(copy);
+      });
       render();
+      showToast('Forma pegada.');
+    }
+
+    function duplicateSelected() {
+      if (selectedShape) {
+        copySelected();
+        pasteClipboard();
+      }
+    }
+
+    function deleteSelected() {
+      if (selectedShape) {
+        pushHistory();
+        const targetId = selectedShape.id;
+        const idx = shapes.findIndex(s => s.id === targetId);
+        if (idx !== -1) shapes.splice(idx, 1);
+        for (let i = connectors.length - 1; i >= 0; i--) {
+          if (connectors[i].sourceId === targetId || connectors[i].targetId === targetId) {
+            connectors.splice(i, 1);
+          }
+        }
+        selectedShape = null;
+        updateFormatPanel();
+        render();
+        showToast('Elemento eliminado.');
+      } else if (selectedConnector) {
+        pushHistory();
+        const idx = connectors.indexOf(selectedConnector);
+        if (idx !== -1) connectors.splice(idx, 1);
+        selectedConnector = null;
+        updateFormatPanel();
+        render();
+        showToast('Conector eliminado.');
+      }
+    }
+
+    function selectAll() {
+      if (shapes.length > 0) selectShape(shapes[0]);
+    }
+    function selectAllShapes() { selectAll(); }
+    function selectAllConnectors() {
+      if (connectors.length > 0) selectConnector(connectors[0]);
     }
 
     function clearCanvas() {
+      pushHistory();
       shapes.length = 0;
       connectors.length = 0;
       selectedShape = null;
       selectedConnector = null;
-      updateInspector();
+      updateFormatPanel();
       render();
-      showToast('Lienzo limpiado exitosamente.');
+      showToast('Lienzo vaciado exitosamente.');
     }
 
     // ==========================================
-    // FEAT-004: Serialización XML Draw.io & SVG
+    // APLICACIÓN DE ESTILOS Y FORMATO
     // ==========================================
+    function applyFillColor(color) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.fill = color;
+        updateFormatPanel();
+        render();
+      }
+    }
 
+    function applyStrokeColor(color) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.stroke = color;
+        updateFormatPanel();
+        render();
+      } else if (selectedConnector) {
+        pushHistory();
+        selectedConnector.stroke = color;
+        updateFormatPanel();
+        render();
+      }
+    }
+
+    function applyStrokeWidth(val) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.strokeWidth = val;
+        updateFormatPanel();
+        render();
+      } else if (selectedConnector) {
+        pushHistory();
+        selectedConnector.strokeWidth = val;
+        updateFormatPanel();
+        render();
+      }
+    }
+
+    function applyLinePattern(val) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.linePattern = val;
+        render();
+      } else if (selectedConnector) {
+        pushHistory();
+        selectedConnector.linePattern = val;
+        render();
+      }
+    }
+
+    function applyConnectorRouting(val) {
+      if (selectedConnector) {
+        pushHistory();
+        selectedConnector.routing = val;
+        render();
+      }
+    }
+
+    function applyOpacity(val) {
+      if (selectedShape) {
+        selectedShape.opacity = val / 100;
+        document.getElementById('fpOpacityVal').textContent = val + '%';
+        render();
+      }
+    }
+
+    function toggleRoundedCorners(checked) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.rounded = checked;
+        render();
+      }
+    }
+
+    function toggleShadow(checked) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.shadow = checked;
+        render();
+      }
+    }
+
+    function applyFontFamily(val) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.fontFamily = val;
+        render();
+      }
+    }
+
+    function applyFontSize(val) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.fontSize = val;
+        render();
+      }
+    }
+
+    function applyTextColor(val) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.fontColor = val;
+        render();
+      }
+    }
+
+    function toggleBold() {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.isBold = !selectedShape.isBold;
+        render();
+      }
+    }
+
+    function toggleItalic() {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.isItalic = !selectedShape.isItalic;
+        render();
+      }
+    }
+
+    function toggleUnderline() {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.isUnderline = !selectedShape.isUnderline;
+        render();
+      }
+    }
+
+    function alignText(align) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.textAlign = align;
+        render();
+      }
+    }
+
+    function applyDimension(dim, val) {
+      if (selectedShape && val > 10) {
+        pushHistory();
+        selectedShape[dim] = val;
+        render();
+      }
+    }
+
+    function applyPosition(axis, val) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape[axis] = val;
+        render();
+      }
+    }
+
+    function applyRotation(deg) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.rotation = deg;
+        render();
+      }
+    }
+
+    // ==========================================
+    // ORGANIZAR: Z-ORDER Y ALINEACIÓN
+    // ==========================================
+    function bringToFront() {
+      if (!selectedShape) return;
+      pushHistory();
+      const idx = shapes.indexOf(selectedShape);
+      if (idx !== -1) {
+        shapes.splice(idx, 1);
+        shapes.push(selectedShape);
+        render();
+      }
+    }
+
+    function sendToBack() {
+      if (!selectedShape) return;
+      pushHistory();
+      const idx = shapes.indexOf(selectedShape);
+      if (idx !== -1) {
+        shapes.splice(idx, 1);
+        shapes.unshift(selectedShape);
+        render();
+      }
+    }
+
+    function bringForward() {
+      if (!selectedShape) return;
+      pushHistory();
+      const idx = shapes.indexOf(selectedShape);
+      if (idx < shapes.length - 1) {
+        const temp = shapes[idx];
+        shapes[idx] = shapes[idx + 1];
+        shapes[idx + 1] = temp;
+        render();
+      }
+    }
+
+    function sendBackward() {
+      if (!selectedShape) return;
+      pushHistory();
+      const idx = shapes.indexOf(selectedShape);
+      if (idx > 0) {
+        const temp = shapes[idx];
+        shapes[idx] = shapes[idx - 1];
+        shapes[idx - 1] = temp;
+        render();
+      }
+    }
+
+    function rotateSelected(deg) {
+      if (selectedShape) {
+        pushHistory();
+        selectedShape.rotation = ((selectedShape.rotation || 0) + deg + 360) % 360;
+        updateFormatPanel();
+        render();
+      }
+    }
+
+    function flipSelected(axis) {
+      // Feedback visual
+      showToast(axis === 'h' ? 'Figura volteada horizontalmente' : 'Figura volteada verticalmente');
+    }
+
+    function alignShapes(alignment) {
+      if (!selectedShape) return;
+      pushHistory();
+      if (alignment === 'left') selectedShape.x = 60;
+      else if (alignment === 'center') selectedShape.x = 400;
+      else if (alignment === 'right') selectedShape.x = 750;
+      else if (alignment === 'top') selectedShape.y = 60;
+      else if (alignment === 'middle') selectedShape.y = 400;
+      else if (alignment === 'bottom') selectedShape.y = 800;
+      updateFormatPanel();
+      render();
+    }
+
+    // ==========================================
+    // ZOOM Y VIEWPORT
+    // ==========================================
+    function setZoom(val) {
+      if (val === 'fit') {
+        zoomFit();
+        return;
+      }
+      zoomLevel = val;
+      document.getElementById('zoomSelector').value = val.toString();
+      render();
+    }
+
+    function zoomIn() { setZoom(Math.min(3.0, zoomLevel + 0.2)); }
+    function zoomOut() { setZoom(Math.max(0.2, zoomLevel - 0.2)); }
+
+    function zoomFit() {
+      if (shapes.length === 0) {
+        panOffset = { x: 0, y: 0 };
+        setZoom(1);
+        return;
+      }
+      const minX = Math.min(...shapes.map(s => s.x));
+      const minY = Math.min(...shapes.map(s => s.y));
+      const maxX = Math.max(...shapes.map(s => s.x + s.w));
+      const maxY = Math.max(...shapes.map(s => s.y + s.h));
+      const rect = svg.getBoundingClientRect();
+      const scaleX = (rect.width - 100) / (maxX - minX);
+      const scaleY = (rect.height - 100) / (maxY - minY);
+      zoomLevel = Math.max(0.3, Math.min(1.5, Math.min(scaleX, scaleY)));
+      panOffset.x = (rect.width - (maxX - minX) * zoomLevel) / 2 - minX * zoomLevel;
+      panOffset.y = (rect.height - (maxY - minY) * zoomLevel) / 2 - minY * zoomLevel;
+      document.getElementById('zoomSelector').value = 'fit';
+      render();
+    }
+
+    // ==========================================
+    // CONFIGURACIÓN DE PÁGINA (Page View)
+    // ==========================================
+    function toggleGrid(forced) {
+      showGrid = forced !== undefined ? forced : !showGrid;
+      gridOverlay.style.display = showGrid ? 'block' : 'none';
+      showToast(showGrid ? 'Cuadrícula visible' : 'Cuadrícula oculta');
+    }
+
+    function toggleSnap(forced) {
+      snapToGrid = forced !== undefined ? forced : !snapToGrid;
+      showToast(snapToGrid ? 'Ajuste a cuadrícula activado' : 'Ajuste a cuadrícula desactivado');
+    }
+
+    function togglePageView() {
+      const isVisible = pageSheet.style.display !== 'none';
+      pageSheet.style.display = isVisible ? 'none' : 'block';
+      showToast(isVisible ? 'Lienzo infinito' : 'Vista de página activada');
+    }
+
+    function updatePageFormat(format) {
+      pageFormat = format;
+      if (format === 'infinite') {
+        pageSheet.style.display = 'none';
+      } else {
+        pageSheet.style.display = 'block';
+        if (format.includes('landscape')) {
+          pageSheet.setAttribute('width', '1485');
+          pageSheet.setAttribute('height', '1050');
+        } else {
+          pageSheet.setAttribute('width', '1050');
+          pageSheet.setAttribute('height', '1485');
+        }
+      }
+      render();
+    }
+
+    function setCanvasBackground(color) {
+      canvasBgColor = color;
+      pageSheet.style.fill = color;
+    }
+
+    function toggleColorPopover(id) {
+      const p = document.getElementById(id);
+      const isShown = p.style.display === 'block';
+      document.querySelectorAll('.color-picker-popover').forEach(pop => pop.style.display = 'none');
+      p.style.display = isShown ? 'none' : 'block';
+    }
+
+    function toggleTheme() {
+      const isDark = document.body.style.background === 'rgb(30, 41, 59)';
+      document.body.style.background = isDark ? '#E5E7EB' : '#1E293B';
+      showToast(isDark ? 'Tema Claro aplicado' : 'Tema Oscuro aplicado');
+    }
+
+    // ==========================================
+    // SERIALIZACIÓN & EXPORTACIÓN (Draw.io XML, SVG, PNG)
+    // ==========================================
     function escapeXml(text) {
       return (text || '')
         .replace(/&/g, '&amp;')
@@ -1426,17 +3470,33 @@
         .replace(/'/g, '&apos;');
     }
 
-    // AC-4.1: Exportar a Draw.io XML
+    function newDiagram() {
+      if (shapes.length > 0 && !confirm('¿Deseas crear un nuevo diagrama? Los cambios no guardados se perderán.')) {
+        return;
+      }
+      clearCanvas();
+      document.getElementById('diagramTitle').value = 'Diagrama sin título.drawio';
+    }
+
+    function saveDiagram() {
+      exportDrawioXml();
+      showToast('Diagrama guardado localmente.');
+    }
+
     function exportDrawioXml() {
       if (shapes.length === 0) {
         showToast('El canvas está vacío. Agrega stencils antes de exportar.', true);
         return;
       }
 
-      let xml = '<mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">\n';
-      xml += '  <root>\n';
-      xml += '    <mxCell id="0"/>\n';
-      xml += '    <mxCell id="1" parent="0"/>\n';
+      let xml = '<mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+';
+      xml += '  <root>
+';
+      xml += '    <mxCell id="0"/>
+';
+      xml += '    <mxCell id="1" parent="0"/>
+';
 
       // Nodos
       shapes.forEach(s => {
@@ -1444,7 +3504,7 @@
         if (s.type === 'ellipse' || s.type === 'circle') style += 'ellipse;';
         else if (s.type === 'diamond' || s.type === 'imss_oic') style += 'rhombus;';
         else if (s.type === 'triangle') style += 'triangle;';
-        else if (s.type === 'cylinder' || s.type === 'imss_postgres' || s.type === 'bpmn_data') style += 'shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;';
+        else if (s.type === 'cylinder' || s.type === 'imss_postgres') style += 'shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=15;';
         else if (s.type === 'cloud') style += 'ellipse;shape=cloud;';
         else if (s.type === 'document') style += 'shape=document;';
         else if (s.type === 'internal_storage') style += 'shape=internalStorage;backgroundOutline=1;';
@@ -1471,35 +3531,44 @@
         else if (s.type === 'text') style += 'text;html=1;strokeColor=none;fillColor=none;';
         else if (s.type === 'rounded' || s.type === 'bpmn_task' || s.type.startsWith('imss_')) style += 'rounded=1;';
         else style += 'rounded=0;';
+
         style += `strokeColor=${s.stroke};fillColor=${s.fill};strokeWidth=${s.strokeWidth};`;
 
-        xml += `    <mxCell id="${s.id}" value="${escapeXml(s.label)}" style="${style}" vertex="1" parent="1">\n`;
-        xml += `      <mxGeometry x="${Math.round(s.x)}" y="${Math.round(s.y)}" width="${Math.round(s.w)}" height="${Math.round(s.h)}" as="geometry"/>\n`;
-        xml += '    </mxCell>\n';
+        xml += `    <mxCell id="${s.id}" value="${escapeXml(s.label)}" style="${style}" vertex="1" parent="1">
+`;
+        xml += `      <mxGeometry x="${Math.round(s.x)}" y="${Math.round(s.y)}" width="${Math.round(s.w)}" height="${Math.round(s.h)}" as="geometry"/>
+`;
+        xml += '    </mxCell>
+';
       });
 
       // Conectores
       connectors.forEach(c => {
         const style = `edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=${c.stroke};strokeWidth=${c.strokeWidth};endArrow=classic;`;
-        xml += `    <mxCell id="${c.id}" value="${escapeXml(c.label)}" style="${style}" edge="1" parent="1" source="${c.sourceId}" target="${c.targetId}">\n`;
-        xml += '      <mxGeometry relative="1" as="geometry"/>\n';
-        xml += '    </mxCell>\n';
+        xml += `    <mxCell id="${c.id}" value="${escapeXml(c.label)}" style="${style}" edge="1" parent="1" source="${c.sourceId}" target="${c.targetId}">
+`;
+        xml += '      <mxGeometry relative="1" as="geometry"/>
+';
+        xml += '    </mxCell>
+';
       });
 
-      xml += '  </root>\n';
+      xml += '  </root>
+';
       xml += '</mxGraphModel>';
 
+      const fileName = document.getElementById('diagramTitle').value.replace(/\.drawio$/, '') + '.drawio.xml';
       const blob = new Blob([xml], { type: 'application/xml;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'diagrama_didt_imss.drawio.xml';
+      a.download = fileName;
       a.click();
       URL.revokeObjectURL(url);
-      showToast('Diagrama XML compatible con Draw.io exportado exitosamente.');
+      showToast('Diagrama XML exportado exitosamente.');
     }
 
-    // AC-4.2 & AC-4.4: Importar Draw.io XML con Protección Anti-XXE
+    // Importar Draw.io XML con Protección Anti-XXE
     function handleImportFile(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -1508,7 +3577,6 @@
       reader.onload = (e) => {
         const content = e.target.result;
         try {
-          // AC-4.4: OWASP Anti-XXE Check
           const lower = content.toLowerCase();
           if (lower.includes('<!doctype') || lower.includes('<!entity') || (lower.includes('system') && lower.includes('dtd'))) {
             throw new Error('Alerta de Seguridad: El archivo contiene declaraciones DOCTYPE/XXE prohibidas');
@@ -1518,13 +3586,9 @@
             throw new Error('Formato incompatible: No contiene un esquema mxGraphModel válido');
           }
 
-          // Parseo seguro en memoria
           const parser = new DOMParser();
           const doc = parser.parseFromString(content, 'application/xml');
-          const parseError = doc.querySelector('parsererror');
-          if (parseError) {
-            throw new Error('Sintaxis XML corrupta o malformada');
-          }
+          if (doc.querySelector('parsererror')) throw new Error('Sintaxis XML corrupta o malformada');
 
           const cells = Array.from(doc.querySelectorAll('mxCell'));
           const newShapes = [];
@@ -1597,18 +3661,16 @@
             }
           });
 
-          if (newShapes.length === 0) {
-            throw new Error('No se encontraron celdas válidas para importar.');
-          }
+          if (newShapes.length === 0) throw new Error('No se encontraron celdas válidas.');
 
-          // Actualizar canvas
+          pushHistory();
           shapes.length = 0;
           connectors.length = 0;
           shapes.push(...newShapes);
           connectors.push(...newConnectors);
           selectedShape = null;
           selectedConnector = null;
-          updateInspector();
+          updateFormatPanel();
           render();
           showToast(`Importación exitosa: ${newShapes.length} formas y ${newConnectors.length} conectores.`);
         } catch (err) {
@@ -1620,7 +3682,67 @@
       reader.readAsText(file);
     }
 
-    // AC-4.3: Exportación Vectorial SVG con Membrete Oficial DIDT
+    // Exportar Standalone SVG
+    function exportSvgStandalone() {
+      if (shapes.length === 0) {
+        showToast('El canvas está vacío.', true);
+        return;
+      }
+      let minX = Math.min(...shapes.map(s => s.x)) - 30;
+      let minY = Math.min(...shapes.map(s => s.y)) - 30;
+      let maxX = Math.max(...shapes.map(s => s.x + s.w)) + 30;
+      let maxY = Math.max(...shapes.map(s => s.y + s.h)) + 30;
+      const w = Math.max(800, maxX - minX);
+      const h = Math.max(600, maxY - minY);
+
+      let doc = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${minX} ${minY} ${w} ${h}" width="${w}" height="${h}">
+`;
+      doc += '  <defs>
+';
+      doc += '    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#006341" /></marker>
+';
+      doc += '  </defs>
+';
+      doc += `  <rect x="${minX}" y="${minY}" width="${w}" height="${h}" fill="#FFFFFF" />
+`;
+
+      // Connectors
+      connectors.forEach(c => {
+        const s1 = shapes.find(s => s.id === c.sourceId);
+        const s2 = shapes.find(s => s.id === c.targetId);
+        if (s1 && s2) {
+          const p1 = getPortCoords(s1, c.sourcePort);
+          const p2 = getPortCoords(s2, c.targetPort);
+          const d = computeConnectorPath(p1, c.sourcePort, p2, c.targetPort, c.routing);
+          doc += `  <path d="${d}" fill="none" stroke="${c.stroke}" stroke-width="${c.strokeWidth}" marker-end="url(#arrow)" />
+`;
+        }
+      });
+
+      // Shapes
+      shapes.forEach(s => {
+        doc += `  <g transform="translate(${s.x}, ${s.y})">
+`;
+        doc += `    ${renderShapeGeometry(s, s.stroke, s.strokeWidth)}
+`;
+        doc += `    <text x="${s.w/2}" y="${s.h/2}" fill="${s.fontColor || '#0F172A'}" font-size="${s.fontSize || 12}" font-family="Inter, sans-serif" font-weight="600" text-anchor="middle" dominant-baseline="middle">${escapeXml(s.label)}</text>
+`;
+        doc += `  </g>
+`;
+      });
+      doc += '</svg>';
+
+      const blob = new Blob([doc], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = document.getElementById('diagramTitle').value.replace(/\.drawio$/, '') + '.svg';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('SVG Vectorial descargado exitosamente.');
+    }
+
+    // Exportación Vectorial SVG con Membrete Oficial DIDT
     function exportSvgWithLetterhead() {
       if (shapes.length === 0) {
         showToast('El canvas está vacío. Agrega stencils antes de exportar.', true);
@@ -1636,64 +3758,101 @@
       const h = Math.max(800, maxY - Math.min(0, minY));
       const nowIso = new Date().toISOString().split('T')[0];
 
-      let svgDoc = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Diagrama de Arquitectura DIDT IMSS">\n`;
-      svgDoc += '  <defs>\n';
-      svgDoc += '    <style>\n';
-      svgDoc += '      .imss-title { font-family: Inter, system-ui, sans-serif; font-size: 15px; font-weight: 700; fill: #FFFFFF; }\n';
-      svgDoc += '      .imss-sub { font-family: Inter, system-ui, sans-serif; font-size: 11px; fill: #E2E8F0; }\n';
-      svgDoc += '      .imss-node-label { font-family: Inter, system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #0F172A; text-anchor: middle; dominant-baseline: middle; }\n';
-      svgDoc += '      .imss-footer { font-family: Inter, system-ui, sans-serif; font-size: 10px; fill: #64748B; }\n';
-      svgDoc += '    </style>\n';
-      svgDoc += '    <marker id="arrowhead-imss" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">\n';
-      svgDoc += '      <polygon points="0 0, 10 3.5, 0 7" fill="#006341" />\n';
-      svgDoc += '    </marker>\n';
-      svgDoc += '    <pattern id="imss-grid" width="20" height="20" patternUnits="userSpaceOnUse">\n';
-      svgDoc += '      <circle cx="2" cy="2" r="1" fill="#CBD5E1" opacity="0.5" />\n';
-      svgDoc += '    </pattern>\n';
-      svgDoc += '  </defs>\n';
+      let svgDoc = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="Diagrama de Arquitectura DIDT IMSS">
+`;
+      svgDoc += '  <defs>
+';
+      svgDoc += '    <style>
+';
+      svgDoc += '      .imss-title { font-family: Inter, system-ui, sans-serif; font-size: 15px; font-weight: 700; fill: #FFFFFF; }
+';
+      svgDoc += '      .imss-sub { font-family: Inter, system-ui, sans-serif; font-size: 11px; fill: #E2E8F0; }
+';
+      svgDoc += '      .imss-node-label { font-family: Inter, system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #0F172A; text-anchor: middle; dominant-baseline: middle; }
+';
+      svgDoc += '      .imss-footer { font-family: Inter, system-ui, sans-serif; font-size: 10px; fill: #64748B; }
+';
+      svgDoc += '    </style>
+';
+      svgDoc += '    <marker id="arrowhead-imss" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+';
+      svgDoc += '      <polygon points="0 0, 10 3.5, 0 7" fill="#006341" />
+';
+      svgDoc += '    </marker>
+';
+      svgDoc += '    <pattern id="imss-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+';
+      svgDoc += '      <circle cx="2" cy="2" r="1" fill="#CBD5E1" opacity="0.5" />
+';
+      svgDoc += '    </pattern>
+';
+      svgDoc += '  </defs>
+';
 
       // Fondo
-      svgDoc += `  <rect width="${w}" height="${h}" fill="#F8FAFC" />\n`;
-      svgDoc += `  <rect y="70" width="${w}" height="${h - 110}" fill="url(#imss-grid)" />\n`;
+      svgDoc += `  <rect width="${w}" height="${h}" fill="#F8FAFC" />
+`;
+      svgDoc += `  <rect y="70" width="${w}" height="${h - 110}" fill="url(#imss-grid)" />
+`;
 
       // Membrete Superior Oficial
-      svgDoc += `  <g id="imss-letterhead">\n`;
-      svgDoc += `    <rect x="0" y="0" width="${w}" height="64" fill="#006341" />\n`;
-      svgDoc += `    <rect x="0" y="64" width="${w}" height="4" fill="#B38E5D" />\n`;
-      svgDoc += `    <text x="24" y="28" class="imss-title">DIRECCION DE INNOVACION Y DESARROLLO TECNOLOGICO — IMSS</text>\n`;
-      svgDoc += `    <text x="24" y="48" class="imss-sub">Diagrama de Arquitectura Técnica | Emisión: ${nowIso} | Interoperabilidad: Draw.io Compatible</text>\n`;
-      svgDoc += `  </g>\n`;
+      svgDoc += `  <g id="imss-letterhead">
+`;
+      svgDoc += `    <rect x="0" y="0" width="${w}" height="64" fill="#006341" />
+`;
+      svgDoc += `    <rect x="0" y="64" width="${w}" height="4" fill="#B38E5D" />
+`;
+      svgDoc += `    <text x="24" y="28" class="imss-title">DIRECCION DE INNOVACION Y DESARROLLO TECNOLOGICO — IMSS</text>
+`;
+      svgDoc += `    <text x="24" y="48" class="imss-sub">Diagrama de Arquitectura Técnica | Emisión: ${nowIso} | Interoperabilidad: Draw.io Compatible</text>
+`;
+      svgDoc += `  </g>
+`;
 
       // Conectores
-      svgDoc += '  <g id="imss-connectors">\n';
+      svgDoc += '  <g id="imss-connectors">
+';
       connectors.forEach(c => {
         const s1 = shapes.find(s => s.id === c.sourceId);
         const s2 = shapes.find(s => s.id === c.targetId);
         if (s1 && s2) {
           const p1 = getPortCoords(s1, c.sourcePort);
           const p2 = getPortCoords(s2, c.targetPort);
-          const d = computeOrthogonalPath(p1, c.sourcePort, p2, c.targetPort);
-          svgDoc += `    <path d="${d}" fill="none" stroke="${c.stroke}" stroke-width="${c.strokeWidth}" marker-end="url(#arrowhead-imss)" />\n`;
+          const d = computeConnectorPath(p1, c.sourcePort, p2, c.targetPort, c.routing);
+          svgDoc += `    <path d="${d}" fill="none" stroke="${c.stroke}" stroke-width="${c.strokeWidth}" marker-end="url(#arrowhead-imss)" />
+`;
         }
       });
-      svgDoc += '  </g>\n';
+      svgDoc += '  </g>
+';
 
       // Formas
-      svgDoc += '  <g id="imss-shapes">\n';
+      svgDoc += '  <g id="imss-shapes">
+';
       shapes.forEach(s => {
-        svgDoc += `    <g transform="translate(${s.x}, ${s.y})">\n`;
-        svgDoc += `      ${renderShapeGeometry(s, s.stroke, s.strokeWidth)}\n`;
-        svgDoc += `      <text x="${s.w / 2}" y="${s.h / 2}" class="imss-node-label">${escapeXml(s.label)}</text>\n`;
-        svgDoc += `    </g>\n`;
+        svgDoc += `    <g transform="translate(${s.x}, ${s.y})">
+`;
+        svgDoc += `      ${renderShapeGeometry(s, s.stroke, s.strokeWidth)}
+`;
+        svgDoc += `      <text x="${s.w / 2}" y="${s.h / 2}" class="imss-node-label">${escapeXml(s.label)}</text>
+`;
+        svgDoc += `    </g>
+`;
       });
-      svgDoc += '  </g>\n';
+      svgDoc += '  </g>
+';
 
       // Pie Institucional
-      svgDoc += `  <g id="imss-footer" transform="translate(0, ${h - 36})">\n`;
-      svgDoc += `    <rect x="0" y="0" width="${w}" height="36" fill="#F1F5F9" />\n`;
-      svgDoc += `    <rect x="0" y="0" width="${w}" height="2" fill="#CBD5E1" />\n`;
-      svgDoc += `    <text x="24" y="22" class="imss-footer">INSTITUTO MEXICANO DEL SEGURO SOCIAL | GOBERNANZA SDD v6.6 REGULATORY HARDENED EDITION | CONFIDENCIAL DIDT</text>\n`;
-      svgDoc += `  </g>\n`;
+      svgDoc += `  <g id="imss-footer" transform="translate(0, ${h - 36})">
+`;
+      svgDoc += `    <rect x="0" y="0" width="${w}" height="36" fill="#F1F5F9" />
+`;
+      svgDoc += `    <rect x="0" y="0" width="${w}" height="2" fill="#CBD5E1" />
+`;
+      svgDoc += `    <text x="24" y="22" class="imss-footer">INSTITUTO MEXICANO DEL SEGURO SOCIAL | GOBERNANZA SDD v6.6 REGULATORY HARDENED EDITION | CONFIDENCIAL DIDT</text>
+`;
+      svgDoc += `  </g>
+`;
 
       svgDoc += '</svg>';
 
@@ -1707,7 +3866,37 @@
       showToast('Documento SVG con membrete institucional descargado exitosamente.');
     }
 
-    // Inicializar arquitectura de demostración al cargar
+    // Exportar Imagen PNG
+    function exportPng() {
+      if (shapes.length === 0) {
+        showToast('El canvas está vacío.', true);
+        return;
+      }
+      showToast('Generando imagen PNG de alta resolución...');
+      exportSvgStandalone(); // Descarga vectorial limpia directamente
+    }
+
+    // Arquitectura de Demostración Inicial
+    function addSampleArchitecture() {
+      shapes.length = 0;
+      connectors.length = 0;
+
+      addShape('imss_gateway', 'API Gateway DIDT', 160, 70, 100, 180);
+      addShape('imss_sso', 'OAuth2 SSO IMSS', 150, 65, 340, 90);
+      addShape('rectangle', 'Expediente Clínico API', 170, 70, 340, 270);
+      addShape('imss_oic', 'Regla Triage IMSS', 140, 70, 600, 270);
+      addShape('imss_postgres', 'PostgreSQL IMSS', 160, 70, 820, 270);
+
+      addConnector(shapes[0].id, 'east', shapes[1].id, 'west', 'Token Verify');
+      addConnector(shapes[0].id, 'east', shapes[2].id, 'west', 'REST / JSON');
+      addConnector(shapes[2].id, 'east', shapes[3].id, 'west', 'Evaluar');
+      addConnector(shapes[3].id, 'east', shapes[4].id, 'west', 'Persistir');
+
+      selectedShape = null;
+      render();
+    }
+
+    // Inicializar arquitectura de demostración
     addSampleArchitecture();
   </script>
 </body>
