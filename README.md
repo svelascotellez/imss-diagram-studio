@@ -92,6 +92,21 @@ sequenceDiagram
 
 ---
 
+## 🧠 Ecosistema de Skills Agénticas
+
+El framework dota al agente de codificación de un catálogo de **20 skills canónicas** estructuradas en `.agents/skills/`, cubriendo cada etapa del ciclo de vida bajo la supervisión de tres hooks nativos fail-closed (`session-start.ps1`, `pre-tool-enforce.ps1`, `post-tool-check.ps1`):
+
+- **Descubrimiento y Constitución:** `sdd-orchestrator`, `sdd-onboard`, `sdd-constitution`.
+- **Requisitos y Clarificación:** `sdd-specify` (sintaxis formal EARS), `sdd-clarify` (detección de ambigüedades).
+- **Diseño Visual y UI/UX:** `sdd-ui-ux` (WCAG 2.1 AA), `sdd-design-system` (tokens semánticos), `sdd-preview-design`, `frontend-design` (interfaces intencionales de alto impacto).
+- **Planificación Arquitectónica:** `sdd-plan` (Clean Architecture, STRIDE y Allowed Files), `sdd-tasks` (secuencia atómica).
+- **Implementación y Documentación:** `sdd-implement` (Double-Loop TDD bajo PreToolUse), `sdd-user-guide` (manuales en 4 secciones).
+- **Auditoría y Ciberseguridad:** `sdd-validate` (Auditor Nónuplo), `sdd-secure-coding` (OWASP y SAST), `sdd-performance` (SLAs k6), `sdd-compliance` (expediente regulatorio).
+- **Gestión del Cambio e Ingeniería Inversa:** `sdd-change-spec` (RFCs y re-sellado HMAC), `sdd-reverse-spec` (adopción Brownfield).
+- **Observabilidad y CI/CD:** `sdd-dashboard` (Cockpit Web y DAG SVG), `sdd-cicd` (pipelines automatizados).
+
+---
+
 ## 📂 Estructura del Repositorio y Entregables
 
 ```
